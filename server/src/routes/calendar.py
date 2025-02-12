@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from services import calendar
 
-calendar_bp = Blueprint("tournaments", __name__, url_prefix="/api/tournaments")
+calendar_bp = Blueprint("tournaments", __name__)
 
 
 @calendar_bp.route("/", methods=["GET"])
@@ -15,7 +15,7 @@ def get_categories():
     # Dates are optional
     start_date = request.args.get("start")
     end_date = request.args.get("end")
-    
+
     data = calendar.get_categories(start_date, end_date)
     return jsonify(data)
 

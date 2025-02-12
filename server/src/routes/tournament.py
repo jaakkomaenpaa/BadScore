@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from services import tournament
 
-tournament_bp = Blueprint("tournament", __name__, url_prefix="/api/tournament")
+tournament_bp = Blueprint("tournament", __name__)
 
 
 @tournament_bp.route("/<int:tournament_id>", methods=["GET"])

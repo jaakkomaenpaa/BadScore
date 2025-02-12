@@ -1,5 +1,6 @@
 from curl_cffi import requests
 from config import AUTH_TOKEN, API_URL, CURRENT_YEAR
+from transformers import calendar
 
 headers = {"authorization": AUTH_TOKEN}
 
@@ -26,7 +27,7 @@ def search(
     }
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
-    return response.json()
+    return calendar.transform_search_response(response.json())
 
 
 def get_categories(
@@ -36,7 +37,7 @@ def get_categories(
     url = f"{API_URL}/vue-tournament-categories"
 
     response = requests.get(url, headers=headers, impersonate="chrome")
-    return response.json()
+    return calendar.transform_categories(response.json())
 
 
 def get_organizations():

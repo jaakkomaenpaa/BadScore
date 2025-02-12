@@ -3,8 +3,8 @@ from flask import Flask
 
 app = Flask(__name__)
 
-app.register_blueprint(routes.calendar_bp)
-app.register_blueprint(routes.tournament_bp)
+app.register_blueprint(routes.calendar_bp, url_prefix="/api/tournaments")
+app.register_blueprint(routes.tournament_bp, url_prefix="/api/tournament")
 
 
 @app.route("/")

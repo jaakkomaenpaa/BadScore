@@ -1,2 +1,2 @@
-from .calendar import *
-from .tournament import *
+from . import calendar
+from . import tournament

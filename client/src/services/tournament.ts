@@ -1,6 +1,6 @@
 import { API_URL } from '../config'
 import axios from 'axios'
-import { formatDate } from '../utils'
+import { formatDateToApi } from '../utils'
 
 const URL = `${API_URL}/tournament`
 
@@ -25,7 +25,7 @@ const getBracket = async (tournamentId: number, drawId: string) => {
 }
 
 const getCourts = async (tournamentCode: string, date: Date) => {
-  const formattedDate = formatDate(date)
+  const formattedDate = formatDateToApi(date)
   const response = await axios.get(
     `${URL}/${tournamentCode}/courts?date=${formattedDate}`
   )
@@ -33,7 +33,7 @@ const getCourts = async (tournamentCode: string, date: Date) => {
 }
 
 const getMatches = async (tournamentCode: string, date: Date) => {
-  const formattedDate = formatDate(date)
+  const formattedDate = formatDateToApi(date)
   const response = await axios.get(
     `${URL}/${tournamentCode}/matches?date=${formattedDate}`
   )

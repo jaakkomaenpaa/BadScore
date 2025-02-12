@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from services import tournament
 
-tournament_bp = Blueprint("tournament", __name__, url_prefix="/tournament")
+tournament_bp = Blueprint("tournament", __name__, url_prefix="/api/tournament")
 
 
 @tournament_bp.route("/<int:tournament_id>", methods=["GET"])
@@ -36,9 +36,7 @@ def get_bracket(tournament_id: int):
 
 @tournament_bp.route("/<tournament_code>/courts", methods=["GET"])
 def get_courts(tournament_code: str):
-    print("Tournament Code", tournament_code)
     date = request.args.get("date")
-    print("Date", date)
     data = tournament.get_courts(tournament_code, date)
     return jsonify({"courts": data})
 

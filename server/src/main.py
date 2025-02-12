@@ -3,7 +3,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-app.register_blueprint(routes.tournaments_bp)
+app.register_blueprint(routes.calendar_bp)
 app.register_blueprint(routes.tournament_bp)
 
 

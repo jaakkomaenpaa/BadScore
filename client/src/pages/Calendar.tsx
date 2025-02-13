@@ -1,36 +1,16 @@
-import calendarService from '@/services/calendar'
-import { useEffect, useState } from 'react'
 import { TournamentList } from '@/components/calendar/TournamentList'
-import { TournamentPreview } from '@/types/tournament'
 import { SearchBar } from '@/components/calendar/SearchBar'
-import { Box, CircularProgress } from '@mui/material'
+import { Box, CircularProgress, Pagination, Typography } from '@mui/material'
 import { useSearchFilters } from '@/hooks/useSearchFilters'
 import { useDropdownData } from '@/hooks/useDropdownData'
+import { useTournamentSearch } from '@/hooks/useTournamentSearch'
+import { SearchParams } from '@/types/tournament'
 
 function Calendar() {
   const { filters, handleFilterChange, resetFilters } = useSearchFilters()
-  const [tournaments, setTournaments] = useState<TournamentPreview[]>([])
   const { countries, organizations, categories, isLoading } = useDropdownData()
-
-  const [isSearchLoading, setIsSearchLoading] = useState<boolean>(true)
-
-  // Handle search
-  useEffect(() => {
-    setIsSearchLoading(true)
-
-    const search = async () => {
-      try {
-        const tournamentData = await calendarService.searchTournaments(filters)
-        if (tournamentData) setTournaments(tournamentData)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      } finally {
-        setIsSearchLoading(false)
-      }
-    }
-
-    search()
-  }, [filters])
+  const { tournaments, resultsLength, lastPage, onThisPage, isSearchLoading } =
+    useTournamentSearch(filters)
 
   if (isLoading || isSearchLoading)
     return (
@@ -47,7 +27,7 @@ function Calendar() {
     )
 
   return (
-    <>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <h2 style={{ color: 'white' }}>Calendar</h2>
       <SearchBar
         countries={countries}
@@ -57,9 +37,66 @@ function Calendar() {
         onFilterChange={handleFilterChange}
         resetFilters={resetFilters}
       />
+      <PaginationField
+        resultsLength={resultsLength}
+        lastPage={lastPage}
+        onThisPage={onThisPage}
+        filters={filters}
+        handleFilterChange={handleFilterChange}
+      />
       <TournamentList tournaments={tournaments} />
-    </>
+      <PaginationField
+        resultsLength={resultsLength}
+        lastPage={lastPage}
+        onThisPage={onThisPage}
+        filters={filters}
+        handleFilterChange={handleFilterChange}
+      />
+    </Box>
   )
 }
 
 export default Calendar
+
+type PaginationFieldProps = {
+  resultsLength: number
+  lastPage: number
+  onThisPage: number
+  filters: SearchParams
+  handleFilterChange: (key: keyof SearchParams, value: any) => void
+}
+
+function PaginationField({
+  resultsLength,
+  lastPage,
+  onThisPage,
+  filters,
+  handleFilterChange,
+}: PaginationFieldProps) {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 2,
+      }}
+    >
+      <Typography sx={{ color: 'text.primary', margin: 2 }} variant='body1'>
+        Total results: {resultsLength}
+      </Typography>
+      <Pagination
+        count={lastPage}
+        color='primary'
+        shape='rounded'
+        page={Number(filters.page) || 1}
+        onChange={(_, page) => handleFilterChange('page', page)}
+      />
+
+      <Typography sx={{ color: 'text.primary', margin: 2 }} variant='body1'>
+        On this page: {onThisPage}
+      </Typography>
+    </Box>
+  )
+}

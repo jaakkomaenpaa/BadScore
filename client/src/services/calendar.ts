@@ -7,6 +7,7 @@ import {
   TournamentGrade,
   TournamentOrganization,
   TournamentPreview,
+  TournamentSearchResponse,
 } from '../types/tournament'
 
 const URL = `${API_URL}/tournaments`
@@ -18,7 +19,7 @@ const getTournaments = async (): Promise<TournamentPreview[]> => {
 
 const searchTournaments = async (
   search: SearchParams
-): Promise<TournamentPreview[]> => {
+): Promise<TournamentSearchResponse> => {
   let url = `${URL}/search?`
 
   if (search.startDate) url += `start=${search.startDate}&`
@@ -31,7 +32,7 @@ const searchTournaments = async (
   if (search.page) url += `page=${search.page}`
 
   const response = await axios.get(url)
-  return response.data.results
+  return response.data
 }
 
 const getCategories = async (): Promise<TournamentCategory[]> => {

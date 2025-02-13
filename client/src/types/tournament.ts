@@ -61,3 +61,11 @@ export type Week = {
   startDate: Date
   endDate: Date
 }
+
+export type TournamentSearchResponse = {
+  results: TournamentPreview[]
+  total: number
+  lastPage: number
+  currentPage: number
+  onThisPage: number
+}

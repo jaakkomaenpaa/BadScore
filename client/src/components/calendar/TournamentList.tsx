@@ -1,11 +1,12 @@
 import { Avatar, Box, Typography } from '@mui/material'
 import { TournamentPreview } from '../../types/tournament'
+import { memo } from 'react'
 
 type TournamentListProps = {
   tournaments: TournamentPreview[]
 }
 
-export function TournamentList({ tournaments }: TournamentListProps) {
+export const TournamentList = memo(({ tournaments }: TournamentListProps) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
       {tournaments.map((tournament) => (
@@ -13,7 +14,7 @@ export function TournamentList({ tournaments }: TournamentListProps) {
       ))}
     </Box>
   )
-}
+})
 
 type TournamentListItemProps = {
   tournament: TournamentPreview

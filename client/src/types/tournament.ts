@@ -17,13 +17,11 @@ export interface TournamentPreview {
   startDate: Date
 }
 
-export interface Tournament extends TournamentPreview {
+export interface Tournament extends TournamentPreview {}
 
-}
+type TournamentLiveStatus = 'post' | 'live' | 'future'
 
-type TournamentLiveStatus = "post" | "live" | "future"
-
-type TournamentCategory = {
+export type TournamentCategory = {
   grade: number
   id: number
   isJunior: boolean
@@ -46,4 +44,20 @@ export type TournamentOrganization = {
 export type Country = {
   code: string
   name: string
+}
+
+export type SearchParams = {
+  startDate?: string
+  endDate?: string
+  searchText?: string
+  country?: string
+  perPage?: string
+  page?: string
+  categories?: string
+  organization?: string
+}
+
+export type Week = {
+  startDate: Date
+  endDate: Date
 }

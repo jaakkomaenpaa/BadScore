@@ -18,6 +18,8 @@ import { ClearIcon, DatePicker } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import { SecondaryButton } from '../buttons/SecondaryButton'
 import { useState } from 'react'
+import { useDropdownData } from '@/hooks/useDropdownData'
+import { useSearchFilters } from '@/hooks/useSearchFilters'
 
 const SpaceBetweenBox = styled(Box)({
   display: 'flex',
@@ -28,33 +30,15 @@ const SpaceBetweenBox = styled(Box)({
   justifyContent: 'space-between',
 })
 
-type SearchBarProps = {
-  countries: Country[]
-  organizations: TournamentOrganization[]
-  categories: TournamentCategory[]
-  filters: SearchParams
-  onFilterChange: (key: keyof SearchParams, value: any) => void
-  resetFilters: () => void
-}
-
-export const SearchBar = ({
-  countries,
-  organizations,
-  categories,
-  filters,
-  onFilterChange,
-  resetFilters,
-}: SearchBarProps) => {
+export const SearchBar = () => {
+  const { filters, handleFilterChange, resetFilters } = useSearchFilters()
   const [searchInput, setSearchInput] = useState<string>(filters.searchText || '')
-  /*
-    const [page, setPage] = useState<number>(0)
-    const [perPage, setPerPage] = useState<number>(10)
-    */
+  const { countries, organizations, categories } = useDropdownData()
 
   const handleWeekChange = (offset: number) => {
     const week = getWeek(offset)
-    onFilterChange('startDate', formatDateToApi(week.startDate))
-    onFilterChange('endDate', formatDateToApi(week.endDate))
+    handleFilterChange('startDate', formatDateToApi(week.startDate))
+    handleFilterChange('endDate', formatDateToApi(week.endDate))
   }
 
   return (
@@ -73,7 +57,7 @@ export const SearchBar = ({
         <SearchField
           value={searchInput}
           onChange={setSearchInput}
-          buttonAction={(value: string) => onFilterChange('searchText', value)}
+          buttonAction={(value: string) => handleFilterChange('searchText', value)}
         />
 
         <WeekButtonContainer handleWeekChange={handleWeekChange} />
@@ -85,18 +69,18 @@ export const SearchBar = ({
           organizations={organizations}
           categories={categories}
           filters={filters}
-          onFilterChange={onFilterChange}
+          onFilterChange={handleFilterChange}
         />
-        <DatePickerContainer filters={filters} onFilterChange={onFilterChange} />
+        <DatePickerContainer filters={filters} onFilterChange={handleFilterChange} />
       </SpaceBetweenBox>
 
       <SpaceBetweenBox>
         <SecondaryButton label='Reset filters' onClick={resetFilters} type='error' />
         <PageSelector
           page={Number(filters.page) || 0}
-          onPageChange={(page) => onFilterChange('page', page)}
+          onPageChange={(page) => handleFilterChange('page', page)}
           perPage={Number(filters.perPage) || 20}
-          onPerPageChange={(perPage) => onFilterChange('perPage', perPage)}
+          onPerPageChange={(perPage) => handleFilterChange('perPage', perPage)}
         />
       </SpaceBetweenBox>
     </Box>
@@ -271,15 +255,17 @@ function DatePickerContainer({ filters, onFilterChange }: DatePickerContainerPro
       <DatePicker
         label='Start Date'
         value={filters.startDate ? dayjs(filters.startDate) : null}
-        onChange={(date) =>
-          date && onFilterChange('startDate', formatDateToApi(date.toDate()))
+        maxDate={filters.endDate ? dayjs(filters.endDate) : undefined}
+        onAccept={(date) =>
+          date &&
+          onFilterChange('startDate', formatDateToApi(date.add(1, 'day').toDate()))
         }
         sx={{
           width: 200,
         }}
         slotProps={{
           field: {
-            clearable: true,
+            readOnly: true,
             onClear: () => onFilterChange('startDate', ''),
           },
         }}
@@ -288,8 +274,10 @@ function DatePickerContainer({ filters, onFilterChange }: DatePickerContainerPro
       <DatePicker
         label='End Date'
         value={filters.endDate ? dayjs(filters.endDate) : null}
-        onChange={(date) =>
-          date && onFilterChange('endDate', formatDateToApi(date.toDate()))
+        minDate={filters.startDate ? dayjs(filters.startDate) : undefined}
+        onAccept={(date) =>
+          date &&
+          onFilterChange('endDate', formatDateToApi(date.add(1, 'day').toDate()))
         }
         sx={{
           width: 200,

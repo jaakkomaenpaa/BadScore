@@ -4,15 +4,16 @@ import { Box, CircularProgress, Pagination, Typography } from '@mui/material'
 import { useSearchFilters } from '@/hooks/useSearchFilters'
 import { useDropdownData } from '@/hooks/useDropdownData'
 import { useTournamentSearch } from '@/hooks/useTournamentSearch'
-import { SearchParams } from '@/types/tournament'
 
 function Calendar() {
-  const { filters, handleFilterChange, resetFilters } = useSearchFilters()
-  const { countries, organizations, categories, isLoading } = useDropdownData()
-  const { tournaments, resultsLength, lastPage, onThisPage, isSearchLoading } =
-    useTournamentSearch(filters)
+  const { isLoading: isDataLoading } = useDropdownData()
+  const {
+    resultsLength,
+    tournaments,
+    isLoading: isSearchLoading,
+  } = useTournamentSearch()
 
-  if (isLoading || isSearchLoading)
+  if (isDataLoading || isSearchLoading)
     return (
       <Box
         sx={{
@@ -29,50 +30,24 @@ function Calendar() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <h2 style={{ color: 'white' }}>Calendar</h2>
-      <SearchBar
-        countries={countries}
-        organizations={organizations}
-        categories={categories}
-        filters={filters}
-        onFilterChange={handleFilterChange}
-        resetFilters={resetFilters}
-      />
-      <PaginationField
-        resultsLength={resultsLength}
-        lastPage={lastPage}
-        onThisPage={onThisPage}
-        filters={filters}
-        handleFilterChange={handleFilterChange}
-      />
+      
+      <SearchBar />
+
+      <PaginationField />
+
       <TournamentList tournaments={tournaments} />
-      <PaginationField
-        resultsLength={resultsLength}
-        lastPage={lastPage}
-        onThisPage={onThisPage}
-        filters={filters}
-        handleFilterChange={handleFilterChange}
-      />
+
+      {resultsLength >= 1 && <PaginationField />}
     </Box>
   )
 }
 
 export default Calendar
 
-type PaginationFieldProps = {
-  resultsLength: number
-  lastPage: number
-  onThisPage: number
-  filters: SearchParams
-  handleFilterChange: (key: keyof SearchParams, value: any) => void
-}
+function PaginationField() {
+  const { filters, handleFilterChange } = useSearchFilters()
+  const { resultsLength, lastPage, onThisPage } = useTournamentSearch()
 
-function PaginationField({
-  resultsLength,
-  lastPage,
-  onThisPage,
-  filters,
-  handleFilterChange,
-}: PaginationFieldProps) {
   return (
     <Box
       sx={{

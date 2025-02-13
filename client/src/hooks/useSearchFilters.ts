@@ -1,45 +1,46 @@
 import { SearchParams } from '@/types/tournament'
 import { formatDateToApi, getWeek } from '@/utils'
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { useSearchParams } from 'react-router'
 
 const defaultFilters: SearchParams = {
   startDate: formatDateToApi(getWeek(0).startDate),
+  endDate: `${new Date().getFullYear()}-12-31`,
 }
 
 export const useSearchFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   // Extract search params from URL if they exist
-  const [filters, setFilters] = useState<SearchParams>(() => {
-    return Array.from(searchParams.entries()).reduce<SearchParams>(
+  const filters = useMemo(() => {
+    const extractedFilters = Array.from(searchParams.entries()).reduce<SearchParams>(
       (acc, [key, value]) => {
         if (value) acc[key as keyof SearchParams] = value
         return acc
       },
-      { ...defaultFilters }
+      {}
     )
-  })
 
-  useEffect(() => {
-    setSearchParams(filters)
-  }, [filters, setSearchParams])
+    return Object.keys(extractedFilters).length > 0
+      ? extractedFilters
+      : { ...defaultFilters }
+  }, [searchParams])
 
   const handleFilterChange = (key: keyof SearchParams, value: any) => {
-    setFilters((prev) => {
-      const updatedFilters = { ...prev }
-      if (value === '' || value === null) {
-        delete updatedFilters[key]
-      } else {
-        updatedFilters[key] = value
-      }
-      return updatedFilters
-    })
+    const newFilters = { ...filters }
+
+    if (value === '' || value === null) {
+      delete newFilters[key]
+    } else {
+      newFilters[key] = value
+    }
+
+    setSearchParams(newFilters)
   }
 
   const resetFilters = () => {
-    setFilters(defaultFilters)
+    setSearchParams(defaultFilters)
   }
-  
+
   return { filters, handleFilterChange, resetFilters }
 }

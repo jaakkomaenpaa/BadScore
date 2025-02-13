@@ -1,21 +1,19 @@
-import {
-  SearchParams,
-  TournamentPreview,
-  TournamentSearchResponse,
-} from '@/types/tournament'
+import { TournamentPreview, TournamentSearchResponse } from '@/types/tournament'
 import { useEffect, useState } from 'react'
 import calendarService from '@/services/calendar'
+import { useSearchFilters } from './useSearchFilters'
 
-export const useTournamentSearch = (filters: SearchParams) => {
+export const useTournamentSearch = () => {
+  const { filters } = useSearchFilters()
   const [tournaments, setTournaments] = useState<TournamentPreview[]>([])
   const [resultsLength, setResultsLength] = useState<number>(0)
   const [lastPage, setLastPage] = useState<number>(0)
   const [onThisPage, setOnThisPage] = useState<number>(0)
 
-  const [isSearchLoading, setIsSearchLoading] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    setIsSearchLoading(true)
+    setIsLoading(true)
 
     const search = async () => {
       try {
@@ -30,12 +28,12 @@ export const useTournamentSearch = (filters: SearchParams) => {
       } catch (error) {
         console.error('Error fetching data:', error)
       } finally {
-        setIsSearchLoading(false)
+        setIsLoading(false)
       }
     }
 
     search()
   }, [filters])
 
-  return { tournaments, resultsLength, lastPage, onThisPage, isSearchLoading }
+  return { tournaments, resultsLength, lastPage, onThisPage, isLoading }
 }

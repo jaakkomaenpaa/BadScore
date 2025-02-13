@@ -26,9 +26,19 @@ def transform_search_response(response: dict):
             }
         )
 
+    results_from = response.get("results", {}).get("from")
+    results_to = response.get("results", {}).get("to")
+
+    on_this_page = 0
+    if results_from and results_to:
+        on_this_page = results_to - results_from + 1
+
     return {
-        "resultsLength": len(cleaned_data),
+        "lastPage": response.get("results", {}).get("last_page"),
+        "currentPage": response.get("results", {}).get("current_page"),
+        "total": response.get("results", {}).get("total"),
         "results": cleaned_data,
+        "onThisPage": on_this_page,
     }
 
 

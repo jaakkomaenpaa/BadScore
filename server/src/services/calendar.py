@@ -12,7 +12,7 @@ def search(
     start: str = f"{CURRENT_YEAR}-01-01",
     end: str = f"{CURRENT_YEAR}-12-31",
     per_page: int = 20,
-    page: int = 0,
+    page: int = 1,
     organization: int = 0,
     categories: List[int] = [],
 ):

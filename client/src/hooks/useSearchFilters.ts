@@ -26,17 +26,18 @@ export const useSearchFilters = () => {
       : { ...defaultFilters }
   }, [searchParams])
 
-  const handleFilterChange = (key: keyof SearchParams, value: any) => {
-    const newFilters = { ...filters }
-
-    if (value === '' || value === null) {
-      delete newFilters[key]
-    } else {
-      newFilters[key] = value
-    }
-
-    setSearchParams(newFilters)
-  }
+  const handleFilterChange = (updates: Partial<SearchParams>) => {
+    const newFilters = { ...filters, ...updates };
+  
+    // Remove empty values
+    Object.keys(newFilters).forEach((key) => {
+      if (newFilters[key as keyof SearchParams] === '' || newFilters[key as keyof SearchParams] === null) {
+        delete newFilters[key as keyof SearchParams];
+      }
+    });
+  
+    setSearchParams(newFilters);
+  };
 
   const resetFilters = () => {
     setSearchParams(defaultFilters)

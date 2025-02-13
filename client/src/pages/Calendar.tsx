@@ -30,7 +30,7 @@ function Calendar() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <h2 style={{ color: 'white' }}>Calendar</h2>
-      
+
       <SearchBar />
 
       <PaginationField />
@@ -66,7 +66,7 @@ function PaginationField() {
         color='primary'
         shape='rounded'
         page={Number(filters.page) || 1}
-        onChange={(_, page) => handleFilterChange('page', page)}
+        onChange={(_, page) => handleFilterChange({ page: page.toString() })}
       />
 
       <Typography sx={{ color: 'text.primary', margin: 2 }} variant='body1'>

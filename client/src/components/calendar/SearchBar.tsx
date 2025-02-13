@@ -37,8 +37,10 @@ export const SearchBar = () => {
 
   const handleWeekChange = (offset: number) => {
     const week = getWeek(offset)
-    handleFilterChange('startDate', formatDateToApi(week.startDate))
-    handleFilterChange('endDate', formatDateToApi(week.endDate))
+    handleFilterChange({
+      startDate: formatDateToApi(week.startDate),
+      endDate: formatDateToApi(week.endDate),
+    })
   }
 
   return (
@@ -57,7 +59,7 @@ export const SearchBar = () => {
         <SearchField
           value={searchInput}
           onChange={setSearchInput}
-          buttonAction={(value: string) => handleFilterChange('searchText', value)}
+          buttonAction={(value: string) => handleFilterChange({ searchText: value })}
         />
 
         <WeekButtonContainer handleWeekChange={handleWeekChange} />
@@ -77,10 +79,10 @@ export const SearchBar = () => {
       <SpaceBetweenBox>
         <SecondaryButton label='Reset filters' onClick={resetFilters} type='error' />
         <PageSelector
-          page={Number(filters.page) || 0}
-          onPageChange={(page) => handleFilterChange('page', page)}
           perPage={Number(filters.perPage) || 20}
-          onPerPageChange={(perPage) => handleFilterChange('perPage', perPage)}
+          onPerPageChange={(perPage) =>
+            handleFilterChange({ perPage: perPage.toString() })
+          }
         />
       </SpaceBetweenBox>
     </Box>
@@ -88,8 +90,6 @@ export const SearchBar = () => {
 }
 
 type PageSelectorProps = {
-  page: number
-  onPageChange: (value: number) => void
   perPage: number
   onPerPageChange: (value: number) => void
 }
@@ -165,7 +165,7 @@ type DropdownContainerProps = {
   organizations: TournamentOrganization[]
   categories: TournamentCategory[]
   filters: SearchParams
-  onFilterChange: (key: keyof SearchParams, value: any) => void
+  onFilterChange: (updates: Partial<SearchParams>) => void
 }
 
 function DropdownContainer({
@@ -181,7 +181,7 @@ function DropdownContainer({
         options={countries}
         getOptionLabel={(option: Country) => option.name}
         value={countries.find((country) => country.code === filters.country) || null}
-        onChange={(_, value) => onFilterChange('country', value?.code ?? '')}
+        onChange={(_, value) => onFilterChange({ country: value?.code ?? '' })}
         renderInput={(params) => <TextField {...params} label='Country' />}
         sx={{ width: 200 }}
       />
@@ -194,7 +194,7 @@ function DropdownContainer({
           null
         }
         onChange={(_, value) =>
-          onFilterChange('organization', value?.id.toString() ?? '')
+          onFilterChange({ organization: value?.id.toString() ?? '' })
         }
         renderInput={(params) => <TextField {...params} label='Organization' />}
         sx={{ width: 200 }}
@@ -207,7 +207,7 @@ function DropdownContainer({
           categories.find((cat) => cat.id.toString() === filters.categories) || null
         }
         onChange={(_, value) =>
-          onFilterChange('categories', value?.id.toString() ?? '')
+          onFilterChange({ categories: value?.id.toString() ?? '' })
         }
         renderInput={(params) => <TextField {...params} label='Category' />}
         sx={{ width: 200 }}
@@ -246,7 +246,7 @@ function WeekButtonContainer({ handleWeekChange }: WeekButtonContainerProps) {
 
 type DatePickerContainerProps = {
   filters: SearchParams
-  onFilterChange: (key: keyof SearchParams, value: any) => void
+  onFilterChange: (updates: Partial<SearchParams>) => void
 }
 
 function DatePickerContainer({ filters, onFilterChange }: DatePickerContainerProps) {
@@ -258,7 +258,7 @@ function DatePickerContainer({ filters, onFilterChange }: DatePickerContainerPro
         maxDate={filters.endDate ? dayjs(filters.endDate) : undefined}
         onAccept={(date) =>
           date &&
-          onFilterChange('startDate', formatDateToApi(date.add(1, 'day').toDate()))
+          onFilterChange({ startDate: formatDateToApi(date.add(1, 'day').toDate()) })
         }
         sx={{
           width: 200,
@@ -266,7 +266,7 @@ function DatePickerContainer({ filters, onFilterChange }: DatePickerContainerPro
         slotProps={{
           field: {
             readOnly: true,
-            onClear: () => onFilterChange('startDate', ''),
+            onClear: () => onFilterChange({ startDate: '' }),
           },
         }}
       />
@@ -277,13 +277,13 @@ function DatePickerContainer({ filters, onFilterChange }: DatePickerContainerPro
         minDate={filters.startDate ? dayjs(filters.startDate) : undefined}
         onAccept={(date) =>
           date &&
-          onFilterChange('endDate', formatDateToApi(date.add(1, 'day').toDate()))
+          onFilterChange({ endDate: formatDateToApi(date.add(1, 'day').toDate()) })
         }
         sx={{
           width: 200,
         }}
         slotProps={{
-          field: { clearable: true, onClear: () => onFilterChange('endDate', '') },
+          field: { clearable: true, onClear: () => onFilterChange({ endDate: '' }) },
         }}
       />
     </Box>

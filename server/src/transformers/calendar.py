@@ -32,7 +32,7 @@ def transform_search_response(response: dict):
     }
 
 
-def transform_categories(response: dict):
+def transform_categories_by_grade(response: dict):
     cleaned_data: List[Dict[str, Any]] = []
 
     for grade in response.get("data", []):
@@ -57,6 +57,27 @@ def transform_categories(response: dict):
                 "categories": cleaned_categories,
             }
         )
+
+    return {
+        "results": cleaned_data,
+    }
+
+
+def transform_categories(response: dict):
+    cleaned_data: List[Dict[str, Any]] = []
+
+    for grade in response.get("data", []):
+        for category in grade.get("categories"):
+            cleaned_data.append(
+                {
+                    "grade": category.get("grade"),
+                    "id": category.get("id"),
+                    "isJunior": bool(category.get("junior", 0)),
+                    "level": category.get("level"),
+                    "name": category.get("name"),
+                    "isPara": bool(category.get("para", 0)),
+                }
+            )
 
     return {
         "results": cleaned_data,

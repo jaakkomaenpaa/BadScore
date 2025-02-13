@@ -10,6 +10,16 @@ def get_all():
     return jsonify(data)
 
 
+@calendar_bp.route("/grades", methods=["GET"])
+def get_categories_by_grade():
+    # Dates are optional
+    start_date = request.args.get("start")
+    end_date = request.args.get("end")
+
+    data = calendar.get_categories_by_grade(start_date, end_date)
+    return jsonify(data)
+
+
 @calendar_bp.route("/categories", methods=["GET"])
 def get_categories():
     # Dates are optional
@@ -34,8 +44,9 @@ def get_countries():
 
 @calendar_bp.route("/search", methods=["GET"])
 def search():
+    categories = request.args.get("categories")
     payload = request.args.to_dict()
+    payload["categories"] = categories.split(",") if categories else []
+
     data = calendar.search(**payload)
     return jsonify(data)
-
-

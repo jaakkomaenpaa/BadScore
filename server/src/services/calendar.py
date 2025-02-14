@@ -9,9 +9,9 @@ headers = {"authorization": AUTH_TOKEN}
 def search(
     search: str = "",
     country: str = "",
-    start: str = f"{CURRENT_YEAR}-01-01",
-    end: str = f"{CURRENT_YEAR}-12-31",
-    per_page: int = 20,
+    start: str = "",
+    end: str = "",
+    per_page: int = 20, # Maximum is 100
     page: int = 1,
     organization: int = 0,
     categories: List[int] = [],
@@ -32,6 +32,7 @@ def search(
     }
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
+    print("response", response.json())
     return calendar.transform_search_response(response.json())
 
 

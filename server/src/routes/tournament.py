@@ -1,12 +1,20 @@
 from flask import Blueprint, jsonify, request
-from services import tournament
+from services import tournament, calendar
+from db import get_tournament_name_by_id
 
 tournament_bp = Blueprint("tournament", __name__)
 
 
 @tournament_bp.route("/<int:tournament_id>", methods=["GET"])
 def get_by_id(tournament_id: int):
-    return jsonify({"tournament_id": tournament_id})
+    tournament = get_tournament_name_by_id(tournament_id)
+    name = tournament["name"] if tournament else None
+
+    if not name:
+        return jsonify({"error": "Tournament not found"})
+
+    data = calendar.search(search=name)
+    return jsonify({"result": data})
 
 
 @tournament_bp.route("/<int:tournament_id>/draws", methods=["GET"])

@@ -3,7 +3,7 @@ export interface TournamentPreview {
   code: string
   country: string
   dates: string
-  endDate: Date
+  endDate: string
   flagUrl: string
   hasLiveScores: boolean
   headerUrl: string
@@ -14,7 +14,7 @@ export interface TournamentPreview {
   logoUrl: string
   name: string
   prizeMoney: string
-  startDate: Date
+  startDate: string
 }
 
 export interface Tournament extends TournamentPreview {}

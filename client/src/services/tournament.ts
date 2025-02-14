@@ -40,10 +40,11 @@ const getCourts = async (tournamentCode: string, date: Date) => {
 
 const getMatches = async (tournamentCode: string, date: Date) => {
   const formattedDate = formatDateToApi(date)
+  console.log('Formatted Date:', formattedDate)
   const response = await axios.get(
     `${URL}/${tournamentCode}/matches?date=${formattedDate}`
   )
-  return response.data
+  return response.data.matches
 }
 
 const getPlayersStaged = async (tournamentId: number, eventId: string) => {

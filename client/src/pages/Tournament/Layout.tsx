@@ -1,26 +1,26 @@
+import { TournamentProvider } from '@/contexts/TournamentContext'
 import { useTournament } from '@/hooks/useTournament'
 import { TournamentPreview } from '@/types/tournament'
 import { Box, Typography } from '@mui/material'
 import { ReactNode } from 'react'
-import { NavLink, Outlet, To, useParams } from 'react-router'
+import { NavLink, Outlet, To } from 'react-router'
 
 function Layout() {
-  const { tournamentId } = useParams()
-  const numericTournamentId = tournamentId ? Number(tournamentId) : null
+  return (
+    <TournamentProvider>
+      <Content />
+    </TournamentProvider>
+  )
+}
 
-  if (!numericTournamentId || isNaN(numericTournamentId)) {
-    return <Typography>No tournament data available</Typography>
-  }
+export default Layout
 
-  const { tournament, error } = useTournament(numericTournamentId)
+function Content() {
+  const { tournament, loading, error } = useTournament()
 
-  if (error) {
-    return <Typography color='error'>{error}</Typography>
-  }
-
-  if (!tournament) {
-    return <Typography>Loading...</Typography>
-  }
+  if (error) return <Typography color='error'>{error}</Typography>
+  if (loading) return <Typography>Loading...</Typography>
+  if (!tournament) return <Typography>No tournament data available</Typography>
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -30,8 +30,6 @@ function Layout() {
     </Box>
   )
 }
-
-export default Layout
 
 function Navbar() {
   return (

@@ -2,7 +2,8 @@ import { Week } from './types/tournament'
 
 // Format date to API format
 export const formatDateToApi = (date: Date): string => {
-  return date.toISOString().split('T')[0]
+  const fixedDate = new Date(date.setDate(date.getDate() + 1))
+  return fixedDate.toISOString().split('T')[0]
 }
 
 // Format date to client format
@@ -26,4 +27,17 @@ export const getWeek = (offset: number = 0): Week => {
   endDate.setDate(startDate.getDate() + 6)
 
   return { startDate, endDate }
+}
+
+export const getDateList = (startDate: Date, endDate: Date): Date[] => {
+  const dates = []
+
+  let currentDate = new Date(startDate)
+
+  while (currentDate <= endDate) {
+    dates.push(new Date(currentDate))
+    currentDate.setDate(currentDate.getDate() + 1)
+  }
+
+  return dates
 }

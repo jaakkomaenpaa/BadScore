@@ -1,25 +1,4 @@
-import { TournamentPreview } from '@/types/tournament'
-import { useEffect, useState } from 'react'
-import tournamentService from '@/services/tournament'
+import { useContext } from 'react'
+import { TournamentContext } from '@/contexts/TournamentContext'
 
-export const useTournament = (tournamentId: number | null) => {
-  const [tournament, setTournament] = useState<TournamentPreview | null>(null)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!tournamentId) return
-
-    const fetchTournament = async () => {
-      try {
-        const tournamentRes = await tournamentService.getById(tournamentId)
-        setTournament(tournamentRes)
-      } catch (err) {
-        setError('Failed to load tournament')
-      }
-    }
-
-    fetchTournament()
-  }, [tournamentId])
-
-  return { tournament, error }
-}
+export const useTournament = () => useContext(TournamentContext)

@@ -1,6 +1,7 @@
 import { Avatar, Box, Typography } from '@mui/material'
 import { TournamentPreview } from '../../types/tournament'
 import { memo } from 'react'
+import { useNavigate } from 'react-router'
 
 type TournamentListProps = {
   tournaments: TournamentPreview[]
@@ -21,6 +22,12 @@ type TournamentListItemProps = {
 }
 
 function TournamentListItem({ tournament }: TournamentListItemProps) {
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate(`/tournaments/${tournament.id}/overview`)
+  }
+
   return (
     <Box
       sx={{
@@ -36,6 +43,7 @@ function TournamentListItem({ tournament }: TournamentListItemProps) {
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         },
       }}
+      onClick={handleClick}
     >
       <Box
         sx={{

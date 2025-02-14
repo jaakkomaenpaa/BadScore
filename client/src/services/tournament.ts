@@ -1,8 +1,14 @@
 import { API_URL } from '../config'
 import axios from 'axios'
 import { formatDateToApi } from '../utils'
+import { TournamentPreview } from '@/types/tournament'
 
 const URL = `${API_URL}/tournament`
+
+const getById = async (tournamentId: number): Promise<TournamentPreview> => {
+  const response = await axios.get(`${URL}/${tournamentId}`)
+  return response.data.results[0]
+}
 
 const getDraws = async (tournamentId: number) => {
   const response = await axios.get(`${URL}/${tournamentId}/draws`)
@@ -46,6 +52,7 @@ const getPlayersStaged = async (tournamentId: number, eventId: string) => {
 }
 
 const service = {
+  getById,
   getDraws,
   getEvents,
   getEventStages,

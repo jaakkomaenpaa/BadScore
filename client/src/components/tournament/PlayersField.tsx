@@ -53,6 +53,7 @@ function TeamItem({ team, seed, side, isWinner, isLoser }: TeamItemProps) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: side === 'home' ? 'flex-end' : 'flex-start',
+        textAlign: side === 'home' ? 'right' : 'left',
       }}
     >
       {team.players.map((player: Player, index: number) => (

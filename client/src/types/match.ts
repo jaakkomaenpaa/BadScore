@@ -13,12 +13,12 @@ export type Match = {
   matchOrder: number | null
   matchStatus: string // F = Finished
   matchStatusValue: string
-  matchTime: Date // Scheduled time?
-  matchTimeUtc: Date
+  matchTime: string // Date, scheduled time
+  matchTimeUtc: string
   matchTypeId: number // 1 = MS, 2 = WS etc
   matchTypeValue: string
   matches: Match[]
-  oopRound: string // Int, CHECK THIS
+  oopRound: string // Int, order of match in "followed by" court
   oopText: string // e.g. Followed by
   oopTypeId: number // Int
   reliability: number // CHECK THIS
@@ -70,4 +70,9 @@ export type Player = {
   nameShort2: string
   nameType: number // CHECK THIS
   slug: string
+}
+
+export type Court = {
+  code: string | null // Int
+  name: string // Int - name
 }

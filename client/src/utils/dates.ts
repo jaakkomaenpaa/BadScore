@@ -43,3 +43,8 @@ export const addDays = (date: Date, days: number): Date => {
   newDate.setDate(newDate.getDate() + days)
   return newDate
 }
+
+export const formatTime = (date: Date): string => {
+  //return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+  return `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`
+}

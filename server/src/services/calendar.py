@@ -32,7 +32,6 @@ def search(
     }
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
-    print("response", response.json())
     return calendar.transform_search_response(response.json())
 
 

@@ -14,7 +14,7 @@ def get_by_id(tournament_id: int):
         return jsonify({"error": "Tournament not found"})
 
     data = calendar.search(search=name)
-    return jsonify({"result": data})
+    return jsonify(data)
 
 
 @tournament_bp.route("/<int:tournament_id>/draws", methods=["GET"])

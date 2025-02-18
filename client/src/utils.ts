@@ -19,7 +19,7 @@ export const getWeek = (offset: number = 0): Week => {
   // Calculate Monday
   const startDate = new Date(today)
   startDate.setDate(
-    today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1) + offset * 7
+    today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1) + offset * 7 - 1
   )
 
   // Calculate Sunday

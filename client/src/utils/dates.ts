@@ -1,15 +1,9 @@
-import { Week } from './types/tournament'
+import { Week } from '../types/tournament'
 
 // Format date to API format
 export const formatDateToApi = (date: Date): string => {
-  const fixedDate = new Date(date)
-  fixedDate.setDate(fixedDate.getDate())
-  return fixedDate.toISOString().split('T')[0]
-}
-
-// Format date to client format
-export const formatDateToClient = (date: Date): string => {
-  return date.toLocaleDateString()
+  const formattedDate = date.toISOString().split('T')[0]
+  return formattedDate
 }
 
 // Offset 0 = current week, 1 = next week, -1 = previous week
@@ -30,6 +24,7 @@ export const getWeek = (offset: number = 0): Week => {
   return { startDate, endDate }
 }
 
+// Get list of dates between two dates
 export const getDateList = (startDate: Date, endDate: Date): Date[] => {
   const dates = []
 

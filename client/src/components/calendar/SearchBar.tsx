@@ -4,7 +4,7 @@ import {
   TournamentCategory,
   TournamentOrganization,
 } from '@/types/tournament'
-import { formatDateToApi, getWeek } from '@/utils'
+import { formatDateToApi, getWeek } from '@/utils/dates'
 import {
   Autocomplete,
   Box,

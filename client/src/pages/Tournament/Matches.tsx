@@ -1,67 +1,16 @@
 import { MatchList } from '@/components/tournament/MatchList'
-import { useTournament } from '@/hooks/useTournament'
-import { Match } from '@/types/match'
 import { Box, Typography } from '@mui/material'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import tournamentService from '@/services/tournament'
-import { addDays, formatDateToApi, getDateList } from '@/utils'
-import { useSearchParams } from 'react-router'
+import { addDays, formatDateToApi, getDateList } from '@/utils/dates'
 import { LoadingCircle } from '@/components/LoadingCircle'
-
-const getDefaultDate = (startDate: Date, endDate: Date): Date => {
-  const today = new Date()
-
-  // If tournament is ongoing, default to today
-  if (today >= startDate && today <= endDate) {
-    const fixedDate = new Date(today)
-    fixedDate.setDate(fixedDate.getDate())
-    return today
-  }
-
-  return startDate
-}
+import { useMatchData } from '@/hooks/useMatchData'
 
 export function Matches() {
-  const { tournament } = useTournament()
-  if (!tournament) return null
+  const matchData = useMatchData()
+  if (!matchData) {
+    return <LoadingCircle />
+  }
 
-  const [matches, setMatches] = useState<Match[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  // Parse date from URL or use default
-  const urlDate = searchParams.get('date')
-  const defaultDate = getDefaultDate(
-    new Date(tournament.startDate),
-    new Date(tournament.endDate)
-  )
-  const [date, setDate] = useState<Date>(urlDate ? new Date(urlDate) : defaultDate)
-
-  useEffect(() => {
-    const fetchMatches = async () => {
-      setLoading(true)
-      try {
-        const matchRes = await tournamentService.getMatches(tournament!.code, date)
-        setMatches(matchRes)
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchMatches()
-  }, [date, tournament])
-
-  const handleSelectDate = useCallback(
-    (selectedDate: Date) => {
-      setDate(selectedDate)
-      setSearchParams({ date: formatDateToApi(selectedDate) })
-    },
-    [setSearchParams]
-  )
-
-  const memoizedMatches = useMemo(() => matches, [matches])
+  const { matches, loading, date, handleSelectDate, tournament } = matchData
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, paddingTop: 2 }}>
@@ -71,7 +20,7 @@ export function Matches() {
         onSelect={handleSelectDate}
         selectedDate={date}
       />
-      {loading ? <LoadingCircle /> : <MatchList matches={memoizedMatches} />}
+      {loading ? <LoadingCircle /> : <MatchList matches={matches} />}
     </Box>
   )
 }

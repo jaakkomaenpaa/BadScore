@@ -1,5 +1,5 @@
 import { SearchParams } from '@/types/tournament'
-import { formatDateToApi, getWeek } from '@/utils'
+import { formatDateToApi, getWeek } from '@/utils/dates'
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router'
 
@@ -27,17 +27,20 @@ export const useSearchFilters = () => {
   }, [searchParams])
 
   const handleFilterChange = (updates: Partial<SearchParams>) => {
-    const newFilters = { ...filters, ...updates };
-  
+    const newFilters = { ...filters, ...updates }
+
     // Remove empty values
     Object.keys(newFilters).forEach((key) => {
-      if (newFilters[key as keyof SearchParams] === '' || newFilters[key as keyof SearchParams] === null) {
-        delete newFilters[key as keyof SearchParams];
+      if (
+        newFilters[key as keyof SearchParams] === '' ||
+        newFilters[key as keyof SearchParams] === null
+      ) {
+        delete newFilters[key as keyof SearchParams]
       }
-    });
-  
-    setSearchParams(newFilters);
-  };
+    })
+
+    setSearchParams(newFilters)
+  }
 
   const resetFilters = () => {
     setSearchParams(defaultFilters)

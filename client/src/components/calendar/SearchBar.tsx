@@ -258,7 +258,7 @@ function DatePickerContainer({ filters, onFilterChange }: DatePickerContainerPro
         maxDate={filters.endDate ? dayjs(filters.endDate) : undefined}
         onAccept={(date) =>
           date &&
-          onFilterChange({ startDate: formatDateToApi(date.toDate()) })
+          onFilterChange({ startDate: formatDateToApi(date.add(1, 'day').toDate()) })
         }
         sx={{
           width: 200,
@@ -277,7 +277,7 @@ function DatePickerContainer({ filters, onFilterChange }: DatePickerContainerPro
         minDate={filters.startDate ? dayjs(filters.startDate) : undefined}
         onAccept={(date) =>
           date &&
-          onFilterChange({ endDate: formatDateToApi(date.toDate()) })
+          onFilterChange({ endDate: formatDateToApi(date.add(1, 'day').toDate()) })
         }
         sx={{
           width: 200,

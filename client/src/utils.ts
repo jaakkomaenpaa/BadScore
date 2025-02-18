@@ -2,7 +2,8 @@ import { Week } from './types/tournament'
 
 // Format date to API format
 export const formatDateToApi = (date: Date): string => {
-  const fixedDate = new Date(date.setDate(date.getDate() + 1))
+  const fixedDate = new Date(date)
+  fixedDate.setDate(fixedDate.getDate())
   return fixedDate.toISOString().split('T')[0]
 }
 
@@ -19,7 +20,7 @@ export const getWeek = (offset: number = 0): Week => {
   // Calculate Monday
   const startDate = new Date(today)
   startDate.setDate(
-    today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1) + offset * 7 - 1
+    today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1) + offset * 7
   )
 
   // Calculate Sunday
@@ -40,4 +41,10 @@ export const getDateList = (startDate: Date, endDate: Date): Date[] => {
   }
 
   return dates
+}
+
+export const addDays = (date: Date, days: number): Date => {
+  const newDate = new Date(date)
+  newDate.setDate(newDate.getDate() + days)
+  return newDate
 }

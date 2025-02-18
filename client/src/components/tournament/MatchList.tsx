@@ -8,6 +8,22 @@ type MatchListProps = {
 }
 
 export function MatchList({ matches }: MatchListProps) {
+  if (matches.length === 0) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+          color: 'white',
+        }}
+      >
+        <Typography>No matches scheduled for this day</Typography>
+      </Box>
+    )
+  }
+
   return (
     <Box
       sx={{

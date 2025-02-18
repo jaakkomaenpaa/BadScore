@@ -1,9 +1,10 @@
 import { TournamentList } from '@/components/calendar/TournamentList'
 import { SearchBar } from '@/components/calendar/SearchBar'
-import { Box, CircularProgress, Pagination, Typography } from '@mui/material'
+import { Box, Pagination, Typography } from '@mui/material'
 import { useSearchFilters } from '@/hooks/useSearchFilters'
 import { useDropdownData } from '@/hooks/useDropdownData'
 import { useTournamentSearch } from '@/hooks/useTournamentSearch'
+import { LoadingCircle } from '@/components/LoadingCircle'
 
 function Calendar() {
   const { isLoading: isDataLoading } = useDropdownData()
@@ -13,19 +14,7 @@ function Calendar() {
     isLoading: isSearchLoading,
   } = useTournamentSearch()
 
-  if (isDataLoading || isSearchLoading)
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flex: 1,
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    )
+  if (isDataLoading || isSearchLoading) return <LoadingCircle />
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>

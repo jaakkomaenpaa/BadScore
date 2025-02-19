@@ -29,7 +29,7 @@ export const useMatchData = () => {
   // Fetch matches whenever date or tournament changes
   useEffect(() => {
     if (!tournament) return
-    
+
     const fetchMatches = async () => {
       setLoading(true)
       try {

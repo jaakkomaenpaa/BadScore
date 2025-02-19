@@ -2,13 +2,13 @@ import { API_URL } from '../config'
 import axios from 'axios'
 import {
   Country,
-  SearchParams,
   TournamentCategory,
   TournamentGrade,
   TournamentOrganization,
   TournamentPreview,
   TournamentSearchResponse,
-} from '../types/tournament'
+} from '@/types/tournament'
+import { SearchParams } from '@/types/misc'
 
 const URL = `${API_URL}/tournaments`
 

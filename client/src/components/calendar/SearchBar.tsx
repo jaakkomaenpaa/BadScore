@@ -18,8 +18,8 @@ import { ClearIcon, DatePicker } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import { SecondaryButton } from '../buttons/SecondaryButton'
 import { useState } from 'react'
-import { useDropdownData } from '@/hooks/useDropdownData'
-import { useSearchFilters } from '@/hooks/useSearchFilters'
+import { useDropdownData } from '@/hooks/calendar/useDropdownData'
+import { useSearchFilters } from '@/hooks/calendar/useSearchFilters'
 
 const SpaceBetweenBox = styled(Box)({
   display: 'flex',

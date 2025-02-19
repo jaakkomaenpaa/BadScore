@@ -1,7 +1,11 @@
+import { Box } from '@mui/material'
+
 export function EntryList() {
   return (
-    <div>
-      <h1>Entry List</h1>
-    </div>
+    <Box
+      sx={{ display: 'flex', flexDirection: 'column', gap: 2, paddingTop: 2 }}
+    >
+      
+    </Box>
   )
 }

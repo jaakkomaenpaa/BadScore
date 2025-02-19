@@ -2,7 +2,7 @@ import { MatchList } from '@/components/tournament/matches/MatchList'
 import { Box, Typography } from '@mui/material'
 import { addDays, formatDateToApi, getDateList } from '@/utils/dates'
 import { LoadingCircle } from '@/components/LoadingCircle'
-import { useMatchData } from '@/hooks/useMatchData'
+import { useMatchData } from '@/hooks/tournament/useMatchData'
 
 export function Matches() {
   const matchData = useMatchData()

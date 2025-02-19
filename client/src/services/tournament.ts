@@ -48,7 +48,7 @@ const getMatches = async (tournamentCode: string, date: Date) => {
 
 const getPlayersStaged = async (tournamentId: number, eventId: string) => {
   const response = await axios.get(`${URL}/${tournamentId}/events/${eventId}/players`)
-  return response.data
+  return response.data.players
 }
 
 const service = {

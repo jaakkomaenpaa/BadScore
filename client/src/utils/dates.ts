@@ -1,4 +1,4 @@
-import { Week } from '../types/tournament'
+import { Week } from '@/types/misc'
 
 // Format date to API format
 export const formatDateToApi = (date: Date): string => {

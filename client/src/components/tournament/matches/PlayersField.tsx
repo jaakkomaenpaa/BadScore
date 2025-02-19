@@ -21,7 +21,6 @@ export function PlayersField({ match }: PlayersFieldProps) {
           seed={match.team1seed}
           side='home'
           isWinner={match.winner === 1}
-          isLoser={match.winner === 2}
         />
       </Box>
       <Box sx={{ margin: '0px 10px' }}>-</Box>
@@ -31,7 +30,6 @@ export function PlayersField({ match }: PlayersFieldProps) {
           seed={match.team2seed}
           side='away'
           isWinner={match.winner === 2}
-          isLoser={match.winner === 1}
         />
       </Box>
     </Box>
@@ -43,16 +41,9 @@ type PlayerTeamItemProps = {
   seed: string | null
   side: 'home' | 'away'
   isWinner: boolean
-  isLoser: boolean
 }
 
-function PlayerTeamItem({
-  team,
-  seed,
-  side,
-  isWinner,
-  isLoser,
-}: PlayerTeamItemProps) {
+function PlayerTeamItem({ team, seed, side, isWinner }: PlayerTeamItemProps) {
   return (
     <Box
       sx={{
@@ -85,7 +76,7 @@ function PlayerTeamItem({
             <Typography
               variant='body1'
               sx={{
-                color: isLoser ? 'text.secondary' : 'text.primary',
+                color: isWinner ? 'text.primary' : 'text.secondary',
                 fontWeight: isWinner ? 'bold' : 'normal',
               }}
             >

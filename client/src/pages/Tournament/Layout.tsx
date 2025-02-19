@@ -1,5 +1,5 @@
 import { TournamentProvider } from '@/contexts/TournamentContext'
-import { useTournament } from '@/hooks/useTournament'
+import { useTournament } from '@/hooks/tournament/useTournament'
 import { TournamentPreview } from '@/types/tournament'
 import { Box, Typography } from '@mui/material'
 import { ReactNode } from 'react'

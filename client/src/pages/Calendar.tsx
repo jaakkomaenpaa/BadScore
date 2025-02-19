@@ -1,9 +1,9 @@
 import { TournamentList } from '@/components/calendar/TournamentList'
 import { SearchBar } from '@/components/calendar/SearchBar'
 import { Box, Pagination, Typography } from '@mui/material'
-import { useSearchFilters } from '@/hooks/useSearchFilters'
-import { useDropdownData } from '@/hooks/useDropdownData'
-import { useTournamentSearch } from '@/hooks/useTournamentSearch'
+import { useSearchFilters } from '@/hooks/calendar/useSearchFilters'
+import { useDropdownData } from '@/hooks/calendar/useDropdownData'
+import { useTournamentSearch } from '@/hooks/calendar/useTournamentSearch'
 import { LoadingCircle } from '@/components/LoadingCircle'
 
 function Calendar() {

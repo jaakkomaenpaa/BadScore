@@ -2,10 +2,19 @@ import { createTheme, Theme } from '@mui/material'
 
 declare module '@mui/material/styles' {
   interface Palette {
-    folder: Palette['primary']
+    neutral: Palette['primary']
+    warning: Palette['primary']
+    errorText: string
+    successText: string
+    neutralText: string
   }
+
   interface PaletteOptions {
-    folder?: PaletteOptions['primary']
+    neutral?: PaletteOptions['primary']
+    warning?: PaletteOptions['primary']
+    errorText?: string
+    successText?: string
+    neutralText?: string
   }
 }
 
@@ -31,6 +40,12 @@ export const theme: Theme = createTheme({
     },
     success: {
       main: '#a5d6a7',
+    },
+    neutral: {
+      main: '#f5eb9f',
+    },
+    warning: {
+      main: '#e0a960',
     },
   },
 })

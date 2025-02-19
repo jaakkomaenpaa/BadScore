@@ -17,8 +17,15 @@ export type EntryStage = {
   entries: RankingEntry[]
   entries_count: number
   has_notional_points: boolean
-  name: string
+  name: StageName
   statuses: string[] // WDN, SWM, PFR, etc...
+}
+
+export enum StageName {
+  MainDraw = 'Main Draw',
+  Qualifying = 'Qualifying',
+  Reserve = 'Reserve',
+  Withdrawn = 'Withdrawn',
 }
 
 export type RankingEntry = {

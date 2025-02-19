@@ -1,8 +1,10 @@
 import {
   EntryStage,
   EventStage,
+  PlayerEntry,
   PlayerStageResponse,
   RankingEntry,
+  StageName,
 } from '@/types/entryList'
 import {
   Box,
@@ -37,6 +39,25 @@ type StagePlayersProps = {
 }
 
 function StagePlayers({ stage }: StagePlayersProps) {
+  const stageColors: Record<StageName, { background: string; text: string }> = {
+    [StageName.MainDraw]: {
+      background: 'success.main',
+      text: 'text.primary',
+    },
+    [StageName.Qualifying]: {
+      background: 'neutral.main',
+      text: 'neutralText',
+    },
+    [StageName.Reserve]: {
+      background: 'warning.main',
+      text: 'errorText',
+    },
+    [StageName.Withdrawn]: {
+      background: 'error.main',
+      text: 'errorText',
+    },
+  }
+
   return (
     <Box
       sx={{
@@ -44,12 +65,12 @@ function StagePlayers({ stage }: StagePlayersProps) {
         flexDirection: 'column',
         alignItems: 'center',
         gap: 2,
-        marginBottom: 2,
+        marginBottom: 6,
       }}
     >
-      <StageHeader title={stage.name} />
+      <StageHeader stage={stage} />
       <TableContainer sx={{ backgroundColor: 'background.paper' }}>
-        <Table>
+        <Table size='small'>
           <TableHead>
             <TableRow>
               <TableCell>Order</TableCell>
@@ -70,6 +91,7 @@ function StagePlayers({ stage }: StagePlayersProps) {
                 key={entry.player1.id}
                 entry={entry}
                 hasNotionalPoints={stage.has_notional_points}
+                color={stageColors[stage.name]}
               />
             ))}
           </TableBody>
@@ -82,42 +104,78 @@ function StagePlayers({ stage }: StagePlayersProps) {
 type PlayerListItemProps = {
   entry: RankingEntry
   hasNotionalPoints?: boolean
+  color: { background: string; text: string }
 }
 
-function PlayerListItem({ entry, hasNotionalPoints = false }: PlayerListItemProps) {
+function PlayerListItem({
+  entry,
+  color,
+  hasNotionalPoints = false,
+}: PlayerListItemProps) {
   return (
     <TableRow key={entry.player1.id}>
-      <TableCell>{entry.position_name}</TableCell>
-      <TableCell
-        sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}
-      >
-        <img
-          src={entry.player1.country.url_svg}
-          alt={entry.player1.country.name}
-          style={{ height: 20 }}
-        />
-        <Typography>{entry.player1.name_display}</Typography>
+      <TableCell sx={{ backgroundColor: color.background, color: 'black' }}>
+        {entry.position_name}
       </TableCell>
-      <TableCell>{entry.player1.country.name}</TableCell>
+      <TableCell
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '2px',
+        }}
+      >
+        <PlayerInfo player={entry.player1} />
+        {entry.player2 && <PlayerInfo player={entry.player2} />}
+      </TableCell>
+      <TableCell sx={{ color: 'text.secondary' }}>
+        {entry.player1.country.name}
+      </TableCell>
       <TableCell align='right'>{entry.rank ?? '-'}</TableCell>
-      <TableCell align='right'>{entry.points ?? '-'}</TableCell>
+      <TableCell
+        sx={{ color: entry.notional_points ? 'text.secondary' : 'white' }}
+        align='right'
+      >
+        {entry.points ?? '-'}
+      </TableCell>
       {hasNotionalPoints && (
         <TableCell align='right'>{entry.notional_points}</TableCell>
       )}
-      <TableCell align='right'>{entry.tournaments ?? '-'} </TableCell>
+      <TableCell sx={{ color: 'text.secondary' }} align='right'>
+        {entry.tournaments ?? '-'}{' '}
+      </TableCell>
       <TableCell align='right'>{entry.seed}</TableCell>
     </TableRow>
   )
 }
 
-type StageHeaderProps = {
-  title: string
+type PlayerInfoProps = {
+  player: PlayerEntry
 }
 
-function StageHeader({ title }: StageHeaderProps) {
+function PlayerInfo({ player }: PlayerInfoProps) {
   return (
-    <Typography sx={{ color: 'white' }} variant='h6'>
-      {title}
-    </Typography>
+    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
+      <img
+        src={player.country.url_svg}
+        alt={player.country.name}
+        style={{ height: 18 }}
+      />
+      <Typography variant='body2'>{player.name_display}</Typography>
+    </Box>
+  )
+}
+
+type StageHeaderProps = {
+  stage: EntryStage
+}
+
+function StageHeader({ stage }: StageHeaderProps) {
+  return (
+    <Box sx={{ color: 'white', textAlign: 'center' }}>
+      <Typography variant='h5'>{stage.name}</Typography>
+      <Typography sx={{ color: 'text.secondary' }} variant='subtitle2'>
+        {stage.entries_count} entries
+      </Typography>
+    </Box>
   )
 }

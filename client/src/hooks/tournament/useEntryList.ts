@@ -6,20 +6,27 @@ import { useSearchParams } from 'react-router'
 
 export const useEntryList = () => {
   const { tournament } = useTournament()
+
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [events, setEvents] = useState<Event[]>([{ value: '1', text: 'MS' }])
   const [loading, setLoading] = useState<boolean>(true)
   const [players, setPlayers] = useState<PlayerStageResponse | null>(null)
   const [eventStages, setEventStages] = useState<EventStage[]>([])
+  const [isTeamEvent, setIsTeamEvent] = useState<boolean>(false)
 
   const eventParam = searchParams.get('event')
   const defaultEvent = eventParam ?? '1' // Default MS
   const [selectedEvent, setSelectedEvent] = useState<string>(defaultEvent)
 
-  // Fetch available events
+  // Fetch available events and check if team event
   useEffect(() => {
     if (!tournament) return
+
+    const isTeamEvent =
+      tournament?.category?.toLowerCase().includes('team') ||
+      tournament?.name?.toLowerCase().includes('team')
+    setIsTeamEvent(isTeamEvent)
 
     const fetchEvents = async () => {
       setLoading(true)
@@ -69,5 +76,13 @@ export const useEntryList = () => {
     [setSearchParams]
   )
 
-  return { events, players, eventStages, selectedEvent, handleSelectEvent, loading }
+  return {
+    events,
+    players,
+    eventStages,
+    selectedEvent,
+    handleSelectEvent,
+    loading,
+    isTeamEvent,
+  }
 }

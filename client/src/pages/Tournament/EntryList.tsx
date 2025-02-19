@@ -1,12 +1,27 @@
 import { LoadingCircle } from '@/components/LoadingCircle'
-import { StageList } from '@/components/tournament/entryList/PlayerList'
+import { StageList } from '@/components/tournament/entryList/StageList'
 import { useEntryList } from '@/hooks/tournament/useEntryList'
 import { Event } from '@/types/entryList'
 import { Box, MenuItem, Select, Typography } from '@mui/material'
 
 export function EntryList() {
-  const { events, players, eventStages, selectedEvent, handleSelectEvent } =
-    useEntryList()
+  const {
+    events,
+    players,
+    eventStages,
+    selectedEvent,
+    handleSelectEvent,
+    loading,
+    isTeamEvent,
+  } = useEntryList()
+
+  if (isTeamEvent) {
+    return (
+      <Typography sx={{ color: 'white', textAlign: 'center', marginTop: 2 }}>
+        This tournament does not have an entry list
+      </Typography>
+    )
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, paddingTop: 2 }}>
@@ -15,7 +30,7 @@ export function EntryList() {
         selectedEvent={selectedEvent}
         onSelect={handleSelectEvent}
       />
-      {!players ? (
+      {!players || loading ? (
         <LoadingCircle />
       ) : (
         <StageList players={players} eventStages={eventStages} />

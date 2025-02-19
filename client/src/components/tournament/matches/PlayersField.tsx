@@ -64,7 +64,7 @@ function PlayerTeamItem({ team, seed, side, isWinner }: PlayerTeamItemProps) {
 
         return (
           <Box
-            key={player.id}
+            key={index}
             sx={{
               display: 'flex',
               flexDirection: 'row',

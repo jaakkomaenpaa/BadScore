@@ -1,6 +1,5 @@
 import {
   Country,
-  SearchParams,
   TournamentCategory,
   TournamentOrganization,
 } from '@/types/tournament'
@@ -20,6 +19,7 @@ import { SecondaryButton } from '../buttons/SecondaryButton'
 import { useState } from 'react'
 import { useDropdownData } from '@/hooks/calendar/useDropdownData'
 import { useSearchFilters } from '@/hooks/calendar/useSearchFilters'
+import { SearchParams } from '@/types/misc'
 
 const SpaceBetweenBox = styled(Box)({
   display: 'flex',

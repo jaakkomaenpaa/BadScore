@@ -51,3 +51,4 @@ export type TournamentSearchResponse = {
   currentPage: number
   onThisPage: number
 }
+

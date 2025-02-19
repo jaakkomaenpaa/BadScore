@@ -12,29 +12,34 @@ const getDefaultDate = (startDate: Date, endDate: Date): Date => {
 
 export const useMatchData = () => {
   const { tournament } = useTournament()
-  if (!tournament) return null
 
   const [searchParams, setSearchParams] = useSearchParams()
   const [matches, setMatches] = useState<Match[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const [date, setDate] = useState<Date | null>(null)
 
-  // Determine the initial date
-  const urlDate = searchParams.get('date')
-  const defaultDate = getDefaultDate(
-    new Date(tournament.startDate),
-    new Date(tournament.endDate)
-  )
-  const [date, setDate] = useState<Date>(urlDate ? new Date(urlDate) : defaultDate)
+  useEffect(() => {
+    if (!tournament) return
+
+    const urlDate = searchParams.get('date')
+    const computedDate = urlDate
+      ? new Date(urlDate)
+      : getDefaultDate(new Date(tournament.startDate), new Date(tournament.endDate))
+
+    setDate(computedDate)
+  }, [searchParams, tournament])
 
   // Fetch matches whenever date or tournament changes
   useEffect(() => {
-    if (!tournament) return
+    if (!tournament || !date) return
 
     const fetchMatches = async () => {
       setLoading(true)
       try {
         const matchRes = await tournamentService.getMatches(tournament.code, date)
         setMatches(matchRes)
+      } catch (error) {
+        console.error('Error fetching matches:', error)
       } finally {
         setLoading(false)
       }

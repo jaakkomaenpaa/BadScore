@@ -2,6 +2,7 @@ import { API_URL } from '../config'
 import axios from 'axios'
 import { formatDateToApi } from '../utils/dates'
 import { TournamentPreview } from '@/types/tournament'
+import { Event, EventStage, PlayerStageResponse } from '@/types/entryList'
 
 const URL = `${API_URL}/tournament`
 
@@ -15,14 +16,17 @@ const getDraws = async (tournamentId: number) => {
   return response.data
 }
 
-const getEvents = async (tournamentId: number) => {
+const getEvents = async (tournamentId: number): Promise<Event[]> => {
   const response = await axios.get(`${URL}/${tournamentId}/events`)
-  return response.data
+  return response.data.events
 }
 
-const getEventStages = async (tournamentId: number, eventId: string) => {
+const getEventStages = async (
+  tournamentId: number,
+  eventId: string
+): Promise<EventStage[]> => {
   const response = await axios.get(`${URL}/${tournamentId}/events/${eventId}/stages`)
-  return response.data
+  return response.data.eventStages
 }
 
 const getBracket = async (tournamentId: number, drawId: string) => {
@@ -46,7 +50,10 @@ const getMatches = async (tournamentCode: string, date: Date) => {
   return response.data.matches
 }
 
-const getPlayersStaged = async (tournamentId: number, eventId: string) => {
+const getPlayersStaged = async (
+  tournamentId: number,
+  eventId: string
+): Promise<PlayerStageResponse> => {
   const response = await axios.get(`${URL}/${tournamentId}/events/${eventId}/players`)
   return response.data.players
 }

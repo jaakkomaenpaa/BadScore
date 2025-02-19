@@ -5,12 +5,11 @@ import { LoadingCircle } from '@/components/LoadingCircle'
 import { useMatchData } from '@/hooks/tournament/useMatchData'
 
 export function Matches() {
-  const matchData = useMatchData()
-  if (!matchData) {
+  const { matches, loading, date, handleSelectDate, tournament } = useMatchData()
+
+  if (!tournament || !date) {
     return <LoadingCircle />
   }
-
-  const { matches, loading, date, handleSelectDate, tournament } = matchData
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, paddingTop: 2 }}>

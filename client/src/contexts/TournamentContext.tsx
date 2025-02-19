@@ -9,31 +9,28 @@ type TournamentContextType = {
   loading: boolean
 }
 
-const defaultContextValue = {
+export const TournamentContext = createContext<TournamentContextType>({
   tournament: null,
   error: '',
   loading: true,
-}
-
-export const TournamentContext =
-  createContext<TournamentContextType>(defaultContextValue)
+})
 
 export const TournamentProvider = ({ children }: { children: ReactNode }) => {
   const { tournamentId } = useParams()
-  const numericTournamentId = tournamentId ? Number(tournamentId) : null
+  const numericTournamentId = tournamentId ? parseInt(tournamentId) : null
 
-  const [tournament, setTournament] = useState<TournamentPreview | null>(
-    defaultContextValue.tournament
-  )
-  const [error, setError] = useState<string>(defaultContextValue.error)
-  const [loading, setLoading] = useState<boolean>(defaultContextValue.loading)
+  const [tournament, setTournament] = useState<TournamentPreview | null>(null)
+  const [error, setError] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    if (!numericTournamentId) return
+    if (!numericTournamentId || isNaN(numericTournamentId)) return
 
     const fetchTournament = async () => {
+      setLoading(true)
+      setError('')
+
       try {
-        setLoading(true)
         const tournamentRes = await tournamentService.getById(numericTournamentId)
         setTournament(tournamentRes)
       } catch (err) {

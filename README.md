@@ -2,11 +2,14 @@
 
 A site to view real-life results from BWF (Badminton World Federation) tournaments.
 
-I got annoyed by the UX of BWF's redesigned tournament platform so I decided to create a more user-friendly one myself.
+I did not like the UX of BWF's redesigned tournament result platform so I decided to create a more user-friendly one myself.
 
 ## Features
 
-As of 13.2.2025 the front-end only has tournament calendar with search functions implemented.
+As of 19.2.2025 the front-end has the following features:
+- Tournament calendar with search functionality
+- Match results
+- Entry lists 
 
 The server provides data of tournaments, entry lists, and matches. 
 

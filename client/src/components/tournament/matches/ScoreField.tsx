@@ -17,7 +17,15 @@ export function ScoreField({ match }: ScoreFieldProps) {
       }}
     >
       {match.score.map((game: GameScore) => (
-        <Box key={game.set} sx={{ display: 'flex', flexDirection: 'row' }}>
+        <Box
+          key={game.set}
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '2px',
+          }}
+        >
           <Typography
             sx={{
               fontWeight: game.home > game.away ? 'bold' : 'normal',
@@ -26,7 +34,7 @@ export function ScoreField({ match }: ScoreFieldProps) {
           >
             {game.home}
           </Typography>
-          -
+          <Typography variant='body2'>-</Typography>
           <Typography
             sx={{
               fontWeight: game.away > game.home ? 'bold' : 'normal',

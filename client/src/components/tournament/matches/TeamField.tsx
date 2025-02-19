@@ -1,11 +1,11 @@
-import { Match, Player, Team } from '@/types/match'
+import { Match, Team } from '@/types/match'
 import { Box, Typography } from '@mui/material'
 
-type PlayersFieldProps = {
+type TeamFieldProps = {
   match: Match
 }
 
-export function PlayersField({ match }: PlayersFieldProps) {
+export function TeamField({ match }: TeamFieldProps) {
   return (
     <Box
       sx={{
@@ -40,13 +40,17 @@ export function PlayersField({ match }: PlayersFieldProps) {
 
 type TeamItemProps = {
   team: Team
-  seed: string | null
+  seed: string
   side: 'home' | 'away'
   isWinner: boolean
   isLoser: boolean
 }
 
 function TeamItem({ team, seed, side, isWinner, isLoser }: TeamItemProps) {
+  const Flag = () => (
+    <img src={team.countryFlagUrl} alt={team.teamName} style={{ height: 20 }} />
+  )
+
   return (
     <Box
       sx={{
@@ -56,36 +60,22 @@ function TeamItem({ team, seed, side, isWinner, isLoser }: TeamItemProps) {
         textAlign: side === 'home' ? 'right' : 'left',
       }}
     >
-      {team.players.map((player: Player, index: number) => (
-        <Box
-          key={player.id}
-          sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}
+      <Box
+        key={team.teamId}
+        sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}
+      >
+        {side === 'away' && <Flag />}
+        <Typography
+          variant='body1'
+          sx={{
+            color: isLoser ? 'text.secondary' : 'text.primary',
+            fontWeight: isWinner ? 'bold' : 'normal',
+          }}
         >
-          {side === 'away' && (
-            <img
-              src={player.countryFlagUrl}
-              alt={player.lastName}
-              style={{ height: 20 }}
-            />
-          )}
-          <Typography
-            variant='body1'
-            sx={{
-              color: isLoser ? 'text.secondary' : 'text.primary',
-              fontWeight: isWinner ? 'bold' : 'normal',
-            }}
-          >
-            {player.nameDisplay} {seed && index === 0 && `[${seed}]`}
-          </Typography>
-          {side === 'home' && (
-            <img
-              src={player.countryFlagUrl}
-              alt={player.lastName}
-              style={{ height: 20 }}
-            />
-          )}
-        </Box>
-      ))}
+          {team.teamName} {seed && `[${seed}]`}
+        </Typography>
+        {side === 'home' && <Flag />}
+      </Box>
     </Box>
   )
 }

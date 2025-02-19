@@ -1,4 +1,4 @@
-import { MatchList } from '@/components/tournament/MatchList'
+import { MatchList } from '@/components/tournament/matches/MatchList'
 import { Box, Typography } from '@mui/material'
 import { addDays, formatDateToApi, getDateList } from '@/utils/dates'
 import { LoadingCircle } from '@/components/LoadingCircle'

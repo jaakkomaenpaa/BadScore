@@ -32,7 +32,7 @@ def get_events(tournament_id: int):
 @tournament_bp.route("/<int:tournament_id>/events/<event_id>/stages", methods=["GET"])
 def get_event_stages(tournament_id: int, event_id: str):
     data = tournament.get_event_stages(tournament_id, event_id)
-    return jsonify({"event_stages": data})
+    return jsonify({"eventStages": data})
 
 
 @tournament_bp.route("/<int:tournament_id>/bracket", methods=["GET"])
@@ -43,9 +43,15 @@ def get_bracket(tournament_id: int):
 
 
 @tournament_bp.route("/<tournament_code>/courts", methods=["GET"])
-def get_courts(tournament_code: str):
+def get_courts(tournament_code: str):    
     date = request.args.get("date")
+    if not date:
+        return jsonify({"error": "Date is required"})
+
     data = tournament.get_courts(tournament_code, date)
+    if not data:
+        return jsonify({"error": "Courts not found. Check tournament code and date"})
+
     return jsonify({"courts": data})
 
 

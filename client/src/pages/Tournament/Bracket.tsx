@@ -13,7 +13,7 @@ export function Bracket() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
       {Object.entries(bracket.rounds).map(([round, matches], index) => (
-        <RoundColumn key={index} round={round} matches={matches} />
+        <RoundColumn key={index} round={parseInt(round)} matches={matches} />
       ))}
       <WinnerColumn
         winnerEntries={bracket.winners}

@@ -25,14 +25,15 @@ export function ScoreCell({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-start',
+        alignItems: 'flex-start',
         gap: 1,
         height: cellHeight,
-        paddingLeft: 1,
+        paddingLeft: 2,
         ...(side === 'home' &&
           !isLastRound && {
             borderRight: '1px solid',
           }),
-        borderColor: 'text.primary',
+        borderColor: 'text.secondary',
         color: 'text.primary',
       }}
     >
@@ -46,12 +47,16 @@ export function ScoreCell({
             gap: '2px',
           }}
         >
-          <Typography>{prevSide === 'home' ? game.home : game.away}</Typography>
+          <Typography variant='body2'>
+            {prevSide === 'home' ? game.home : game.away}
+          </Typography>
           <Typography variant='body2'>-</Typography>
-          <Typography>{prevSide === 'home' ? game.away : game.home}</Typography>
+          <Typography variant='body2'>
+            {prevSide === 'home' ? game.away : game.home}
+          </Typography>
         </Box>
       ))}
-      {scoreStatusValue}
+      <Typography variant='body2'>{scoreStatusValue}</Typography>
     </Box>
   )
 }

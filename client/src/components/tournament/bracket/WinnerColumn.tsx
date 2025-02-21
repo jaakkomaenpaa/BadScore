@@ -38,6 +38,8 @@ export function WinnerColumn({ winnerEntries, roundsLength }: WinnerColumnProps)
             team={team}
             isLastRound
             side={team.prevMatchSide}
+            drawIndex={index}
+            round={roundsLength + 1}
           />
         ))}
       </Box>

@@ -7,15 +7,15 @@ import { useMemo } from 'react'
 import { useBracket } from '@/hooks/tournament/useBracket'
 
 type RoundColumnProps = {
-  round: string
+  round: number
   matches: { index: number; match: Match }[]
 }
 
 export function RoundColumn({ round, matches }: RoundColumnProps) {
   const { cellHeight } = useBracket()
 
-  const topCellsToAdd = getTopCellsToAdd(parseInt(round))
-  const middleCellsToAdd = getMiddleCellsToAdd(parseInt(round))
+  const topCellsToAdd = getTopCellsToAdd(round)
+  const middleCellsToAdd = getMiddleCellsToAdd(round)
   const sortedMatches = useMemo(
     () => [...matches].sort((a, b) => a.index - b.index),
     [matches]
@@ -45,11 +45,12 @@ export function RoundColumn({ round, matches }: RoundColumnProps) {
           gap: `${cellHeight * middleCellsToAdd}px`,
         }}
       >
-        {sortedMatches.map(({ match }: { match: Match }) => (
+        {sortedMatches.map(({ match, index }: { match: Match; index: number }) => (
           <BracketMatchItem
             key={`${match.code}-${round}`}
             match={match}
-            round={parseInt(round) + 1}
+            round={round + 1}
+            index={index}
           />
         ))}
       </Box>

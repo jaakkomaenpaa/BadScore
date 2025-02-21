@@ -6,14 +6,23 @@ import { useBracket } from '@/hooks/tournament/useBracket'
 
 type BracketEntryProps = {
   team: Team
+  drawIndex: number
+  round: number
   side?: 'home' | 'away'
   isLastRound?: boolean
 }
 
-export function BracketEntry({ team, side, isLastRound = false }: BracketEntryProps) {
+export function BracketEntry({
+  team,
+  drawIndex,
+  round,
+  side,
+  isLastRound = false,
+}: BracketEntryProps) {
   const { cellHeight } = useBracket()
 
-  if (team.teamName?.toLowerCase() === 'bye') return <ByeEntry />
+  if (team.teamName?.toLowerCase() === 'bye')
+    return <ByeEntry drawIndex={drawIndex} isLastRound={isLastRound} side={side} />
 
   return (
     <Box>
@@ -27,11 +36,25 @@ export function BracketEntry({ team, side, isLastRound = false }: BracketEntryPr
             !isLastRound && {
               borderRight: '1px solid',
             }),
-          borderColor: 'text.primary',
+          borderColor: 'text.secondary',
         }}
       >
-        {team.players.map((player: Player) => (
-          <PlayerItem key={player.id} player={player} />
+        {team.players.map((player: Player, index: number) => (
+          <Box
+            key={player.id}
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            {round === 1 && (
+              <Typography variant='body2' sx={{ color: 'text.secondary', width: 20 }}>
+                {index === team.players.length - 1 ? drawIndex : undefined}
+              </Typography>
+            )}
+            <PlayerItem player={player} />
+          </Box>
         ))}
       </Box>
 
@@ -64,11 +87,15 @@ function PlayerItem({ player }: PlayerItemProps) {
         flexDirection: 'row',
         gap: 1,
         alignItems: 'center',
-        paddingRight: 1,
+        paddingRight: 2,
         paddingLeft: 1,
       }}
     >
-      <img src={player.countryFlagUrl} alt={player.lastName} style={{ height: 18 }} />
+      <img
+        src={player.countryFlagUrl}
+        alt={player.lastName}
+        style={{ height: 16, verticalAlign: 'middle', alignSelf: 'center' }}
+      />
       <Typography
         variant='body2'
         sx={{
@@ -83,11 +110,12 @@ function PlayerItem({ player }: PlayerItemProps) {
 }
 
 type ByeEntryProps = {
+  drawIndex: number
   side?: 'home' | 'away'
   isLastRound?: boolean
 }
 
-function ByeEntry({ side, isLastRound }: ByeEntryProps) {
+function ByeEntry({ drawIndex, side, isLastRound }: ByeEntryProps) {
   const { cellHeight } = useBracket()
 
   return (
@@ -95,17 +123,27 @@ function ByeEntry({ side, isLastRound }: ByeEntryProps) {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
-          height: cellHeight - 0.8,
+          flexDirection: 'row',
+          alignItems: 'flex-end',
+          height: cellHeight - 1,
           borderBottom: '1px solid',
           ...(side === 'away' &&
             !isLastRound && {
               borderRight: '1px solid',
             }),
-          borderColor: 'text.primary',
+          borderColor: 'text.secondary',
         }}
       >
-        <Typography variant='body2' sx={{ color: 'text.secondary', marginLeft: 4 }}>
+        <Typography
+          variant='body2'
+          sx={{ color: 'text.secondary', width: 20, marginBottom: '1px' }}
+        >
+          {drawIndex}
+        </Typography>
+        <Typography
+          variant='body2'
+          sx={{ color: 'text.secondary', marginLeft: 4, marginBottom: '1px' }}
+        >
           Bye
         </Typography>
       </Box>

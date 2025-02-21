@@ -12,7 +12,10 @@ export function Cell({ borderRight }: CellProps) {
     <Box
       sx={{
         height: cellHeight,
-        ...(borderRight && { borderRight: '1px solid', borderColor: 'text.primary' }),
+        ...(borderRight && {
+          borderRight: '1px solid',
+          borderColor: 'text.secondary',
+        }),
       }}
     />
   )

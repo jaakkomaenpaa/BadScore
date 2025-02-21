@@ -51,6 +51,11 @@ export type Team = {
   players: Player[]
   teamId: null // In team matches?
   teamName: string
+
+  prevScore: GameScore[] | null
+  prevScoreStatus: number | null
+  prevScoreStatusValue: string | null
+  prevMatchSide: 'home' | 'away'
 }
 
 export type Player = {

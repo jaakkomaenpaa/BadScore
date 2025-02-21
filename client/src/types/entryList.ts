@@ -37,7 +37,7 @@ export type RankingEntry = {
   protected: boolean
   rank: number
   seed: number
-  status: number | null
+  status: string | null
   tournaments: number
 }
 

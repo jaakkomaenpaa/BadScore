@@ -1,3 +1,4 @@
+import { LoadingCircle } from '@/components/LoadingCircle'
 import { TournamentProvider } from '@/contexts/TournamentContext'
 import { useTournament } from '@/hooks/tournament/useTournament'
 import { TournamentPreview } from '@/types/tournament'
@@ -19,7 +20,7 @@ function Content() {
   const { tournament, loading, error } = useTournament()
 
   if (error) return <Typography color='error'>{error}</Typography>
-  if (loading) return <Typography>Loading...</Typography>
+  if (loading) return <LoadingCircle />
   if (!tournament) return <Typography>No tournament data available</Typography>
 
   return (

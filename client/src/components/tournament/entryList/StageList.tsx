@@ -117,6 +117,7 @@ function PlayerListItem({
       <TableCell sx={{ backgroundColor: color.background, color: 'black' }}>
         {entry.position_name}
       </TableCell>
+
       <TableCell
         sx={{
           display: 'flex',
@@ -124,25 +125,31 @@ function PlayerListItem({
           gap: '2px',
         }}
       >
-        <PlayerInfo player={entry.player1} />
+        <PlayerInfo player={entry.player1} status={entry.status} />
         {entry.player2 && <PlayerInfo player={entry.player2} />}
       </TableCell>
+
       <TableCell sx={{ color: 'text.secondary' }}>
         {entry.player1.country.name}
       </TableCell>
+
       <TableCell align='right'>{entry.rank ?? '-'}</TableCell>
+
       <TableCell
         sx={{ color: entry.notional_points ? 'text.secondary' : 'white' }}
         align='right'
       >
         {entry.points ?? '-'}
       </TableCell>
+
       {hasNotionalPoints && (
         <TableCell align='right'>{entry.notional_points}</TableCell>
       )}
+
       <TableCell sx={{ color: 'text.secondary' }} align='right'>
         {entry.tournaments ?? '-'}{' '}
       </TableCell>
+
       <TableCell align='right'>{entry.seed}</TableCell>
     </TableRow>
   )
@@ -150,9 +157,10 @@ function PlayerListItem({
 
 type PlayerInfoProps = {
   player: PlayerEntry
+  status?: string | null
 }
 
-function PlayerInfo({ player }: PlayerInfoProps) {
+function PlayerInfo({ player, status }: PlayerInfoProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
       <img
@@ -161,6 +169,7 @@ function PlayerInfo({ player }: PlayerInfoProps) {
         style={{ height: 18 }}
       />
       <Typography variant='body2'>{player.name_display}</Typography>
+      {status && <Typography variant='body2'>[{status}]</Typography>}
     </Box>
   )
 }

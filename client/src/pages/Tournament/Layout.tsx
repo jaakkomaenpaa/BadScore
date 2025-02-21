@@ -1,4 +1,5 @@
 import { LoadingCircle } from '@/components/LoadingCircle'
+import { BracketProvider } from '@/contexts/BracketContext'
 import { TournamentProvider } from '@/contexts/TournamentContext'
 import { useTournament } from '@/hooks/tournament/useTournament'
 import { TournamentPreview } from '@/types/tournament'
@@ -9,7 +10,9 @@ import { NavLink, Outlet, To } from 'react-router'
 function Layout() {
   return (
     <TournamentProvider>
-      <Content />
+      <BracketProvider>
+        <Content />
+      </BracketProvider>
     </TournamentProvider>
   )
 }

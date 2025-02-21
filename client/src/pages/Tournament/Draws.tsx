@@ -1,11 +1,11 @@
 import { LoadingCircle } from '@/components/LoadingCircle'
-import { useDrawData } from '@/hooks/tournament/useDrawData'
+import { useBracket } from '@/hooks/tournament/useBracket'
 import { Draw } from '@/types/draw'
 import { Box, Typography } from '@mui/material'
 import { NavLink } from 'react-router'
 
 export function Draws() {
-  const { draws, loading } = useDrawData()
+  const { draws, drawsLoading } = useBracket()
 
   return (
     <Box
@@ -17,7 +17,7 @@ export function Draws() {
         paddingTop: 2,
       }}
     >
-      {loading ? <LoadingCircle /> : <DrawList draws={draws} />}
+      {drawsLoading ? <LoadingCircle /> : <DrawList draws={draws} />}
     </Box>
   )
 }

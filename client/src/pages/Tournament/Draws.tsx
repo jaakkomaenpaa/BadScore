@@ -1,8 +1,7 @@
 import { LoadingCircle } from '@/components/LoadingCircle'
+import { DrawList } from '@/components/tournament/draws/DrawList'
 import { useBracket } from '@/hooks/tournament/useBracket'
-import { Draw } from '@/types/draw'
-import { Box, Typography } from '@mui/material'
-import { NavLink } from 'react-router'
+import { Box } from '@mui/material'
 
 export function Draws() {
   const { draws, drawsLoading } = useBracket()
@@ -17,45 +16,7 @@ export function Draws() {
         paddingTop: 2,
       }}
     >
-      {drawsLoading ? <LoadingCircle /> : <DrawList draws={draws} />}
-    </Box>
-  )
-}
-
-type DrawListProps = {
-  draws: Draw[]
-}
-
-function DrawList({ draws }: DrawListProps) {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        gap: 1,
-      }}
-    >
-      {draws.map((draw) => (
-        <NavLink
-          key={draw.value}
-          style={{ textDecoration: 'none' }}
-          to={`${draw.value}`}
-        >
-          <Typography
-            sx={{
-              color: 'white',
-
-              '&:hover': {
-                color: 'black',
-                textDecoration: 'underline',
-              },
-            }}
-          >
-            {draw.name}
-          </Typography>
-        </NavLink>
-      ))}
+      {drawsLoading ? <LoadingCircle /> : <DrawList draws={draws} orientation='y' />}
     </Box>
   )
 }

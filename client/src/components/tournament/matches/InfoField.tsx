@@ -1,6 +1,7 @@
 import { Match } from '@/types/match'
 import { formatTime } from '@/utils/dates'
 import { Box, Typography } from '@mui/material'
+import { NavLink } from 'react-router'
 
 type InfoFieldProps = {
   match: Match
@@ -30,60 +31,27 @@ export function InfoField({ match, isPartOfTeamMatch = false }: InfoFieldProps) 
           </Typography>
         ) : (
           <>
-            <Typography sx={{ color: 'text.primary' }}>{match.drawName}</Typography>
+            <NavLink
+              to={`../draws/${match.drawCode}`}
+              style={{ textDecoration: 'none' }}
+            >
+              <Typography
+                sx={{
+                  color: 'white',
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                {match.drawName}
+              </Typography>
+            </NavLink>
             <Typography sx={{ color: 'text.secondary' }}>
               {match.roundName}
             </Typography>
           </>
         )}
       </Box>
-    </Box>
-  )
-}
-
-export function TeamMatchInfoField({ match }: InfoFieldProps) {
-  return (
-    <Box
-      sx={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 2,
-        alignItems: 'center',
-      }}
-    >
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography sx={{ color: 'text.primary' }}>{match.matchTypeValue}</Typography>
-      </Box>
-      {!match.oopRound && (
-        <Typography sx={{ color: 'text.primary' }}>
-          {formatTime(new Date(match.matchTime))}
-        </Typography>
-      )}
-    </Box>
-  )
-}
-
-export function GeneralMatchInfoField({ match }: InfoFieldProps) {
-  return (
-    <Box
-      sx={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 2,
-        alignItems: 'center',
-      }}
-    >
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography sx={{ color: 'text.primary' }}>{match.drawName}</Typography>
-        <Typography sx={{ color: 'text.secondary' }}>{match.roundName}</Typography>
-      </Box>
-      {!match.oopRound && (
-        <Typography sx={{ color: 'text.primary' }}>
-          {formatTime(new Date(match.matchTime))}
-        </Typography>
-      )}
     </Box>
   )
 }

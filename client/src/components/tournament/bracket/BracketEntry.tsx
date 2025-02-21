@@ -10,6 +10,7 @@ type BracketEntryProps = {
   round: number
   side?: 'home' | 'away'
   isLastRound?: boolean
+  seed?: string
 }
 
 export function BracketEntry({
@@ -18,6 +19,7 @@ export function BracketEntry({
   round,
   side,
   isLastRound = false,
+  seed,
 }: BracketEntryProps) {
   const { cellHeight } = useBracket()
 
@@ -53,7 +55,7 @@ export function BracketEntry({
                 {index === team.players.length - 1 ? drawIndex : undefined}
               </Typography>
             )}
-            <PlayerItem player={player} />
+            <PlayerItem player={player} seed={index === 0 ? seed : undefined} />
           </Box>
         ))}
       </Box>
@@ -77,9 +79,10 @@ export function BracketEntry({
 
 type PlayerItemProps = {
   player: Player
+  seed?: string
 }
 
-function PlayerItem({ player }: PlayerItemProps) {
+function PlayerItem({ player, seed }: PlayerItemProps) {
   return (
     <Box
       sx={{
@@ -103,7 +106,7 @@ function PlayerItem({ player }: PlayerItemProps) {
           textWrap: 'nowrap',
         }}
       >
-        {player.nameDisplay}
+        {player.nameDisplay} {seed && `[${seed}]`}
       </Typography>
     </Box>
   )

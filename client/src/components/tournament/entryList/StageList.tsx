@@ -39,6 +39,8 @@ type StagePlayersProps = {
 }
 
 function StagePlayers({ stage }: StagePlayersProps) {
+  if (!stage) return null
+
   const stageColors: Record<StageName, { background: string; text: string }> = {
     [StageName.MainDraw]: {
       background: 'success.main',

@@ -22,6 +22,7 @@ export function BracketMatchItem({ match, round, index }: BracketMatchItemProps)
     >
       <BracketEntry
         team={match.team1}
+        seed={match.team1seed}
         side='home'
         round={round}
         drawIndex={(index + 1) * 2 - 1}
@@ -31,6 +32,7 @@ export function BracketMatchItem({ match, round, index }: BracketMatchItemProps)
       ))}
       <BracketEntry
         team={match.team2}
+        seed={match.team2seed}
         side='away'
         round={round}
         drawIndex={(index + 1) * 2}

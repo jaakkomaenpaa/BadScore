@@ -10,7 +10,7 @@ def get_draws(tournament_id: int):
     payload = {"tmtId": tournament_id, "tmtTab": "draw"}
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
-    return response.json()
+    return tournament.transform_draws(response.json())
 
 
 def get_events(tournament_id: int):
@@ -34,7 +34,7 @@ def get_bracket(tournament_id: int, draw_id: str):
     payload = {"drawId": draw_id, "tmtId": tournament_id, "tmtTab": "draw"}
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
-    return response.json()
+    return tournament.transform_bracket(response.json())
 
 
 def get_courts(tournament_code: str, date: str):

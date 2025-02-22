@@ -1,5 +1,6 @@
 from typing import Dict, Any, List
 from utils import bracket
+from services import tournament
 
 
 def transform_draws(response: dict):
@@ -30,13 +31,49 @@ def transform_players_staged(response: dict):
     return response.get("results")
 
 
-def transform_bracket(response: dict):
+def transform_bracket(response: dict, entry_list: dict = None):
     results = response.get("results", {})
-    rounds = bracket.populate_rounds(results)
-    winner_entries = bracket.populate_winner_entries(rounds)
+    entries = None
+
+    if entry_list is not None:
+        is_qualification = (
+            results.get("0-0").get("match").get("roundName").startswith("Qual")
+        )
+
+        entries = transform_entry_list(entry_list, is_qualification)
+
+    rounds = bracket.populate_rounds(results, entries)
+    winner_entries = bracket.populate_winner_entries(rounds, entries)
 
     return {"rounds": rounds, "winners": winner_entries}
 
 
 def transform_standings(response: dict):
     return response.get("standings")
+
+
+def transform_entry_list(response: dict, is_qualification: bool) -> dict:
+    # key: player_id: str, value: status: str
+    entries = {}
+    stage_to_use = None
+
+    for stage in response:
+        name = response[stage].get("name")
+
+        if is_qualification and name == "Qualifying":
+            stage_to_use = response[stage]
+            break
+
+        if not is_qualification and name == "Main Draw":
+            stage_to_use = response[stage]
+            break
+
+    if not stage_to_use:
+        return entries
+
+    for entry in stage_to_use.get("entries"):
+        player_id = str(entry.get("player1").get("id"))
+        status = entry.get("status")
+        entries[player_id] = status
+
+    return entries

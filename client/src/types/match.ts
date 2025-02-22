@@ -56,6 +56,7 @@ export type Team = {
   prevScoreStatus: number | null
   prevScoreStatusValue: string | null
   prevMatchSide: 'home' | 'away'
+  seed: string | null
 }
 
 export type Player = {
@@ -75,6 +76,7 @@ export type Player = {
   nameShort2: string
   nameType: number // CHECK THIS
   slug: string
+  status: string | null
 }
 
 export type Court = {

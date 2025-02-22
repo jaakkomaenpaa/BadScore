@@ -42,7 +42,16 @@ export function BracketEntry({
           borderColor: 'text.secondary',
         }}
       >
-        {team.players.length === 0 && <TeamItem team={team} seed={seed} />}
+        {team.players.length === 0 && (
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            {round === 1 && (
+              <Typography variant='body2' sx={{ color: 'text.secondary', width: 20 }}>
+                {drawIndex}
+              </Typography>
+            )}
+            <TeamItem team={team} seed={seed} />
+          </Box>
+        )}
         {team.players.map((player: Player, index: number) => (
           <Box
             key={player.id}
@@ -96,15 +105,18 @@ function TeamItem({ team, seed }: TeamItemProps) {
         paddingLeft: 1,
       }}
     >
-      <img
-        src={team.countryFlagUrl}
-        alt={team.teamName}
-        style={{ height: 16, verticalAlign: 'middle', alignSelf: 'center' }}
-      />
+      {team.countryFlagUrl && (
+        <img
+          src={team.countryFlagUrl}
+          alt={team.teamName}
+          style={{ height: 16, verticalAlign: 'middle', alignSelf: 'center' }}
+        />
+      )}
+
       <Typography
         variant='body2'
         sx={{
-          color: 'text.primary',
+          color: !team.countryCode ? 'text.secondary' : 'text.primary',
           textWrap: 'nowrap',
         }}
       >
@@ -143,7 +155,7 @@ function PlayerItem({ player, seed }: PlayerItemProps) {
           textWrap: 'nowrap',
         }}
       >
-        {player.nameDisplay} {seed && `[${seed}]`}
+        {getPlayerNameDisplay(player, seed)}
       </Typography>
     </Box>
   )
@@ -190,4 +202,18 @@ function ByeEntry({ drawIndex, side, isLastRound }: ByeEntryProps) {
       <Cell borderRight={side === 'home'} />
     </Box>
   )
+}
+
+const getPlayerNameDisplay = (player: Player, seed?: string) => {
+  const name = player.nameDisplay
+
+  if (seed && player.status) {
+    return `${name} [${seed}, ${player.status}]`
+  } else if (seed) {
+    return `${name} [${seed}]`
+  } else if (player.status) {
+    return `${name} [${player.status}]`
+  }
+
+  return name
 }

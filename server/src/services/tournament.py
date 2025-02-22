@@ -38,7 +38,15 @@ def get_bracket(tournament_id: int, draw_id: str):
     if response.status_code == 404:
         return None
 
-    return tournament.transform_bracket(response.json())
+    event_id = (
+        response.json().get("results", {}).get("0-0").get("match").get("matchTypeId")
+    )
+    entry_list = get_players_staged(tournament_id, event_id)
+
+    if not entry_list:
+        entry_list = None
+
+    return tournament.transform_bracket(response.json(), entry_list)
 
 
 def get_standings(tournament_id: int, draw_id: str):
@@ -90,4 +98,8 @@ def get_players_staged(tournament_id: int, event_id: str):
     }
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
+
+    if response.status_code == 404:
+        return None
+
     return tournament.transform_players_staged(response.json())

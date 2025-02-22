@@ -15,18 +15,35 @@ empty_winner = {
 
 
 # Sets previous match score and status for a team.
-def get_previous_score(prev_match: Optional[Dict[str, Union[int, dict]]], team: dict):
+def add_previous_score(prev_match: Optional[Dict[str, Union[int, dict]]], team: dict):
 
-    if prev_match and "match" in prev_match:
-        prev_match_data = prev_match["match"]
-        team["prevScore"] = prev_match_data.get("score", None)
-        team["prevScoreStatus"] = prev_match_data.get("scoreStatus", None)
-        team["prevScoreStatusValue"] = prev_match_data.get("scoreStatusValue", "")
-        team["prevMatchSide"] = "home" if prev_match_data.get("winner") == 1 else "away"
+    if not prev_match or "match" not in prev_match:
+        return
+
+    prev_match_data = prev_match["match"]
+    prev_match_side = "home" if prev_match_data.get("winner") == 1 else "away"
+
+    team["prevScore"] = prev_match_data.get("score", None)
+    team["prevScoreStatus"] = prev_match_data.get("scoreStatus", None)
+    team["prevScoreStatusValue"] = prev_match_data.get("scoreStatusValue", "")
+    team["prevMatchSide"] = "home" if prev_match_data.get("winner") == 1 else "away"
+    team["seed"] = (
+        prev_match_data.get("team1seed")
+        if prev_match_side == "home"
+        else prev_match_data.get("team2seed")
+    )
+
+
+# Fetch player status from entry list
+def add_status(player: dict, entries: dict):
+    player_id = player["id"]
+    status = entries.get(player_id, None)
+    player["status"] = status
 
 
 # Extract the winning team from the final round
-def populate_winner_entries(rounds: Rounds) -> List[dict]:
+# Entries format: {player1_id: {status: str}}
+def populate_winner_entries(rounds: Rounds, entries: dict) -> List[dict]:
     if not rounds:
         return []
 
@@ -42,7 +59,10 @@ def populate_winner_entries(rounds: Rounds) -> List[dict]:
         winner = copy.deepcopy(
             match["team1"] if match["winner"] == 1 else match["team2"]
         )
-        get_previous_score({"index": 0, "match": match}, winner)
+        add_previous_score({"index": 0, "match": match}, winner)
+
+        if entries is not None:
+            add_status(winner["players"][0], entries)
 
         if winner["prevScoreStatus"] == 0 and len(winner["prevScore"]) == 0:
             winner_entries.append(empty_winner)
@@ -53,7 +73,7 @@ def populate_winner_entries(rounds: Rounds) -> List[dict]:
 
 
 # Organize bracket results into rounds
-def populate_rounds(results: BracketResults) -> Rounds:
+def populate_rounds(results: BracketResults, entries: dict) -> Rounds:
     new_rounds: Rounds = {}
 
     sorted_results = sorted(
@@ -83,8 +103,18 @@ def populate_rounds(results: BracketResults) -> Rounds:
                 else None
             )
 
-            get_previous_score(prev_match_home, match["team1"])
-            get_previous_score(prev_match_away, match["team2"])
+            add_previous_score(prev_match_home, match["team1"])
+            add_previous_score(prev_match_away, match["team2"])
+
+        if entries is not None:
+            players_home = match.get("team1").get("players")
+            players_away = match.get("team2").get("players")
+
+            if len(players_home) > 0:
+                add_status(players_home[0], entries)
+
+            if len(players_away) > 0:
+                add_status(players_away[0], entries)
 
         new_rounds[round_index].append({"index": match_index, "match": match})
 

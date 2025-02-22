@@ -40,6 +40,7 @@ export function WinnerColumn({ winnerEntries, roundsLength }: WinnerColumnProps)
             side={team.prevMatchSide}
             drawIndex={index}
             round={roundsLength + 1}
+            seed={team.seed || undefined}
           />
         ))}
       </Box>

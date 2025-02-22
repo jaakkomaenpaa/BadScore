@@ -40,7 +40,7 @@ function Bracket({ bracket }: BracketProps) {
   if (!bracket) return null
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'row', overflowX: 'auto' }}>
       {Object.entries(bracket.rounds).map(([round, matches], index) => (
         <RoundColumn key={index} round={parseInt(round)} matches={matches} />
       ))}

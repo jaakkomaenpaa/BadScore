@@ -34,7 +34,6 @@ def get_bracket(tournament_id: int, draw_id: str):
     payload = {"drawId": draw_id, "tmtId": tournament_id, "tmtTab": "draw"}
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
-    print("Response", response.status_code, response.json())
 
     if response.status_code == 404:
         return None

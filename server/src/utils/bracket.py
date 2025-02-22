@@ -4,6 +4,15 @@ from typing import Dict, List, Optional, Union
 Rounds = Dict[int, List[Dict[str, Union[int, dict]]]]
 BracketResults = Dict[str, Dict[str, Union[int, str, List[dict]]]]
 
+empty_winner = {
+    "countryCode": None,
+    "countryFlagUrl": None,
+    "linkName": "",
+    "players": [],
+    "teamId": None,
+    "teamName": "",
+}
+
 
 # Sets previous match score and status for a team.
 def get_previous_score(prev_match: Optional[Dict[str, Union[int, dict]]], team: dict):
@@ -34,7 +43,11 @@ def populate_winner_entries(rounds: Rounds) -> List[dict]:
             match["team1"] if match["winner"] == 1 else match["team2"]
         )
         get_previous_score({"index": 0, "match": match}, winner)
-        winner_entries.append(winner)
+
+        if winner["prevScoreStatus"] == 0 and len(winner["prevScore"]) == 0:
+            winner_entries.append(empty_winner)
+        else:
+            winner_entries.append(winner)
 
     return winner_entries
 

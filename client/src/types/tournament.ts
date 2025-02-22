@@ -15,6 +15,7 @@ export interface TournamentPreview {
   name: string
   prizeMoney: string
   startDate: string
+  isTeamTournament: boolean
 }
 
 type TournamentLiveStatus = 'post' | 'live' | 'future'

@@ -23,10 +23,7 @@ export const useEntryList = () => {
   useEffect(() => {
     if (!tournament) return
 
-    const isTeamEvent =
-      tournament?.category?.toLowerCase().includes('team') ||
-      tournament?.name?.toLowerCase().includes('team')
-    setIsTeamEvent(isTeamEvent)
+    setIsTeamEvent(tournament.isTeamTournament)
 
     const fetchEvents = async () => {
       setLoading(true)

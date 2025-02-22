@@ -36,7 +36,7 @@ const getBracket = async (
   drawId: string
 ): Promise<BracketResponse> => {
   const response = await axios.get(`${URL}/${tournamentId}/bracket?draw=${drawId}`)
-  return response.data.bracket
+  return response.data
 }
 
 const getCourts = async (tournamentCode: string, date: Date) => {

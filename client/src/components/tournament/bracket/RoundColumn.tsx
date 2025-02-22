@@ -30,7 +30,12 @@ export function RoundColumn({ round, matches }: RoundColumnProps) {
     >
       <Typography
         variant='h6'
-        sx={{ textAlign: 'center', color: 'text.primary', marginBottom: 2 }}
+        sx={{
+          textAlign: 'center',
+          color: 'text.primary',
+          marginBottom: 2,
+          paddingRight: 2,
+        }}
       >
         {getRoundName(matches.length)}
       </Typography>
@@ -38,6 +43,7 @@ export function RoundColumn({ round, matches }: RoundColumnProps) {
       {Array.from({ length: topCellsToAdd }).map((_, index) => (
         <Cell key={index} />
       ))}
+
       <Box
         sx={{
           display: 'flex',

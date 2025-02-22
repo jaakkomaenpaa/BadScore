@@ -27,9 +27,11 @@ export function BracketMatchItem({ match, round, index }: BracketMatchItemProps)
         round={round}
         drawIndex={(index + 1) * 2 - 1}
       />
+
       {Array.from({ length: cellsToAdd }).map((_, index) => (
         <Cell key={index} borderRight />
       ))}
+
       <BracketEntry
         team={match.team2}
         seed={match.team2seed}

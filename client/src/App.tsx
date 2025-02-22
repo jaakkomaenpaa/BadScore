@@ -9,7 +9,7 @@ import TournamentLayout, {
   Players,
   EntryList,
 } from './pages/Tournament'
-import { Bracket } from './pages/Tournament/Bracket'
+import { BracketPage } from './pages/Tournament/Bracket'
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
         <Route path='/tournaments/:tournamentId' element={<TournamentLayout />}>
           <Route path='overview' element={<Home />} />
           <Route path='draws' element={<Draws />} />
-          <Route path='draws/:drawId' element={<Bracket />} />
+          <Route path='draws/:drawId' element={<BracketPage />} />
           <Route path='matches' element={<Matches />} />
           <Route path='players' element={<Players />} />
           <Route path='entry-list' element={<EntryList />} />

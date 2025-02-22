@@ -32,6 +32,7 @@ export function BracketEntry({
         sx={{
           display: 'flex',
           flexDirection: 'column',
+          justifyContent: 'center',
           height: cellHeight - 1,
           borderBottom: '1px solid',
           ...(side === 'away' &&
@@ -41,6 +42,7 @@ export function BracketEntry({
           borderColor: 'text.secondary',
         }}
       >
+        {team.players.length === 0 && <TeamItem team={team} seed={seed} />}
         {team.players.map((player: Player, index: number) => (
           <Box
             key={player.id}
@@ -73,6 +75,41 @@ export function BracketEntry({
       ) : (
         <Cell borderRight={side === 'home'} />
       )}
+    </Box>
+  )
+}
+
+type TeamItemProps = {
+  team: Team
+  seed?: string
+}
+
+function TeamItem({ team, seed }: TeamItemProps) {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 1,
+        alignItems: 'center',
+        paddingRight: 1,
+        paddingLeft: 1,
+      }}
+    >
+      <img
+        src={team.countryFlagUrl}
+        alt={team.teamName}
+        style={{ height: 16, verticalAlign: 'middle', alignSelf: 'center' }}
+      />
+      <Typography
+        variant='body2'
+        sx={{
+          color: 'text.primary',
+          textWrap: 'nowrap',
+        }}
+      >
+        {team.teamName} {seed && `[${seed}]`}
+      </Typography>
     </Box>
   )
 }

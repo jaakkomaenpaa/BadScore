@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState, ReactNode } from 'react'
 import { useTournament } from '@/hooks/tournament/useTournament'
-import { BracketResponse, Draw } from '@/types/draw'
+import { BracketData, Draw, StandingsEntry } from '@/types/draw'
 import tournamentService from '@/services/tournament'
 import { useParams } from 'react-router'
 
@@ -9,7 +9,8 @@ const DOUBLES_CELL_HEIGHT = 48
 
 type BracketContextType = {
   draws: Draw[]
-  bracket: BracketResponse | null
+  bracket: BracketData | null
+  standings: StandingsEntry[] | null
   cellHeight: number
   drawsLoading: boolean
   bracketLoading: boolean
@@ -18,6 +19,7 @@ type BracketContextType = {
 const defaultContextValue: BracketContextType = {
   draws: [],
   bracket: null,
+  standings: null,
   cellHeight: SINGLES_CELL_HEIGHT,
   drawsLoading: true,
   bracketLoading: true,
@@ -30,7 +32,8 @@ export const BracketProvider = ({ children }: { children: ReactNode }) => {
   const { drawId } = useParams()
 
   const [draws, setDraws] = useState<Draw[]>([])
-  const [bracket, setBracket] = useState<BracketResponse | null>(null)
+  const [bracket, setBracket] = useState<BracketData | null>(null)
+  const [standings, setStandings] = useState<StandingsEntry[] | null>(null)
   const [drawsLoading, setDrawsLoading] = useState<boolean>(true)
   const [bracketLoading, setBracketLoading] = useState<boolean>(true)
   const [cellHeight, setCellHeight] = useState<number>(SINGLES_CELL_HEIGHT)
@@ -61,9 +64,20 @@ export const BracketProvider = ({ children }: { children: ReactNode }) => {
       try {
         const bracketRes = await tournamentService.getBracket(tournament.id, drawId)
 
-        const isSingles = bracketRes.rounds[0][0].match.team1.players.length === 1
-        setCellHeight(isSingles ? SINGLES_CELL_HEIGHT : DOUBLES_CELL_HEIGHT)
-        setBracket(bracketRes)
+        if (bracketRes.bracket) {
+          const isSingles =
+            bracketRes.bracket.rounds[0][0].match.team1.players.length <= 1
+          setCellHeight(isSingles ? SINGLES_CELL_HEIGHT : DOUBLES_CELL_HEIGHT)
+          setBracket(bracketRes.bracket)
+        } else {
+          setBracket(null)
+        }
+
+        if (bracketRes.standings) {
+          setStandings(bracketRes.standings)
+        } else {
+          setStandings(null)
+        }
       } finally {
         setBracketLoading(false)
       }
@@ -74,7 +88,7 @@ export const BracketProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <BracketContext.Provider
-      value={{ draws, bracket, cellHeight, drawsLoading, bracketLoading }}
+      value={{ draws, bracket, standings, cellHeight, drawsLoading, bracketLoading }}
     >
       {children}
     </BracketContext.Provider>

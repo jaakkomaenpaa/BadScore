@@ -5,9 +5,10 @@ import { NavLink } from 'react-router'
 type DrawListProps = {
   draws: Draw[]
   orientation?: 'x' | 'y'
+  defaultColor?: string
 }
 
-export function DrawList({ draws, orientation }: DrawListProps) {
+export function DrawList({ draws, orientation, defaultColor = 'text.primary' }: DrawListProps) {
   return (
     <Box
       sx={{
@@ -23,7 +24,7 @@ export function DrawList({ draws, orientation }: DrawListProps) {
             {({ isActive }) => (
               <Typography
                 sx={{
-                  color: isActive ? 'text.primary' : 'text.secondary',
+                  color: isActive ? 'text.primary' : defaultColor,
 
                   '&:hover': {
                     textDecoration: 'underline',

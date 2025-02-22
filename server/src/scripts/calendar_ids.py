@@ -20,8 +20,9 @@ def get_and_save_tournament_names_and_ids():
         for tournament in tournaments:
             tourn_id = tournament["id"]
             name = tournament["name"]
+            start_date = tournament["startDate"].split(" ")[0]
 
-            result = insert_tournament(tourn_id, name)
+            result = insert_tournament(tourn_id, name, start_date)
             print(result["message"])
 
 

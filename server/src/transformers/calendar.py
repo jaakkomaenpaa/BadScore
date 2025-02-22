@@ -5,6 +5,11 @@ def transform_search_response(response: dict):
     cleaned_data: List[Dict[str, Any]] = []
 
     for tournament in response.get("results", {}).get("data", []):
+        name = tournament.get("name", "").lower()
+        category = tournament.get("category", "").lower()
+
+        is_team_tournament = "team" in name or "team" in category
+
         cleaned_data.append(
             {
                 "category": tournament.get("category"),
@@ -23,6 +28,7 @@ def transform_search_response(response: dict):
                 "name": tournament.get("name"),
                 "prizeMoney": tournament.get("prize_money"),
                 "startDate": tournament.get("start_date"),
+                "isTeamTournament": is_team_tournament,
             }
         )
 

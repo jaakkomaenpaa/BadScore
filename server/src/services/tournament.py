@@ -34,7 +34,24 @@ def get_bracket(tournament_id: int, draw_id: str):
     payload = {"drawId": draw_id, "tmtId": tournament_id, "tmtTab": "draw"}
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
+    print("Response", response.status_code, response.json())
+
+    if response.status_code == 404:
+        return None
+
     return tournament.transform_bracket(response.json())
+
+
+def get_standings(tournament_id: int, draw_id: str):
+    url = f"{API_URL}/vue-tournament-draw-data-round-robin"
+    payload = {"drawId": draw_id, "tmtId": tournament_id, "tmtTab": "draw"}
+
+    response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
+
+    if response.status_code == 404:
+        return None
+
+    return tournament.transform_standings(response.json())
 
 
 def get_courts(tournament_code: str, date: str):

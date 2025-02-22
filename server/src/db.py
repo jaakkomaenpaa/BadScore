@@ -12,21 +12,22 @@ def create_tournament_table():
             """
             CREATE TABLE IF NOT EXISTS tournaments (
                 id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL
+                name TEXT NOT NULL,
+                start_date TEXT
             );
             """
         )
         conn.commit()
 
 
-def insert_tournament(id: int, name: str):
+def insert_tournament(id: int, name: str, start_date: str):
     with connect() as conn, closing(conn.cursor()) as cursor:
         cursor.execute(
             """
-            INSERT OR IGNORE INTO tournaments (id, name)
-            VALUES (?, ?);
+            INSERT OR IGNORE INTO tournaments (id, name, start_date)
+            VALUES (?, ?, ?);
             """,
-            (id, name),
+            (id, name, start_date),
         )
         conn.commit()
         if cursor.rowcount == 0:
@@ -37,13 +38,15 @@ def insert_tournament(id: int, name: str):
         return {"success": True, "message": f"{name} added successfully"}
 
 
-def get_tournament_name_by_id(id: int):
+def get_tournament_info_by_id(id: int):
     with connect() as conn, closing(conn.cursor()) as cursor:
         cursor.execute(
             """
-            SELECT name FROM tournaments WHERE id = ?;
+            SELECT name, start_date FROM tournaments WHERE id = ?;
             """,
             (id,),
         )
         result = cursor.fetchone()
-        return {"id": id, "name": result[0]} if result else None
+        return (
+            {"id": id, "name": result[0], "start_date": result[1]} if result else None
+        )

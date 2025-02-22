@@ -36,3 +36,7 @@ def transform_bracket(response: dict):
     winner_entries = bracket.populate_winner_entries(rounds)
 
     return {"rounds": rounds, "winners": winner_entries}
+
+
+def transform_standings(response: dict):
+    return response.get("standings")

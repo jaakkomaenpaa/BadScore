@@ -6,12 +6,11 @@ I did not like the UX of BWF's redesigned tournament result platform so I decide
 
 ## Features
 
-As of 19.2.2025 the front-end has the following features:
+As of 22.2.2025 the site has the following features:
 - Tournament calendar with search functionality
 - Match results
+- Brackets & standings
 - Entry lists 
-
-The server provides data of tournaments, entry lists, and matches. 
 
 ## Running locally
 

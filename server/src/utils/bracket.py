@@ -23,6 +23,14 @@ def add_previous_score(prev_match: Optional[Dict[str, Union[int, dict]]], team: 
     prev_match_data = prev_match["match"]
     prev_match_side = "home" if prev_match_data.get("winner") == 1 else "away"
 
+    prev_match_opponent_key = "team2" if prev_match_side == "home" else "team1"
+    prev_match_opponent_name = prev_match_data.get(prev_match_opponent_key).get(
+        "teamName"
+    )
+    prev_match_opponent_is_bye = (
+        prev_match_opponent_name and prev_match_opponent_name.lower() == "bye"
+    )
+
     team["prevScore"] = prev_match_data.get("score", None)
     team["prevScoreStatus"] = prev_match_data.get("scoreStatus", None)
     team["prevScoreStatusValue"] = prev_match_data.get("scoreStatusValue", "")
@@ -32,6 +40,7 @@ def add_previous_score(prev_match: Optional[Dict[str, Union[int, dict]]], team: 
         if prev_match_side == "home"
         else prev_match_data.get("team2seed")
     )
+    team["prevOpponentIsBye"] = prev_match_opponent_is_bye
 
 
 # Fetch player status from entry list
@@ -42,7 +51,6 @@ def add_status(player: dict, entries: dict):
 
 
 # Extract the winning team from the final round
-# Entries format: {player1_id: {status: str}}
 def populate_winner_entries(rounds: Rounds, entries: dict) -> List[dict]:
     if not rounds:
         return []
@@ -52,7 +60,9 @@ def populate_winner_entries(rounds: Rounds, entries: dict) -> List[dict]:
 
     for match_data in rounds[last_round_index]:
         match = match_data["match"]
-        if "winner" not in match:
+
+        if not match["winner"]:
+            winner_entries.append(empty_winner)
             continue
 
         # Deep copy to prevent modification of existing rounds
@@ -64,7 +74,11 @@ def populate_winner_entries(rounds: Rounds, entries: dict) -> List[dict]:
         if entries is not None:
             add_status(winner["players"][0], entries)
 
-        if winner["prevScoreStatus"] == 0 and len(winner["prevScore"]) == 0:
+        if (
+            winner["prevScoreStatus"] == 0
+            and len(winner["prevScore"]) == 0
+            and not winner["prevOpponentIsBye"]
+        ):
             winner_entries.append(empty_winner)
         else:
             winner_entries.append(winner)

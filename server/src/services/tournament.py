@@ -10,6 +10,10 @@ def get_draws(tournament_id: int):
     payload = {"tmtId": tournament_id, "tmtTab": "draw"}
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
+
+    if response.status_code == 404:
+        return None
+
     return tournament.transform_draws(response.json())
 
 

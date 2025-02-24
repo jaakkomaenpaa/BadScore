@@ -1,12 +1,16 @@
 from typing import Dict, Any, List
 from utils import bracket
-from services import tournament
 
 
 def transform_draws(response: dict):
     cleaned_data: List[Dict[str, Any]] = []
 
-    for draw in response.get("results", []):
+    draws = response.get("results")
+
+    if not draws:
+        return None
+
+    for draw in draws:
         cleaned_data.append(
             {
                 "isQualification": draw.get("qualification") == 1,

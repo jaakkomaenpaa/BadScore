@@ -23,14 +23,17 @@ export function EntryList() {
     )
   }
 
+  if (loading) return <LoadingCircle />
+
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, paddingTop: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <EventSelect
         events={events}
         selectedEvent={selectedEvent}
         onSelect={handleSelectEvent}
+        disabled={loading}
       />
-      {!players || loading ? (
+      {loading ? (
         <LoadingCircle />
       ) : (
         <StageList players={players} eventStages={eventStages} />
@@ -43,9 +46,15 @@ type EventSelectProps = {
   events: Event[]
   selectedEvent: string
   onSelect: (eventId: string) => void
+  disabled?: boolean
 }
 
-function EventSelect({ events, selectedEvent, onSelect }: EventSelectProps) {
+function EventSelect({
+  events,
+  selectedEvent,
+  onSelect,
+  disabled = false,
+}: EventSelectProps) {
   return (
     <Box
       sx={{
@@ -59,11 +68,12 @@ function EventSelect({ events, selectedEvent, onSelect }: EventSelectProps) {
     >
       <Typography>Event:</Typography>
       <Select
-        sx={{ width: '100px' }}
+        sx={{ width: '120px' }}
         labelId='event-label'
         id='event-select'
         value={selectedEvent}
         onChange={(e) => onSelect(e.target.value)}
+        disabled={disabled}
       >
         {events.map((event) => (
           <MenuItem key={event.value} value={event.value}>

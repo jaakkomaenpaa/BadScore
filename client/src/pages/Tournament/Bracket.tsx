@@ -20,11 +20,15 @@ export function BracketPage() {
 
   if (bracketLoading) return <LoadingCircle />
   if (!bracket && !standings) {
-    return <Typography>No draw data available</Typography>
+    return (
+      <Typography variant='body1' sx={{ color: 'text.primary' }}>
+        No draw data available
+      </Typography>
+    )
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6, padding: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       <DrawList draws={draws} orientation='x' defaultColor='text.secondary' />
       {!bracket && <Standings entries={standings} />}
       <Bracket bracket={bracket} />

@@ -18,11 +18,13 @@ import {
 } from '@mui/material'
 
 type StageListProps = {
-  players: PlayerStageResponse
+  players: PlayerStageResponse | null
   eventStages: EventStage[]
 }
 
 export function StageList({ players, eventStages }: StageListProps) {
+  if (!players) return null
+
   return (
     <Box>
       {eventStages.map((stage) => {
@@ -116,7 +118,9 @@ function PlayerListItem({
 }: PlayerListItemProps) {
   return (
     <TableRow key={entry.player1.id}>
-      <TableCell sx={{ backgroundColor: color.background, color: 'black' }}>
+      <TableCell
+        sx={{ backgroundColor: color.background, color: 'black', width: 20 }}
+      >
         {entry.position_name}
       </TableCell>
 

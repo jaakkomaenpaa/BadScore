@@ -13,7 +13,6 @@ export function Draws() {
         flexDirection: 'column',
         alignItems: 'center',
         gap: 2,
-        paddingTop: 2,
       }}
     >
       {drawsLoading ? <LoadingCircle /> : <DrawList draws={draws} orientation='y' />}

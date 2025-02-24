@@ -146,7 +146,7 @@ function PlayerItem({ player, seed }: PlayerItemProps) {
       <img
         src={player.countryFlagUrl}
         alt={player.lastName}
-        style={{ height: 16, verticalAlign: 'middle', alignSelf: 'center' }}
+        style={{ height: 18, verticalAlign: 'middle', alignSelf: 'center' }}
       />
       <Typography
         variant='body2'

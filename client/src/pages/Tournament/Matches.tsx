@@ -12,7 +12,7 @@ export function Matches() {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, paddingTop: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <DateSelector
         startDate={new Date(tournament.startDate)}
         endDate={new Date(tournament.endDate)}

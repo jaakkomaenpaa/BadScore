@@ -8,7 +8,19 @@ type DrawListProps = {
   defaultColor?: string
 }
 
-export function DrawList({ draws, orientation, defaultColor = 'text.primary' }: DrawListProps) {
+export function DrawList({
+  draws,
+  orientation,
+  defaultColor = 'text.primary',
+}: DrawListProps) {
+  if (!draws || draws.length === 0) {
+    return (
+      <Typography variant='body1' sx={{ color: 'text.primary' }}>
+        No draws available
+      </Typography>
+    )
+  }
+
   return (
     <Box
       sx={{

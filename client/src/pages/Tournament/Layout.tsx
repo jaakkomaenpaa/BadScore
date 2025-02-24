@@ -30,7 +30,9 @@ function Content() {
     <Box sx={{ width: '100%' }}>
       <Header tournament={tournament} />
       <Navbar />
-      <Outlet />
+      <Box sx={{ padding: 2 }}>
+        <Outlet />
+      </Box>
     </Box>
   )
 }

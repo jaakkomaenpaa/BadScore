@@ -6,9 +6,14 @@ import { NavLink } from 'react-router'
 type InfoFieldProps = {
   match: Match
   isPartOfTeamMatch?: boolean
+  minimalistic?: boolean
 }
 
-export function InfoField({ match, isPartOfTeamMatch = false }: InfoFieldProps) {
+export function InfoField({
+  match,
+  isPartOfTeamMatch = false,
+  minimalistic = false,
+}: InfoFieldProps) {
   return (
     <Box
       sx={{
@@ -19,7 +24,7 @@ export function InfoField({ match, isPartOfTeamMatch = false }: InfoFieldProps) 
         alignItems: 'center',
       }}
     >
-      {!match.oopRound && !isPartOfTeamMatch && (
+      {!match.oopRound && !isPartOfTeamMatch && !minimalistic && (
         <Typography sx={{ color: 'text.primary' }}>
           {formatTime(new Date(match.matchTime))}
         </Typography>

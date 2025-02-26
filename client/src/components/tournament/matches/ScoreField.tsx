@@ -16,6 +16,20 @@ export function ScoreField({ match }: ScoreFieldProps) {
         flex: 1,
       }}
     >
+      {match.matchStatus === 'P' && (
+        <Box>
+          <Typography
+            sx={{
+              backgroundColor: 'success.main',
+              padding: '1px 5px',
+              borderRadius: 1,
+              color: 'black',
+            }}
+          >
+            Live
+          </Typography>
+        </Box>
+      )}
       {match.score.map((game: GameScore) => (
         <Box
           key={game.set}

@@ -7,11 +7,13 @@ import { ScoreField } from './ScoreField'
 type MatchListItemProps = {
   match: Match
   isPartOfTeamMatch?: boolean
+  minimalistic?: boolean
 }
 
 export function MatchListItem({
   match,
   isPartOfTeamMatch = false,
+  minimalistic = false,
 }: MatchListItemProps) {
   return (
     <Box
@@ -23,7 +25,7 @@ export function MatchListItem({
         gap: 1,
       }}
     >
-      {match.oopRound && (
+      {match.oopRound && !minimalistic && (
         <Typography sx={{ color: 'text.secondary', alignSelf: 'center' }}>
           {match.oopRound} {match.oopText}
         </Typography>
@@ -37,7 +39,11 @@ export function MatchListItem({
           color: 'white',
         }}
       >
-        <InfoField match={match} isPartOfTeamMatch={isPartOfTeamMatch} />
+        <InfoField
+          match={match}
+          isPartOfTeamMatch={isPartOfTeamMatch}
+          minimalistic={minimalistic}
+        />
         <PlayersField match={match} />
         <ScoreField match={match} />
       </Box>

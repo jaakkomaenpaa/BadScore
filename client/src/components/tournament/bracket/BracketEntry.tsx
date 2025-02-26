@@ -11,6 +11,7 @@ type BracketEntryProps = {
   side?: 'home' | 'away'
   isLastRound?: boolean
   seed?: string
+  isLive?: boolean
 }
 
 export function BracketEntry({
@@ -80,6 +81,7 @@ export function BracketEntry({
           side={side}
           prevSide={team.prevMatchSide}
           isLastRound={isLastRound}
+          isLive={team.matchIsLive}
         />
       ) : (
         <Cell borderRight={side === 'home'} />

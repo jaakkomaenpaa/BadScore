@@ -69,6 +69,7 @@ function Header({ tournament }: HeaderProps) {
         height: 200,
         display: 'flex',
         justifyContent: 'center',
+        flexDirection: 'column',
         alignItems: 'center',
         color: 'white',
         position: 'relative',
@@ -107,6 +108,12 @@ function Header({ tournament }: HeaderProps) {
         sx={{ zIndex: 1, textWrap: 'wrap', textAlign: 'center' }}
       >
         {tournament.name}
+      </Typography>
+      <Typography
+        variant='body1'
+        sx={{ zIndex: 1, textWrap: 'wrap', textAlign: 'center' }}
+      >
+        {tournament.dates} - {tournament.location}
       </Typography>
     </Box>
   )

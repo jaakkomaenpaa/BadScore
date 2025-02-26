@@ -8,6 +8,7 @@ type ScoreCellProps = {
   side?: 'home' | 'away'
   prevSide?: 'home' | 'away'
   isLastRound?: boolean
+  isLive?: boolean
 }
 
 export function ScoreCell({
@@ -16,6 +17,7 @@ export function ScoreCell({
   side,
   prevSide,
   isLastRound = false,
+  isLive = false,
 }: ScoreCellProps) {
   const { cellHeight } = useBracket()
 
@@ -37,25 +39,40 @@ export function ScoreCell({
         color: 'text.primary',
       }}
     >
-      {score.map((game: GameScore) => (
-        <Box
-          key={game.set}
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: '2px',
-          }}
-        >
-          <Typography variant='body2'>
-            {prevSide === 'home' ? game.home : game.away}
-          </Typography>
-          <Typography variant='body2'>-</Typography>
-          <Typography variant='body2'>
-            {prevSide === 'home' ? game.away : game.home}
+      {isLive ? (
+        <Box>
+          <Typography
+            sx={{
+              backgroundColor: 'warning.main',
+              padding: '1px 5px',
+              borderRadius: 1,
+              color: 'black',
+            }}
+          >
+            Playing
           </Typography>
         </Box>
-      ))}
+      ) : (
+        score.map((game: GameScore) => (
+          <Box
+            key={game.set}
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '2px',
+            }}
+          >
+            <Typography variant='body2'>
+              {prevSide === 'home' ? game.home : game.away}
+            </Typography>
+            <Typography variant='body2'>-</Typography>
+            <Typography variant='body2'>
+              {prevSide === 'home' ? game.away : game.home}
+            </Typography>
+          </Box>
+        ))
+      )}
       <Typography variant='body2'>{scoreStatusValue}</Typography>
     </Box>
   )

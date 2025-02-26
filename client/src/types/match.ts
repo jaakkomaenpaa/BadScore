@@ -11,7 +11,7 @@ export type Match = {
   isTeamMatch: boolean
   locationName: string
   matchOrder: number | null
-  matchStatus: string // F = Finished
+  matchStatus: "F" | "P" | "N" | "O" // F = Finished, P = Playing, N = Future, O = over, but not confirmed?
   matchStatusValue: string
   matchTime: string // Date, scheduled time
   matchTimeUtc: string
@@ -57,6 +57,7 @@ export type Team = {
   prevScoreStatusValue: string | null
   prevMatchSide: 'home' | 'away'
   seed: string | null
+  matchIsLive: boolean
 }
 
 export type Player = {

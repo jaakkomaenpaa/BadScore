@@ -47,11 +47,16 @@ const getCourts = async (tournamentCode: string, date: Date) => {
   return response.data
 }
 
-const getMatches = async (tournamentCode: string, date: Date): Promise<Match[]> => {
+const getMatches = async (
+  tournamentCode: string,
+  date: Date,
+  limit?: number
+): Promise<Match[]> => {
   const formattedDate = formatDateToApi(date)
-  const response = await axios.get(
-    `${URL}/${tournamentCode}/matches?date=${formattedDate}`
-  )
+  let url = `${URL}/${tournamentCode}/matches?date=${formattedDate}`
+  if (limit) url += `&limit=${limit}`
+
+  const response = await axios.get(url)
   return response.data.matches
 }
 

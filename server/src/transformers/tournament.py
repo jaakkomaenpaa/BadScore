@@ -35,6 +35,13 @@ def transform_players_staged(response: dict):
     return response.get("results")
 
 
+def transform_matches(response: List[Dict], limit: int):
+    if limit != 0:
+        return response[-limit:]
+
+    return response
+
+
 def transform_bracket(response: dict, entry_list: dict = None):
     results = response.get("results", {})
     entries = None

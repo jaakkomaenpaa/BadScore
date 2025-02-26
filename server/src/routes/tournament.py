@@ -70,7 +70,17 @@ def get_courts(tournament_code: str):
 @tournament_bp.route("/<tournament_code>/matches", methods=["GET"])
 def get_matches(tournament_code: str):
     date = request.args.get("date")
-    data = tournament.get_matches(tournament_code, date)
+    limit = request.args.get("limit")
+
+    if not limit:
+        limit = 0
+
+    try:
+        limit = int(limit)
+    except ValueError:
+        return jsonify({"error": "Limit must be an integer"})
+
+    data = tournament.get_matches(tournament_code, date, limit)
     return jsonify({"matches": data})
 
 

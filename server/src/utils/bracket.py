@@ -41,6 +41,7 @@ def add_previous_score(prev_match: Optional[Dict[str, Union[int, dict]]], team: 
         else prev_match_data.get("team2seed")
     )
     team["prevOpponentIsBye"] = prev_match_opponent_is_bye
+    team["matchIsLive"] = prev_match_data.get("matchStatus") == "P"
 
 
 # Fetch player status from entry list

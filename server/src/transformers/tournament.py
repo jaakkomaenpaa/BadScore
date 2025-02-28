@@ -36,10 +36,17 @@ def transform_players_staged(response: dict):
 
 
 def transform_matches(response: List[Dict], limit: int):
-    if limit != 0:
-        return response[-limit:]
+    if limit == 0:
+        return response
 
-    return response
+    # If limit is defined, return latest completed matches up to the limit
+    completed_matches = list(
+        filter(
+            lambda match: match["matchStatus"] == "O" or match["matchStatus"] == "F",
+            response,
+        )
+    )
+    return completed_matches[-limit:]
 
 
 def transform_bracket(response: dict, entry_list: dict = None):

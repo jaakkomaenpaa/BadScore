@@ -75,10 +75,10 @@ def get_courts(tournament_code: str, date: str):
     return response.json()
 
 
-def get_matches(tournament_code: str, date: str, limit: int):
+def get_matches(tournament_code: str, date: str, status: str, limit: int = 0):
     url = f"{API_URL}/tournaments/day-matches?tournamentCode={tournament_code}&date={date}"
     response = requests.get(url, headers=headers, impersonate="chrome")
-    return tournament.transform_matches(response.json(), limit)
+    return tournament.transform_matches(response.json(), limit, status)
 
 
 def get_event_stages(tournament_id: int, event_id: str):

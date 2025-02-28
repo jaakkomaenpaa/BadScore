@@ -70,6 +70,19 @@ def get_courts(tournament_code: str):
 @tournament_bp.route("/<tournament_code>/matches", methods=["GET"])
 def get_matches(tournament_code: str):
     date = request.args.get("date")
+    if not date:
+        return jsonify({"error": "Date is required"})
+
+    data = tournament.get_matches(tournament_code, date, "all")
+    return jsonify({"matches": data})
+
+
+@tournament_bp.route("/<tournament_code>/matches/completed", methods=["GET"])
+def get_matches_completed(tournament_code: str):
+    date = request.args.get("date")
+    if not date:
+        return jsonify({"error": "Date is required"})
+
     limit = request.args.get("limit")
 
     if not limit:
@@ -78,9 +91,29 @@ def get_matches(tournament_code: str):
     try:
         limit = int(limit)
     except ValueError:
-        return jsonify({"error": "Limit must be an integer"})
+        limit = 0
 
-    data = tournament.get_matches(tournament_code, date, limit)
+    data = tournament.get_matches(tournament_code, date, "completed", limit)
+    return jsonify({"matches": data})
+
+
+@tournament_bp.route("/<tournament_code>/matches/live", methods=["GET"])
+def get_matches_live(tournament_code: str):
+    date = request.args.get("date")
+    if not date:
+        return jsonify({"error": "Date is required"})
+
+    limit = request.args.get("limit")
+
+    if not limit:
+        limit = 0
+
+    try:
+        limit = int(limit)
+    except ValueError:
+        limit = 0
+
+    data = tournament.get_matches(tournament_code, date, "live", limit)
     return jsonify({"matches": data})
 
 

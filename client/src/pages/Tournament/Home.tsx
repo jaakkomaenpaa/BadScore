@@ -27,7 +27,7 @@ export function Home() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
       <InfoBox tournament={tournament} />
-      <LatestMatches tournamentCode={tournament.code} date={date} />
+      <MatchOverview tournamentCode={tournament.code} date={date} />
       {/* PODIUM ?*/}
     </Box>
   )
@@ -96,13 +96,14 @@ function InfoBox({ tournament }: InfoBoxProps) {
   )
 }
 
-type LatestMatchesProps = {
+type MatchOverviewProps = {
   tournamentCode: string
   date: Date
 }
 
-function LatestMatches({ tournamentCode, date }: LatestMatchesProps) {
-  const [matches, setMatches] = useState<Match[]>([])
+function MatchOverview({ tournamentCode, date }: MatchOverviewProps) {
+  const [completedMatches, setCompletedMatches] = useState<Match[]>([])
+  const [liveMatches, setLiveMatches] = useState<Match[]>([])
   const [loading, setLoading] = useState(true)
 
   const MATCHES_LENGTH = 5
@@ -111,12 +112,17 @@ function LatestMatches({ tournamentCode, date }: LatestMatchesProps) {
     const fetchMatches = async () => {
       setLoading(true)
       try {
-        const matchRes = await tournamentService.getMatches(
+        const completedMatchRes = await tournamentService.getCompletedMatches(
           tournamentCode,
           date,
           MATCHES_LENGTH
         )
-        setMatches(matchRes)
+        setCompletedMatches(completedMatchRes)
+        const liveMatchRes = await tournamentService.getLiveMatches(
+          tournamentCode,
+          date
+        )
+        setLiveMatches(liveMatchRes)
       } catch (error) {
         console.log(error)
       } finally {
@@ -127,29 +133,66 @@ function LatestMatches({ tournamentCode, date }: LatestMatchesProps) {
   }, [])
 
   if (loading) return <LoadingCircle />
-  if (!matches.length) return null
+  if (!completedMatches.length && !liveMatches.length) return null
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
         width: '70%',
         alignSelf: 'center',
-        gap: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
         color: 'text.primary',
       }}
     >
       <Typography variant='h6' sx={{ alignSelf: 'center' }}>
-        Latest matches - {date.toLocaleDateString()}
+        Overview - {formatDateToClient(date)}
       </Typography>
-      {matches
-        .sort(
-          (a, b) => new Date(b.matchTime).getTime() - new Date(a.matchTime).getTime()
-        )
-        .map((match: Match) => (
-          <MatchListItem key={match.id} match={match} minimalistic />
-        ))}
+      {liveMatches.length > 0 && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            color: 'text.primary',
+          }}
+        >
+          <Typography variant='h6' sx={{ alignSelf: 'center' }}>
+            Live
+          </Typography>{' '}
+          {liveMatches
+            .sort(
+              (a, b) =>
+                new Date(b.matchTime).getTime() - new Date(a.matchTime).getTime()
+            )
+            .map((match: Match) => (
+              <MatchListItem key={match.id} match={match} minimalistic />
+            ))}
+        </Box>
+      )}
+      {completedMatches.length > 0 && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            color: 'text.primary',
+          }}
+        >
+          <Typography variant='h6' sx={{ alignSelf: 'center' }}>
+            Latest
+          </Typography>
+          {completedMatches
+            .sort(
+              (a, b) =>
+                new Date(b.matchTime).getTime() - new Date(a.matchTime).getTime()
+            )
+            .map((match: Match) => (
+              <MatchListItem key={match.id} match={match} minimalistic />
+            ))}
+        </Box>
+      )}
     </Box>
   )
 }

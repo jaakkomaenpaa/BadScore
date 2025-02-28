@@ -47,16 +47,32 @@ const getCourts = async (tournamentCode: string, date: Date) => {
   return response.data
 }
 
-const getMatches = async (
+const getMatches = async (tournamentCode: string, date: Date): Promise<Match[]> => {
+  const formattedDate = formatDateToApi(date)
+  let url = `${URL}/${tournamentCode}/matches?date=${formattedDate}`
+
+  const response = await axios.get(url)
+  return response.data.matches
+}
+
+const getCompletedMatches = async (
   tournamentCode: string,
   date: Date,
   limit?: number
-): Promise<Match[]> => {
+) => {
   const formattedDate = formatDateToApi(date)
-  let url = `${URL}/${tournamentCode}/matches?date=${formattedDate}`
+  let url = `${URL}/${tournamentCode}/matches/completed?date=${formattedDate}`
   if (limit) url += `&limit=${limit}`
 
   const response = await axios.get(url)
+  return response.data.matches
+}
+
+const getLiveMatches = async (tournamentCode: string, date: Date) => {
+  const formattedDate = formatDateToApi(date)
+  const response = await axios.get(
+    `${URL}/${tournamentCode}/matches/live?date=${formattedDate}`
+  )
   return response.data.matches
 }
 
@@ -76,6 +92,8 @@ const service = {
   getBracket,
   getCourts,
   getMatches,
+  getCompletedMatches,
+  getLiveMatches,
   getPlayersStaged,
 }
 

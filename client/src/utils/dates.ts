@@ -6,6 +6,10 @@ export const formatDateToApi = (date: Date): string => {
   return formattedDate
 }
 
+export const formatDateToClient = (date: Date): string => {
+  return date.toDateString()
+}
+
 // Offset 0 = current week, 1 = next week, -1 = previous week
 export const getWeek = (offset: number = 0): Week => {
   const today = new Date()

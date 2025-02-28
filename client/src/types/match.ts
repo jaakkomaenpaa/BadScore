@@ -11,7 +11,7 @@ export type Match = {
   isTeamMatch: boolean
   locationName: string
   matchOrder: number | null
-  matchStatus: "F" | "P" | "N" | "O" // F = Finished, P = Playing, N = Future, O = over, but not confirmed?
+  matchStatus: "F" | "P" | "N" | "O" // F = Finished, P = In progress, N = None: future, O = Off court: over, but not confirmed
   matchStatusValue: string
   matchTime: string // Date, scheduled time
   matchTimeUtc: string

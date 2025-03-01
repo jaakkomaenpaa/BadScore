@@ -53,7 +53,8 @@ function Navbar() {
       <NavButton to={`draws`}>Draws</NavButton>
       <NavButton to={`matches`}>Matches</NavButton>
       <NavButton to={`entry-list`}>Entry list</NavButton>
-      <NavButton to={`players`}>Players</NavButton>
+      {/*<NavButton to={`players`}>Players</NavButton> */}
+      
     </Box>
   )
 }

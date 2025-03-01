@@ -1,4 +1,4 @@
-import { SearchParams } from '@/types/tournament'
+import { SearchParams } from '@/types/misc'
 import { formatDateToApi, getWeek } from '@/utils/dates'
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router'

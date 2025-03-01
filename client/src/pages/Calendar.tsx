@@ -12,6 +12,8 @@ function Calendar() {
     resultsLength,
     tournaments,
     isLoading: isSearchLoading,
+    lastPage,
+    onThisPage,
   } = useTournamentSearch()
 
   if (isDataLoading || isSearchLoading) return <LoadingCircle />
@@ -22,20 +24,39 @@ function Calendar() {
 
       <SearchBar />
 
-      <PaginationField />
+      <PaginationField
+        resultsLength={resultsLength}
+        lastPage={lastPage}
+        onThisPage={onThisPage}
+      />
 
       <TournamentList tournaments={tournaments} />
 
-      {resultsLength >= 1 && <PaginationField />}
+      {resultsLength >= 1 && (
+        <PaginationField
+          resultsLength={resultsLength}
+          lastPage={lastPage}
+          onThisPage={onThisPage}
+        />
+      )}
     </Box>
   )
 }
 
 export default Calendar
 
-function PaginationField() {
+type PaginationFieldProps = {
+  resultsLength: number
+  lastPage: number
+  onThisPage: number
+}
+
+function PaginationField({
+  resultsLength,
+  lastPage,
+  onThisPage,
+}: PaginationFieldProps) {
   const { filters, handleFilterChange } = useSearchFilters()
-  const { resultsLength, lastPage, onThisPage } = useTournamentSearch()
 
   return (
     <Box
@@ -45,6 +66,7 @@ function PaginationField() {
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 2,
+        flexWrap: 'wrap',
       }}
     >
       <Typography sx={{ color: 'text.primary', margin: 2 }} variant='body1'>

@@ -55,6 +55,7 @@ function TournamentListItem({ tournament }: TournamentListItemProps) {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            gap: 1,
             marginBottom: 1,
           }}
         >
@@ -76,6 +77,7 @@ function TournamentListItem({ tournament }: TournamentListItemProps) {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
+            gap: 1
           }}
         >
           <Typography variant='body2' color='text.secondary'>

@@ -1,11 +1,5 @@
-import {
-  Country,
-  TournamentCategory,
-  TournamentOrganization,
-} from '@/types/tournament'
 import { formatDateToApi, getWeek } from '@/utils/dates'
 import {
-  Autocomplete,
   Box,
   IconButton,
   InputAdornment,
@@ -13,27 +7,33 @@ import {
   styled,
   TextField,
 } from '@mui/material'
-import { ClearIcon, DatePicker } from '@mui/x-date-pickers'
-import dayjs from 'dayjs'
+import { ClearIcon } from '@mui/x-date-pickers'
 import { SecondaryButton } from '../buttons/SecondaryButton'
 import { useState } from 'react'
 import { useDropdownData } from '@/hooks/calendar/useDropdownData'
 import { useSearchFilters } from '@/hooks/calendar/useSearchFilters'
-import { SearchParams } from '@/types/misc'
+import { DropdownContainer } from './DropdownContainer'
+import { DatePickerContainer } from './DatePickerContainer'
+import { WeekButtonContainer } from './WeekButtonContainer'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-const SpaceBetweenBox = styled(Box)({
+const SpaceBetweenBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   gap: '20px',
   width: '100%',
   flexWrap: 'wrap',
   justifyContent: 'space-between',
-})
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+  },
+}))
 
 export const SearchBar = () => {
   const { filters, handleFilterChange, resetFilters } = useSearchFilters()
   const [searchInput, setSearchInput] = useState<string>(filters.searchText || '')
   const { countries, organizations, categories } = useDropdownData()
+  const [showAdvanced, setShowAdvanced] = useState<boolean>(false)
 
   const handleWeekChange = (offset: number) => {
     const week = getWeek(offset)
@@ -65,16 +65,40 @@ export const SearchBar = () => {
         <WeekButtonContainer handleWeekChange={handleWeekChange} />
       </SpaceBetweenBox>
 
-      <SpaceBetweenBox>
-        <DropdownContainer
-          countries={countries}
-          organizations={organizations}
-          categories={categories}
-          filters={filters}
-          onFilterChange={handleFilterChange}
+      <Box
+        sx={{
+          color: 'text.primary',
+          display: 'flex',
+          flexDirection: 'row',
+          gap: 1,
+          cursor: 'pointer',
+        }}
+        onClick={() => setShowAdvanced(!showAdvanced)}
+      >
+        Advanced filters{' '}
+        <ExpandMoreIcon
+          sx={{
+            transition: 'transform 0.3s ease-in-out',
+            transform: showAdvanced ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
         />
-        <DatePickerContainer filters={filters} onFilterChange={handleFilterChange} />
-      </SpaceBetweenBox>
+      </Box>
+
+      {showAdvanced && (
+        <SpaceBetweenBox>
+          <DropdownContainer
+            countries={countries}
+            organizations={organizations}
+            categories={categories}
+            filters={filters}
+            onFilterChange={handleFilterChange}
+          />
+          <DatePickerContainer
+            filters={filters}
+            onFilterChange={handleFilterChange}
+          />
+        </SpaceBetweenBox>
+      )}
 
       <SpaceBetweenBox>
         <SecondaryButton label='Reset filters' onClick={resetFilters} type='error' />
@@ -155,136 +179,6 @@ function SearchField({ value, onChange, buttonAction }: SearchFieldProps) {
         onClick={() => buttonAction(value)}
         sx={{ height: 36, width: 60 }}
         type='success'
-      />
-    </Box>
-  )
-}
-
-type DropdownContainerProps = {
-  countries: Country[]
-  organizations: TournamentOrganization[]
-  categories: TournamentCategory[]
-  filters: SearchParams
-  onFilterChange: (updates: Partial<SearchParams>) => void
-}
-
-function DropdownContainer({
-  countries,
-  organizations,
-  categories,
-  filters,
-  onFilterChange,
-}: DropdownContainerProps) {
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
-      <Autocomplete
-        options={countries}
-        getOptionLabel={(option: Country) => option.name}
-        value={countries.find((country) => country.code === filters.country) || null}
-        onChange={(_, value) => onFilterChange({ country: value?.code ?? '' })}
-        renderInput={(params) => <TextField {...params} label='Country' />}
-        sx={{ width: 200 }}
-      />
-
-      <Autocomplete
-        options={organizations}
-        getOptionLabel={(option: TournamentOrganization) => option.name}
-        value={
-          organizations.find((org) => org.id.toString() === filters.organization) ||
-          null
-        }
-        onChange={(_, value) =>
-          onFilterChange({ organization: value?.id.toString() ?? '' })
-        }
-        renderInput={(params) => <TextField {...params} label='Organization' />}
-        sx={{ width: 200 }}
-      />
-
-      <Autocomplete
-        options={categories}
-        getOptionLabel={(option: TournamentCategory) => option.name}
-        value={
-          categories.find((cat) => cat.id.toString() === filters.categories) || null
-        }
-        onChange={(_, value) =>
-          onFilterChange({ categories: value?.id.toString() ?? '' })
-        }
-        renderInput={(params) => <TextField {...params} label='Category' />}
-        sx={{ width: 200 }}
-      />
-    </Box>
-  )
-}
-
-type WeekButtonContainerProps = {
-  handleWeekChange: (offset: number) => void
-}
-
-function WeekButtonContainer({ handleWeekChange }: WeekButtonContainerProps) {
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
-      <SecondaryButton
-        label='Previous week'
-        isActive={false}
-        onClick={() => handleWeekChange(-1)}
-      />
-
-      <SecondaryButton
-        label='This week'
-        isActive={false}
-        onClick={() => handleWeekChange(0)}
-      />
-
-      <SecondaryButton
-        label='Next week'
-        isActive={false}
-        onClick={() => handleWeekChange(1)}
-      />
-    </Box>
-  )
-}
-
-type DatePickerContainerProps = {
-  filters: SearchParams
-  onFilterChange: (updates: Partial<SearchParams>) => void
-}
-
-function DatePickerContainer({ filters, onFilterChange }: DatePickerContainerProps) {
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
-      <DatePicker
-        label='Start Date'
-        value={filters.startDate ? dayjs(filters.startDate) : null}
-        maxDate={filters.endDate ? dayjs(filters.endDate) : undefined}
-        onAccept={(date) =>
-          date &&
-          onFilterChange({ startDate: formatDateToApi(date.add(1, 'day').toDate()) })
-        }
-        sx={{
-          width: 200,
-        }}
-        slotProps={{
-          field: {
-            readOnly: true,
-            onClear: () => onFilterChange({ startDate: '' }),
-          },
-        }}
-      />
-
-      <DatePicker
-        label='End Date'
-        value={filters.endDate ? dayjs(filters.endDate) : null}
-        minDate={filters.startDate ? dayjs(filters.startDate) : undefined}
-        onAccept={(date) =>
-          date &&
-          onFilterChange({ endDate: formatDateToApi(date.add(1, 'day').toDate()) })
-        }
-        sx={{
-          width: 200,
-        }}
-        slotProps={{
-          field: { clearable: true, onClear: () => onFilterChange({ endDate: '' }) },
-        }}
       />
     </Box>
   )

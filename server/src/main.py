@@ -1,4 +1,4 @@
-import routes
+from src import routes
 from flask import Flask
 from flask_cors import CORS
 

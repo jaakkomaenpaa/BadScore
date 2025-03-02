@@ -1,5 +1,5 @@
 import { Match, Player, Team } from '@/types/match'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useMediaQuery } from '@mui/material'
 
 type PlayersFieldProps = {
   match: Match
@@ -44,6 +44,8 @@ type PlayerTeamItemProps = {
 }
 
 function PlayerTeamItem({ team, seed, side, isWinner }: PlayerTeamItemProps) {
+  const isMobile = useMediaQuery('(max-width:600px)')
+
   return (
     <Box
       sx={{
@@ -58,7 +60,7 @@ function PlayerTeamItem({ team, seed, side, isWinner }: PlayerTeamItemProps) {
           <img
             src={player.countryFlagUrl}
             alt={player.lastName}
-            style={{ height: 20 }}
+            style={{ height: !isMobile ? 20 : 14 }}
           />
         )
 
@@ -74,7 +76,7 @@ function PlayerTeamItem({ team, seed, side, isWinner }: PlayerTeamItemProps) {
           >
             {side === 'away' && <Flag />}
             <Typography
-              variant='body1'
+              variant='matchPlayerName'
               sx={{
                 color: isWinner ? 'text.primary' : 'text.secondary',
                 fontWeight: isWinner ? 'bold' : 'normal',

@@ -3,6 +3,7 @@ import { useTournament } from '@/hooks/tournament/useTournament'
 import { BracketData, Draw, StandingsEntry } from '@/types/draw'
 import tournamentService from '@/services/tournament'
 import { useParams } from 'react-router'
+import { useMediaQuery } from '@mui/material'
 
 const SINGLES_CELL_HEIGHT = 24
 const DOUBLES_CELL_HEIGHT = 48
@@ -31,12 +32,16 @@ export const BracketProvider = ({ children }: { children: ReactNode }) => {
   const { tournament } = useTournament()
   const { drawId } = useParams()
 
+  const isMobile = useMediaQuery('(max-width:600px)')
+
   const [draws, setDraws] = useState<Draw[]>([])
   const [bracket, setBracket] = useState<BracketData | null>(null)
   const [standings, setStandings] = useState<StandingsEntry[] | null>(null)
   const [drawsLoading, setDrawsLoading] = useState<boolean>(true)
   const [bracketLoading, setBracketLoading] = useState<boolean>(true)
-  const [cellHeight, setCellHeight] = useState<number>(SINGLES_CELL_HEIGHT)
+  const [cellHeight, setCellHeight] = useState<number>(
+    !isMobile ? SINGLES_CELL_HEIGHT : SINGLES_CELL_HEIGHT / 2
+  )
 
   // Fetch draws
   useEffect(() => {
@@ -67,7 +72,8 @@ export const BracketProvider = ({ children }: { children: ReactNode }) => {
         if (bracketRes.bracket) {
           const isSingles =
             bracketRes.bracket.rounds[0][0].match.team1.players.length <= 1
-          setCellHeight(isSingles ? SINGLES_CELL_HEIGHT : DOUBLES_CELL_HEIGHT)
+          const height = isSingles ? SINGLES_CELL_HEIGHT : DOUBLES_CELL_HEIGHT
+          setCellHeight(isMobile ? height / 2 : height)
           setBracket(bracketRes.bracket)
         } else {
           setBracket(null)

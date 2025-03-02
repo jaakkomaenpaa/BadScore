@@ -15,6 +15,8 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material'
 
 type StageListProps = {
@@ -26,7 +28,7 @@ export function StageList({ players, eventStages }: StageListProps) {
   if (!players) return null
 
   return (
-    <Box>
+    <Box sx={{}}>
       {eventStages.map((stage) => {
         if (stage.value === 0) return null
 
@@ -119,44 +121,65 @@ function PlayerListItem({
   return (
     <TableRow key={entry.player1.id}>
       <TableCell
-        sx={{ backgroundColor: color.background, color: 'black', width: 20 }}
-      >
-        {entry.position_name}
-      </TableCell>
-
-      <TableCell
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '2px',
+          backgroundColor: color.background,
+          color: 'black',
+          width: 20,
         }}
       >
-        <PlayerInfo player={entry.player1} status={entry.status} />
-        {entry.player2 && <PlayerInfo player={entry.player2} />}
+        <Typography variant='entryListText'>{entry.position_name}</Typography>
       </TableCell>
 
-      <TableCell sx={{ color: 'text.secondary' }}>
-        {entry.player1.country.name}
+      <TableCell>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2px',
+          }}
+        >
+          <PlayerInfo player={entry.player1} status={entry.status} />
+          {entry.player2 && <PlayerInfo player={entry.player2} />}
+        </Box>
       </TableCell>
 
-      <TableCell align='right'>{entry.rank ?? '-'}</TableCell>
+      <TableCell>
+        <Typography
+          variant='entryListText'
+          sx={{ color: 'text.secondary', textWrap: 'nowrap' }}
+        >
+          {entry.player1.country.name}
+        </Typography>
+      </TableCell>
 
-      <TableCell
-        sx={{ color: entry.notional_points ? 'text.secondary' : 'white' }}
-        align='right'
-      >
-        {entry.points ?? '-'}
+      <TableCell align='right'>
+        <Typography variant='entryListText'>{entry.rank ?? '-'}</Typography>
+      </TableCell>
+
+      <TableCell align='right'>
+        <Typography
+          variant='entryListText'
+          sx={{ color: entry.notional_points ? 'text.secondary' : 'white' }}
+        >
+          {entry.points ?? '-'}
+        </Typography>
       </TableCell>
 
       {hasNotionalPoints && (
-        <TableCell align='right'>{entry.notional_points}</TableCell>
+        <TableCell align='right'>
+          <Typography variant='entryListText'>{entry.notional_points}</Typography>
+        </TableCell>
       )}
 
-      <TableCell sx={{ color: 'text.secondary' }} align='right'>
-        {entry.tournaments ?? '-'}{' '}
+      <TableCell align='right'>
+        <Typography variant='entryListText' sx={{ color: 'text.secondary' }}>
+          {entry.tournaments ?? '-'}
+        </Typography>
       </TableCell>
 
-      <TableCell align='right'>{entry.seed}</TableCell>
+      <TableCell align='right'>
+        <Typography variant='entryListText'>{entry.seed}</Typography>
+      </TableCell>
     </TableRow>
   )
 }
@@ -167,14 +190,29 @@ type PlayerInfoProps = {
 }
 
 function PlayerInfo({ player, status }: PlayerInfoProps) {
+  const isMobile = useMediaQuery('(max-width:600px)')
+  const theme = useTheme()
+
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 1,
+        alignItems: 'center',
+        [theme.breakpoints.down('sm')]: {
+          gap: '4px',
+        },
+      }}
+    >
       <img
         src={player.country.url_svg}
         alt={player.country.name}
-        style={{ height: 18 }}
+        style={{ height: !isMobile ? 18 : 14 }}
       />
-      <Typography variant='body2'>{player.name_display}</Typography>
+      <Typography variant='entryListText' sx={{ textWrap: 'nowrap' }}>
+        {player.name_display}
+      </Typography>
       {status && <Typography variant='body2'>[{status}]</Typography>}
     </Box>
   )

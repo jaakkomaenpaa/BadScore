@@ -1,24 +1,31 @@
 import { GameScore, Match } from '@/types/match'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useTheme } from '@mui/material'
 
 type ScoreFieldProps = {
   match: Match
 }
 
 export function ScoreField({ match }: ScoreFieldProps) {
+  const theme = useTheme()
+
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'row',
+        flexWrap: 'wrap',
         gap: 1,
         justifyContent: 'flex-end',
         flex: 1,
+        [theme.breakpoints.down('sm')]: {
+          gap: '3px',
+        },
       }}
     >
       {match.matchStatus === 'P' && (
         <Box>
           <Typography
+            variant='matchScore'
             sx={{
               backgroundColor: 'success.main',
               padding: '1px 5px',
@@ -41,6 +48,7 @@ export function ScoreField({ match }: ScoreFieldProps) {
           }}
         >
           <Typography
+            variant='matchScore'
             sx={{
               fontWeight: game.home > game.away ? 'bold' : 'normal',
               color: game.home < game.away ? 'text.secondary' : 'text.primary',
@@ -48,8 +56,9 @@ export function ScoreField({ match }: ScoreFieldProps) {
           >
             {game.home}
           </Typography>
-          <Typography variant='body2'>-</Typography>
+          <Typography variant='matchScore'>-</Typography>
           <Typography
+            variant='matchScore'
             sx={{
               fontWeight: game.away > game.home ? 'bold' : 'normal',
               color: game.away < game.home ? 'text.secondary' : 'text.primary',
@@ -59,7 +68,9 @@ export function ScoreField({ match }: ScoreFieldProps) {
           </Typography>
         </Box>
       ))}
-      {match.scoreStatus !== 0 && match.scoreStatusValue}
+      {match.scoreStatus !== 0 && (
+        <Typography variant='matchScore'> {match.scoreStatusValue}</Typography>
+      )}
     </Box>
   )
 }

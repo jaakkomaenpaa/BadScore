@@ -25,13 +25,13 @@ export function InfoField({
       }}
     >
       {!match.oopRound && !isPartOfTeamMatch && !minimalistic && (
-        <Typography sx={{ color: 'text.primary' }}>
+        <Typography variant='matchInfo' sx={{ color: 'text.primary' }}>
           {formatTime(new Date(match.matchTime))}
         </Typography>
       )}
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         {isPartOfTeamMatch ? (
-          <Typography sx={{ color: 'text.primary' }}>
+          <Typography variant='matchInfo' sx={{ color: 'text.primary' }}>
             {match.matchTypeValue}
           </Typography>
         ) : (
@@ -41,6 +41,7 @@ export function InfoField({
               style={{ textDecoration: 'none' }}
             >
               <Typography
+                variant='matchInfo'
                 sx={{
                   color: 'white',
                   '&:hover': {
@@ -51,7 +52,7 @@ export function InfoField({
                 {match.drawName}
               </Typography>
             </NavLink>
-            <Typography sx={{ color: 'text.secondary' }}>
+            <Typography variant='matchInfo' sx={{ color: 'text.secondary' }}>
               {match.roundName}
             </Typography>
           </>

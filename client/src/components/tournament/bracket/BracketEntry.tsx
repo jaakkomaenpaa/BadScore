@@ -1,5 +1,5 @@
 import { Player, Team } from '@/types/match'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Cell } from './Cell'
 import { ScoreCell } from './ScoreCell'
 import { useBracket } from '@/hooks/tournament/useBracket'
@@ -134,6 +134,9 @@ type PlayerItemProps = {
 }
 
 function PlayerItem({ player, seed }: PlayerItemProps) {
+  const isMobile = useMediaQuery('(max-width:600px)')
+  const theme = useTheme()
+
   return (
     <Box
       sx={{
@@ -143,15 +146,23 @@ function PlayerItem({ player, seed }: PlayerItemProps) {
         alignItems: 'center',
         paddingRight: 2,
         paddingLeft: 1,
+        [theme.breakpoints.down('sm')]: {
+          paddingRight: 1,
+          gap: '4px',
+        },
       }}
     >
       <img
         src={player.countryFlagUrl}
         alt={player.lastName}
-        style={{ height: 18, verticalAlign: 'middle', alignSelf: 'center' }}
+        style={{
+          height: !isMobile ? 18 : 10,
+          verticalAlign: 'middle',
+          alignSelf: 'center',
+        }}
       />
       <Typography
-        variant='body2'
+        variant='bracketEntryText'
         sx={{
           color: 'text.primary',
           textWrap: 'nowrap',
@@ -189,13 +200,13 @@ function ByeEntry({ drawIndex, side, isLastRound }: ByeEntryProps) {
         }}
       >
         <Typography
-          variant='body2'
+          variant='bracketEntryText'
           sx={{ color: 'text.secondary', width: 20, marginBottom: '1px' }}
         >
           {drawIndex}
         </Typography>
         <Typography
-          variant='body2'
+          variant='bracketEntryText'
           sx={{ color: 'text.secondary', marginLeft: 4, marginBottom: '1px' }}
         >
           Bye

@@ -63,6 +63,9 @@ export function MatchList({ matches }: MatchListProps) {
         flexDirection: 'column',
         gap: 1,
         padding: 1,
+        width: '100%',
+        maxWidth: 1200,
+        alignSelf: 'center',
       }}
     >
       {mainCourtMatches.map((courtMatches) => (

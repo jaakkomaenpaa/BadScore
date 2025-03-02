@@ -1,5 +1,5 @@
 import { MatchList } from '@/components/tournament/matches/MatchList'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useTheme } from '@mui/material'
 import { addDays, formatDateToApi, getDateList } from '@/utils/dates'
 import { LoadingCircle } from '@/components/LoadingCircle'
 import { useMatchData } from '@/hooks/tournament/useMatchData'
@@ -38,10 +38,17 @@ function DateSelector({
   selectedDate,
 }: DateSelectorProps) {
   const dates = getDateList(startDate, endDate)
+  const theme = useTheme()
 
   return (
     <Box
-      sx={{ display: 'flex', flexDirection: 'row', gap: 1, justifyContent: 'center' }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 1,
+        justifyContent: 'center',
+      }}
     >
       {dates.map((date) => {
         const [weekDay, month, day] = date.toDateString().split(' ')
@@ -64,6 +71,9 @@ function DateSelector({
               '&:hover': {
                 backgroundColor: isSelected ? 'black' : 'lightgray',
                 opacity: isSelected ? 0.8 : 1,
+              },
+              [theme.breakpoints.down('sm')]: {
+                padding: '5px 10px',
               },
             }}
             key={date.toISOString()}

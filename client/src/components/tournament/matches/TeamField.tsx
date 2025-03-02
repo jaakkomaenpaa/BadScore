@@ -66,7 +66,7 @@ function TeamItem({ team, seed, side, isWinner, isLoser }: TeamItemProps) {
       >
         {side === 'away' && <Flag />}
         <Typography
-          variant='body1'
+          variant='matchPlayerName'
           sx={{
             color: isLoser ? 'text.secondary' : 'text.primary',
             fontWeight: isWinner ? 'bold' : 'normal',

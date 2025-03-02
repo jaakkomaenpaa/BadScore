@@ -1,6 +1,6 @@
 export { default } from './Layout'
 export { Draws } from './Draws'
-export { Home } from './Home'
+export { Home as TournamentHome } from './Home'
 export { Matches } from './Matches'
 export { Players } from './Players'
 export { EntryList } from './EntryList'

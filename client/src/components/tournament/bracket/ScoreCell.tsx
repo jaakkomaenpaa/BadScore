@@ -1,6 +1,6 @@
 import { useBracket } from '@/hooks/tournament/useBracket'
 import { GameScore } from '@/types/match'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useTheme } from '@mui/material'
 
 type ScoreCellProps = {
   score: GameScore[]
@@ -20,6 +20,7 @@ export function ScoreCell({
   isLive = false,
 }: ScoreCellProps) {
   const { cellHeight } = useBracket()
+  const theme = useTheme()
 
   return (
     <Box
@@ -37,11 +38,16 @@ export function ScoreCell({
           }),
         borderColor: 'text.secondary',
         color: 'text.primary',
+        [theme.breakpoints.down('md')]: {
+          paddingLeft: 1,
+          gap: '4px',
+        },
       }}
     >
       {isLive ? (
         <Box>
           <Typography
+            variant='bracketEntryText'
             sx={{
               backgroundColor: 'warning.main',
               padding: '1px 5px',
@@ -61,19 +67,22 @@ export function ScoreCell({
               flexDirection: 'row',
               alignItems: 'center',
               gap: '2px',
+              [theme.breakpoints.down('md')]: {
+                gap: '1px',
+              },
             }}
           >
-            <Typography variant='body2'>
+            <Typography variant='bracketEntryText'>
               {prevSide === 'home' ? game.home : game.away}
             </Typography>
-            <Typography variant='body2'>-</Typography>
-            <Typography variant='body2'>
+            <Typography variant='bracketEntryText'>-</Typography>
+            <Typography variant='bracketEntryText'>
               {prevSide === 'home' ? game.away : game.home}
             </Typography>
           </Box>
         ))
       )}
-      <Typography variant='body2'>{scoreStatusValue}</Typography>
+      <Typography variant='bracketEntryText'>{scoreStatusValue}</Typography>
     </Box>
   )
 }

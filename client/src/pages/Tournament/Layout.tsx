@@ -3,8 +3,7 @@ import { BracketProvider } from '@/contexts/BracketContext'
 import { TournamentProvider } from '@/contexts/TournamentContext'
 import { useTournament } from '@/hooks/tournament/useTournament'
 import { TournamentPreview } from '@/types/tournament'
-import { Box, Typography } from '@mui/material'
-import { ReactNode } from 'react'
+import { Box, Typography, useTheme } from '@mui/material'
 import { NavLink, Outlet, To } from 'react-router'
 
 function Layout() {
@@ -21,16 +20,28 @@ export default Layout
 
 function Content() {
   const { tournament, loading, error } = useTournament()
+  const theme = useTheme()
 
   if (error) return <Typography color='error'>{error}</Typography>
   if (loading) return <LoadingCircle />
   if (!tournament) return <Typography>No tournament data available</Typography>
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box
+      sx={{
+        width: '100%',
+      }}
+    >
       <Header tournament={tournament} />
       <Navbar />
-      <Box sx={{ padding: 2 }}>
+      <Box
+        sx={{
+          padding: 2,
+          [theme.breakpoints.down('sm')]: {
+            padding: '10px 0px',
+          },
+        }}
+      >
         <Outlet />
       </Box>
     </Box>
@@ -38,6 +49,8 @@ function Content() {
 }
 
 function Navbar() {
+  const theme = useTheme()
+
   return (
     <Box
       sx={{
@@ -47,14 +60,16 @@ function Navbar() {
         width: '100%',
         backgroundColor: 'whitesmoke',
         padding: '10px 0px',
+        [theme.breakpoints.down('sm')]: {
+          padding: '6px 0px',
+        },
       }}
     >
-      <NavButton to={`overview`}>Overview</NavButton>
-      <NavButton to={`draws`}>Draws</NavButton>
-      <NavButton to={`matches`}>Matches</NavButton>
-      <NavButton to={`entry-list`}>Entry list</NavButton>
-      {/*<NavButton to={`players`}>Players</NavButton> */}
-      
+      <NavButton to={`overview`} label='Overview' />
+      <NavButton to={`draws`} label='Draws'></NavButton>
+      <NavButton to={`matches`} label='Matches'></NavButton>
+      <NavButton to={`entry-list`} label='Entry list'></NavButton>
+      <NavButton to={`players`} label='Players'></NavButton>
     </Box>
   )
 }
@@ -64,6 +79,8 @@ type HeaderProps = {
 }
 
 function Header({ tournament }: HeaderProps) {
+  const theme = useTheme()
+
   return (
     <Box
       sx={{
@@ -75,6 +92,10 @@ function Header({ tournament }: HeaderProps) {
         color: 'white',
         position: 'relative',
         overflow: 'hidden',
+        padding: 2,
+        [theme.breakpoints.down('sm')]: {
+          height: 160,
+        },
       }}
     >
       <Box
@@ -105,14 +126,22 @@ function Header({ tournament }: HeaderProps) {
         Calendar
       </NavLink>
       <Typography
-        variant='h4'
-        sx={{ zIndex: 1, textWrap: 'wrap', textAlign: 'center' }}
+        variant='h3'
+        sx={{
+          zIndex: 1,
+          textWrap: 'wrap',
+          textAlign: 'center',
+        }}
       >
         {tournament.name}
       </Typography>
       <Typography
         variant='body1'
-        sx={{ zIndex: 1, textWrap: 'wrap', textAlign: 'center' }}
+        sx={{
+          zIndex: 1,
+          textWrap: 'wrap',
+          textAlign: 'center',
+        }}
       >
         {tournament.dates} - {tournament.location}
       </Typography>
@@ -122,28 +151,35 @@ function Header({ tournament }: HeaderProps) {
 
 type NavButtonProps = {
   to: To
-  children: ReactNode
+  label: string
 }
 
-const NavButton = ({ to, children }: NavButtonProps) => (
-  <NavLink style={{ textDecoration: 'none' }} to={to}>
-    {({ isActive }) => (
-      <Box
-        sx={{
-          color: isActive ? 'white' : 'black',
-          backgroundColor: isActive ? 'black' : 'whitesmoke',
-          padding: '8px 16px',
-          textDecoration: 'none',
-          borderRadius: 1,
-          transition: 'all 0.1s ease',
-          '&:hover': {
-            opacity: 0.8,
-            backgroundColor: isActive ? 'black' : 'rgba(0, 0, 0, 0.1)',
-          },
-        }}
-      >
-        {children}
-      </Box>
-    )}
-  </NavLink>
-)
+function NavButton({ to, label }: NavButtonProps) {
+  const theme = useTheme()
+
+  return (
+    <NavLink style={{ textDecoration: 'none' }} to={to}>
+      {({ isActive }) => (
+        <Box
+          sx={{
+            color: isActive ? 'white' : 'black',
+            backgroundColor: isActive ? 'black' : 'whitesmoke',
+            padding: '8px 16px',
+            textDecoration: 'none',
+            borderRadius: 1,
+            transition: 'all 0.1s ease',
+            textWrap: 'nowrap',
+            '&:hover': {
+              opacity: 0.8,
+              backgroundColor: isActive ? 'black' : 'rgba(0, 0, 0, 0.1)',
+            },
+          }}
+        >
+          <Typography sx={{ [theme.breakpoints.down('sm')]: { fontSize: 10 } }}>
+            {label}
+          </Typography>
+        </Box>
+      )}
+    </NavLink>
+  )
+}

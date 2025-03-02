@@ -26,7 +26,13 @@ export function EntryList() {
   if (loading) return <LoadingCircle />
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+      }}
+    >
       <EventSelect
         events={events}
         selectedEvent={selectedEvent}

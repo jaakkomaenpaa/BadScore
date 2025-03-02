@@ -13,10 +13,12 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useMediaQuery,
 } from '@mui/material'
 
 export function BracketPage() {
   const { bracket, standings, draws, bracketLoading } = useBracket()
+  const isMobile = useMediaQuery('(max-width:600px)')
 
   if (bracketLoading) return <LoadingCircle />
   if (!bracket && !standings) {
@@ -29,7 +31,10 @@ export function BracketPage() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <DrawList draws={draws} orientation='x' defaultColor='text.secondary' />
+      {!isMobile && (
+        <DrawList draws={draws} orientation='x' defaultColor='text.secondary' />
+      )}
+
       {!bracket && <Standings entries={standings} />}
       <Bracket bracket={bracket} />
     </Box>

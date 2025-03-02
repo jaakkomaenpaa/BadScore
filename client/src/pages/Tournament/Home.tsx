@@ -64,7 +64,7 @@ function InfoBox({ tournament }: InfoBoxProps) {
         backgroundColor: 'background.paper',
         color: 'text.primary',
         alignSelf: 'center',
-        width: '40%',
+        maxWidth: 400,
         padding: 2,
       }}
     >
@@ -112,16 +112,12 @@ function MatchOverview({ tournamentCode, date }: MatchOverviewProps) {
     const fetchMatches = async () => {
       setLoading(true)
       try {
-        const completedMatchRes = await tournamentService.getCompletedMatches(
-          tournamentCode,
-          date,
-          MATCHES_LENGTH
-        )
+        const [completedMatchRes, liveMatchRes] = await Promise.all([
+          tournamentService.getCompletedMatches(tournamentCode, date, MATCHES_LENGTH),
+          tournamentService.getLiveMatches(tournamentCode, date),
+        ])
+
         setCompletedMatches(completedMatchRes)
-        const liveMatchRes = await tournamentService.getLiveMatches(
-          tournamentCode,
-          date
-        )
         setLiveMatches(liveMatchRes)
       } catch (error) {
         console.log(error)
@@ -138,12 +134,13 @@ function MatchOverview({ tournamentCode, date }: MatchOverviewProps) {
   return (
     <Box
       sx={{
-        width: '70%',
         alignSelf: 'center',
         display: 'flex',
         flexDirection: 'column',
         gap: 4,
         color: 'text.primary',
+        width: 800,
+        maxWidth: '100%',
       }}
     >
       <Typography variant='h6' sx={{ alignSelf: 'center' }}>

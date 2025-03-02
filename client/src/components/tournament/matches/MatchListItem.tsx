@@ -26,7 +26,7 @@ export function MatchListItem({
       }}
     >
       {match.oopRound && !minimalistic && (
-        <Typography sx={{ color: 'text.secondary', alignSelf: 'center' }}>
+        <Typography variant='body2' sx={{ color: 'text.secondary', alignSelf: 'center' }}>
           {match.oopRound} {match.oopText}
         </Typography>
       )}

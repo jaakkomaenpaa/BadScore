@@ -9,7 +9,13 @@ type TournamentListProps = {
 
 export const TournamentList = memo(({ tournaments }: TournamentListProps) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1,
+      }}
+    >
       {tournaments.map((tournament) => (
         <TournamentListItem key={tournament.id} tournament={tournament} />
       ))}
@@ -77,7 +83,7 @@ function TournamentListItem({ tournament }: TournamentListItemProps) {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            gap: 1
+            gap: 1,
           }}
         >
           <Typography variant='body2' color='text.secondary'>

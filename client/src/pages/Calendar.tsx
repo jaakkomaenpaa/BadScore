@@ -23,11 +23,16 @@ function Calendar() {
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        width: '100%',
         maxWidth: 1200,
-        margin: 'auto',
       }}
     >
-      <h2 style={{ color: 'white' }}>Calendar</h2>
+      <Typography
+        variant='h4'
+        sx={{ alignSelf: 'center', color: 'text.primary', margin: 1 }}
+      >
+        Calendar
+      </Typography>
 
       <SearchBar />
 

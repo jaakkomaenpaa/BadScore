@@ -3,9 +3,13 @@ import { SecondaryButton } from '../buttons/SecondaryButton'
 
 type WeekButtonContainerProps = {
   handleWeekChange: (offset: number) => void
+  activeTab?: number
 }
 
-export function WeekButtonContainer({ handleWeekChange }: WeekButtonContainerProps) {
+export function WeekButtonContainer({
+  handleWeekChange,
+  activeTab = -1,
+}: WeekButtonContainerProps) {
   const theme = useTheme()
 
   return (
@@ -22,19 +26,19 @@ export function WeekButtonContainer({ handleWeekChange }: WeekButtonContainerPro
     >
       <SecondaryButton
         label='Previous week'
-        isActive={false}
+        isActive={activeTab === 0}
         onClick={() => handleWeekChange(-1)}
       />
 
       <SecondaryButton
         label='This week'
-        isActive={false}
+        isActive={activeTab === 1}
         onClick={() => handleWeekChange(0)}
       />
 
       <SecondaryButton
         label='Next week'
-        isActive={false}
+        isActive={activeTab === 2}
         onClick={() => handleWeekChange(1)}
       />
     </Box>

@@ -40,3 +40,13 @@ def get_ranking_table(
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
     return ranking.transform_ranking_table_response(response.json())
+
+
+# Basically only used to get the latest update
+def get_ranking_data(ranking_id: int):
+    url = f"{API_URL}/vue-rankingdata"
+
+    payload = {"rankId": ranking_id}
+
+    response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
+    return ranking.transform_ranking_data_response(response.json())

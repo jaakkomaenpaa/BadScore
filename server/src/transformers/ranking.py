@@ -42,3 +42,7 @@ def transform_ranking_table_response(response: dict):
         "entries": cleaned_data,
         "onThisPage": on_this_page,
     }
+
+
+def transform_ranking_data_response(response: dict):
+    return response[0]

@@ -22,6 +22,7 @@ import { useAppTheme } from './theme'
 import { CURRENT_VERSION } from './config'
 import RankingsPage from './pages/Rankings'
 import RankingLayout, { RankingHome } from './pages/Ranking'
+import { CategoryView } from './pages/Ranking/CategoryView'
 
 function App() {
   const theme = useAppTheme()
@@ -53,7 +54,7 @@ function App() {
 
             <Route path='/rankings/:rankingId' element={<RankingLayout />}>
               <Route path='overview' element={<RankingHome />} />
-              <Route path='category/:categoryId' element={<RankingHome />} />
+              <Route path='category/:categoryId' element={<CategoryView />} />
             </Route>
 
             <Route path='/tournaments/:tournamentId' element={<TournamentLayout />}>
@@ -114,9 +115,11 @@ function Header() {
     <Card
       sx={{
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         gap: 4,
+        justifyContent: 'center',
         alignItems: 'center',
+        position: 'relative',
         backgroundColor: 'primary.main',
         borderRadius: 0,
       }}
@@ -128,6 +131,27 @@ function Header() {
           </Typography>
         </NavLink>
       </CardContent>
+
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: 3,
+          position: 'absolute',
+          left: 20,
+        }}
+      >
+        <NavLink to='/tournaments' style={{ textDecoration: 'none' }}>
+          <Typography sx={{ color: 'text.primary' }} variant='subtitle1'>
+            Calendar
+          </Typography>
+        </NavLink>
+        <NavLink to='/rankings' style={{ textDecoration: 'none' }}>
+          <Typography sx={{ color: 'text.primary' }} variant='subtitle1'>
+            Rankings
+          </Typography>
+        </NavLink>
+      </Box>
     </Card>
   )
 }

@@ -1,4 +1,5 @@
 import { LoadingCircle } from '@/components/LoadingCircle'
+import { WeekSelector } from '@/components/ranking/WeekSelector'
 import { RankingProvider } from '@/contexts/RankingContext'
 import { useRanking } from '@/hooks/ranking/useRanking'
 import { Ranking, RankingData } from '@/types/ranking'
@@ -16,22 +17,30 @@ function Layout() {
 export default Layout
 
 function Content() {
-  const { ranking, rankingData, loading, error } = useRanking()
+  const { ranking, rankingData, weeks, loading, error } = useRanking()
   const theme = useTheme()
 
   if (error) return <Typography color='error'>{error}</Typography>
   if (loading) return <LoadingCircle />
-  if (!ranking || !rankingData)
+  if (!ranking || !rankingData || !weeks) {
     return <Typography>No ranking data available</Typography>
+  }
 
   return (
     <Box
       sx={{
         width: '100%',
         padding: '10px 0px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 2,
       }}
     >
       <Header ranking={ranking} rankingData={rankingData} />
+
+      <WeekSelector weeks={weeks} disabled={loading} />
+
       <Box
         sx={{
           padding: 2,
@@ -52,8 +61,6 @@ type HeaderProps = {
 }
 
 function Header({ ranking, rankingData }: HeaderProps) {
-  console.log('rankingData', rankingData)
-
   return (
     <Box
       sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'center' }}

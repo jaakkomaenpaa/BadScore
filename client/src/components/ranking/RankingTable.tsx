@@ -2,6 +2,7 @@ import {
   PlayerModel,
   PlayerRankingEntry,
   Ranking,
+  TeamModel,
   TeamRankingEntry,
 } from '@/types/ranking'
 import {
@@ -68,7 +69,7 @@ function PlayerRankingItem({ entry }: PlayerRankingItemProps) {
       <TableCell>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
           <Typography variant='rankingEntryText'>
-            {entry.player1_model.country}
+            {entry.player1_model.country_model.custom_code}
           </Typography>
           {entry.player2_model && (
             <Typography variant='rankingEntryText'>
@@ -179,5 +180,53 @@ type TeamRankingItemProps = {
 
 // To be implemented when creating the actual ranking page
 function TeamRankingItem({ entry }: TeamRankingItemProps) {
-  return <TableRow></TableRow>
+  return (
+    <TableRow>
+      <TableCell>
+        <RankInfo rank={entry.rank} rankChange={entry.rank_change} />
+      </TableCell>
+
+      <TableCell>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <Typography variant='rankingEntryText'>
+            {entry.team_model.country_model.custom_code}
+          </Typography>
+        </Box>
+      </TableCell>
+
+      <TableCell>
+        <TeamInfo team={entry.team_model} />
+      </TableCell>
+
+      <TableCell align='right'>
+        <Typography variant='rankingEntryText'>
+          {parseInt(entry.team_total_points, 10).toLocaleString()}
+        </Typography>
+      </TableCell>
+
+      <TableCell align='right'>
+        <Typography variant='rankingEntryText'>{entry.confederation_id}</Typography>
+      </TableCell>
+    </TableRow>
+  )
+}
+
+type TeamInfoProps = {
+  team: TeamModel
+}
+
+function TeamInfo({ team }: TeamInfoProps) {
+  const isMobile = useMediaQuery('(max-width: 600px)')
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
+      <img
+        src={team.country_model.flag_url_svg}
+        style={{ height: isMobile ? 14 : 18 }}
+      />
+      <Typography variant='rankingEntryText' sx={{ textWrap: 'nowrap' }}>
+        {team.name}
+      </Typography>
+    </Box>
+  )
 }

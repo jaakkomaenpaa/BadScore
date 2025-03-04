@@ -41,8 +41,7 @@ export type RankingSearchResponse = {
   lastPage: number
   currentPage: number
   onThisPage: number
-  isTeam: boolean
-  isDoubles: boolean
+  
 }
 
 interface RankingEntry {

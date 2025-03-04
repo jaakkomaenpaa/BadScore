@@ -35,7 +35,7 @@ function RankingsPage() {
             <NavLink
               key={ranking.id}
               style={{ textDecoration: 'none' }}
-              to={`${ranking.id}`}
+              to={`${ranking.id}/overview`}
             >
               <Typography
                 sx={{

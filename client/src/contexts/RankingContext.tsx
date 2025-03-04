@@ -1,4 +1,4 @@
-import { Ranking, RankingData } from '@/types/ranking'
+import { Ranking, RankingData, RankingWeek } from '@/types/ranking'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import rankingService from '@/services/ranking'
@@ -6,6 +6,7 @@ import rankingService from '@/services/ranking'
 type RankingContextType = {
   ranking: Ranking | null
   rankingData: RankingData | null
+  weeks: RankingWeek[]
   error: string
   loading: boolean
 }
@@ -13,6 +14,7 @@ type RankingContextType = {
 export const RankingContext = createContext<RankingContextType>({
   ranking: null,
   rankingData: null,
+  weeks: [],
   error: '',
   loading: true,
 })
@@ -23,6 +25,7 @@ export const RankingProvider = ({ children }: { children: ReactNode }) => {
 
   const [ranking, setRanking] = useState<Ranking | null>(null)
   const [rankingData, setRankingData] = useState<RankingData | null>(null)
+  const [weeks, setWeeks] = useState<RankingWeek[]>([])
   const [error, setError] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -34,12 +37,14 @@ export const RankingProvider = ({ children }: { children: ReactNode }) => {
       setError('')
 
       try {
-        const [rankingRes, rankingDataRes] = await Promise.all([
+        const [rankingRes, rankingDataRes, weekRes] = await Promise.all([
           rankingService.getById(numericRankingId),
           rankingService.getData(numericRankingId),
+          rankingService.getWeeks(numericRankingId),
         ])
         setRanking(rankingRes)
         setRankingData(rankingDataRes)
+        setWeeks(weekRes)
       } catch (err) {
         setError('Failed to load ranking')
       } finally {
@@ -51,7 +56,7 @@ export const RankingProvider = ({ children }: { children: ReactNode }) => {
   }, [numericRankingId])
 
   return (
-    <RankingContext.Provider value={{ ranking, rankingData, error, loading }}>
+    <RankingContext.Provider value={{ ranking, rankingData, weeks, error, loading }}>
       {children}
     </RankingContext.Provider>
   )

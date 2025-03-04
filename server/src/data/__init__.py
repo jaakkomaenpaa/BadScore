@@ -1,0 +1,1 @@
+from .rankings import rankings as available_rankings

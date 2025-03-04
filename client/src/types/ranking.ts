@@ -6,6 +6,10 @@ export type Ranking = {
   categories: RankingCategory[]
 }
 
+export type RankingData = {
+  publication_date: string // Date
+}
+
 export type RankingCategory = {
   id: number
   name: string

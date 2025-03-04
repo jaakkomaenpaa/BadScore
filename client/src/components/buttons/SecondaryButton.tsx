@@ -14,7 +14,7 @@ export function SecondaryButton({
   label,
   onClick,
   isActive = false,
-  type = 'primary',
+  type = 'secondary',
   sx,
 }: SecondaryButtonProps) {
   const colors = {

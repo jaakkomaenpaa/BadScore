@@ -57,10 +57,11 @@ export const useAppTheme = (): Theme => {
         palette: {
           mode: 'dark',
           primary: {
-            main: '#90caf9',
+            main: '#6e3b3b',
           },
           secondary: {
-            main: '#f48fb1',
+            main: '#aa7e3b',
+            // #90caf9
           },
           background: {
             default: '#2a2a2a',

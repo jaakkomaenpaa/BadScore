@@ -20,6 +20,8 @@ import HomePage from '@/pages/Home'
 import ErrorPage from './pages/Error'
 import { useAppTheme } from './theme'
 import { CURRENT_VERSION } from './config'
+import RankingsPage from './pages/Rankings'
+import RankingLayout, { RankingHome } from './pages/Ranking'
 
 function App() {
   const theme = useAppTheme()
@@ -47,7 +49,12 @@ function App() {
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/tournaments' element={<Calendar />} />
-            <Route path='/rankings' element={<HomePage />} />
+            <Route path='/rankings' element={<RankingsPage />} />
+
+            <Route path='/rankings/:rankingId' element={<RankingLayout />}>
+              <Route path='overview' element={<RankingHome />} />
+              <Route path='category/:categoryId' element={<RankingHome />} />
+            </Route>
 
             <Route path='/tournaments/:tournamentId' element={<TournamentLayout />}>
               <Route path='overview' element={<TournamentHome />} />
@@ -110,8 +117,9 @@ function Header() {
         flexDirection: 'column',
         gap: 4,
         alignItems: 'center',
+        backgroundColor: 'primary.main',
+        borderRadius: 0,
       }}
-      onClick={() => console.log('clicked')}
     >
       <CardContent>
         <NavLink to='/' style={{ textDecoration: 'none' }}>

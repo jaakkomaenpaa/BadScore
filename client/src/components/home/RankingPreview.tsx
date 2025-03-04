@@ -64,7 +64,7 @@ export function RankingPreview() {
     const fetchRanking = async () => {
       setLoading(true)
 
-      const response = await rankingService.getRankingTable({
+      const response = await rankingService.getTable({
         rankingId: ranking.id,
         categoryId: selectedCategory.id,
         weekId: 0,

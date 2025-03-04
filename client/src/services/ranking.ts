@@ -1,5 +1,6 @@
 import {
   Ranking,
+  RankingData,
   RankingSearch,
   RankingSearchResponse,
   RankingWeek,
@@ -9,14 +10,22 @@ import axios from 'axios'
 
 const URL = `${API_URL}/ranking`
 
-const getRankings = async (): Promise<Ranking[]> => {
+const getAll = async (): Promise<Ranking[]> => {
   const response = await axios.get(`${URL}`)
   return response.data.rankings
 }
 
-const getRankingTable = async (
-  search: RankingSearch
-): Promise<RankingSearchResponse> => {
+const getById = async (rankingId: number): Promise<Ranking> => {
+  const response = await axios.get(`${URL}/${rankingId}`)
+  return response.data
+}
+
+const getData = async (rankingId: number): Promise<RankingData> => {
+  const response = await axios.get(`${URL}/${rankingId}/data`)
+  return response.data
+}
+
+const getTable = async (search: RankingSearch): Promise<RankingSearchResponse> => {
   const { rankingId, categoryId } = search
 
   let url = `${URL}/${rankingId}/category/${categoryId}?`
@@ -30,15 +39,17 @@ const getRankingTable = async (
   return response.data
 }
 
-const getRankingWeeks = async (rankingId: number): Promise<RankingWeek[]> => {
+const getWeeks = async (rankingId: number): Promise<RankingWeek[]> => {
   const response = await axios.get(`${URL}/${rankingId}/weeks`)
   return response.data
 }
 
 const service = {
-  getRankings,
-  getRankingTable,
-  getRankingWeeks,
+  getAll,
+  getById,
+  getData,
+  getTable,
+  getWeeks,
 }
 
 export default service

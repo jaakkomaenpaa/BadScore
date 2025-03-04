@@ -46,6 +46,8 @@ export function SecondaryButton({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        textWrap: 'wrap',
+        textAlign: 'center',
         transition: 'all 0.1s ease',
         '&:hover': {
           opacity: 0.8,

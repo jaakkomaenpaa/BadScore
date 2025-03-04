@@ -47,6 +47,7 @@ function App() {
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/tournaments' element={<Calendar />} />
+            <Route path='/rankings' element={<HomePage />} />
 
             <Route path='/tournaments/:tournamentId' element={<TournamentLayout />}>
               <Route path='overview' element={<TournamentHome />} />

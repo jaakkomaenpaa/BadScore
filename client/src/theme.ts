@@ -24,6 +24,7 @@ declare module '@mui/material/styles' {
     matchInfo: React.CSSProperties
     entryListText: React.CSSProperties
     bracketEntryText: React.CSSProperties
+    rankingEntryText: React.CSSProperties
   }
 
   interface TypographyVariantsOptions {
@@ -32,6 +33,7 @@ declare module '@mui/material/styles' {
     matchInfo?: React.CSSProperties
     entryListText?: React.CSSProperties
     bracketEntryText?: React.CSSProperties
+    rankingEntryText?: React.CSSProperties
   }
 }
 
@@ -42,6 +44,7 @@ declare module '@mui/material/Typography' {
     matchInfo: true
     entryListText: true
     bracketEntryText: true
+    rankingEntryText: true
   }
 }
 
@@ -129,7 +132,13 @@ export const useAppTheme = (): Theme => {
             lineHeight: 1.5,
             letterSpacing: '0.00938em',
             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-          }
+          },
+          rankingEntryText: {
+            fontSize: isMobile ? '0.5rem' : '0.9rem',
+            lineHeight: 1.5,
+            letterSpacing: '0.00938em',
+            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          },
         },
       }),
     [isMobile]

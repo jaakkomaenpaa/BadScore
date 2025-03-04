@@ -1,5 +1,5 @@
 import { TournamentPreview } from '@/types/tournament'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { WeekButtonContainer } from '../calendar/WeekButtonContainer'
 import { formatDateToApi, getWeek } from '@/utils/dates'
@@ -14,6 +14,8 @@ export function CalendarPreview() {
   const [week, setWeek] = useState<Week>(getWeek(0))
   const [loading, setLoading] = useState<boolean>(true)
   const [activeWeek, setActiveWeek] = useState<number>(1)
+
+  const isMobile = useMediaQuery('(max-width: 600px)')
 
   useEffect(() => {
     const fetchTournaments = async () => {
@@ -39,6 +41,8 @@ export function CalendarPreview() {
     <Box
       sx={{
         flex: 1,
+        borderRight: '1px solid',
+        borderColor: 'text.secondary',
       }}
     >
       <Box
@@ -60,6 +64,7 @@ export function CalendarPreview() {
           <WeekButtonContainer
             handleWeekChange={handleWeekChange}
             activeTab={activeWeek}
+            mobileButtonWidth={isMobile ? 60 : undefined}
           />
           <NavLink
             to='/tournaments'

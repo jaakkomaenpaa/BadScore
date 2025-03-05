@@ -41,7 +41,6 @@ export type RankingSearchResponse = {
   lastPage: number
   currentPage: number
   onThisPage: number
-  
 }
 
 interface RankingEntry {
@@ -70,6 +69,9 @@ export interface TeamRankingEntry extends RankingEntry {
   team_md: string
   team_wd: string
   team_xd: string
+  team_sc: string
+  team_tc: string
+  team_uc: string
   team_total_points: string
   team_model: TeamModel
 }

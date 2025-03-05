@@ -1,10 +1,18 @@
 import {
+  CountryModel,
   PlayerModel,
   PlayerRankingEntry,
   TeamModel,
   TeamRankingEntry,
 } from '@/types/ranking'
-import { Box, TableCell, TableRow, Typography, useMediaQuery } from '@mui/material'
+import {
+  Box,
+  TableCell,
+  TableRow,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
@@ -78,6 +86,8 @@ type TeamRankingItemProps = {
 
 // To be implemented when creating the actual ranking page
 export function TeamRankingItem({ entry }: TeamRankingItemProps) {
+  const country: CountryModel = entry.team_model.country_model ?? null
+
   return (
     <TableRow>
       <TableCell>
@@ -86,7 +96,7 @@ export function TeamRankingItem({ entry }: TeamRankingItemProps) {
 
       <TableCell>
         <Typography variant='rankingEntryText'>
-          {entry.team_model.country_model.custom_code}
+          {country ? country.custom_code : ''}
         </Typography>
       </TableCell>
 
@@ -141,13 +151,14 @@ type TeamInfoProps = {
 
 function TeamInfo({ team }: TeamInfoProps) {
   const isMobile = useMediaQuery('(max-width: 600px)')
+  const country: CountryModel = team.country_model ?? null
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
-      <img
-        src={team.country_model.flag_url_svg}
-        style={{ height: isMobile ? 14 : 18 }}
-      />
+      {country && (
+        <img src={country.flag_url_svg} style={{ height: isMobile ? 14 : 18 }} />
+      )}
+
       <Typography variant='rankingEntryText' sx={{ textWrap: 'nowrap' }}>
         {team.name}
       </Typography>
@@ -161,6 +172,8 @@ type RankInfoProps = {
 }
 
 function RankInfo({ rank, rankChange }: RankInfoProps) {
+  const theme = useTheme()
+
   const color =
     rankChange === 0
       ? 'text.secondary'
@@ -196,12 +209,28 @@ function RankInfo({ rank, rankChange }: RankInfoProps) {
           </Typography>
         ) : rankChange > 0 ? (
           <>
-            <ArrowDropUpIcon sx={{ color: 'success.main' }} />
+            <ArrowDropUpIcon
+              sx={{
+                color: 'success.main',
+                height: 20,
+                [theme.breakpoints.down('sm')]: {
+                  height: 14,
+                },
+              }}
+            />
             <Typography variant='rankingEntryText'>{rankChange}</Typography>
           </>
         ) : (
           <>
-            <ArrowDropDownIcon sx={{ color: 'error.main' }} />
+            <ArrowDropDownIcon
+              sx={{
+                color: 'error.main',
+                height: 20,
+                [theme.breakpoints.down('sm')]: {
+                  height: 14,
+                },
+              }}
+            />
             <Typography variant='rankingEntryText'>{rankChange * -1}</Typography>
           </>
         )}

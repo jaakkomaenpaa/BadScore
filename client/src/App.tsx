@@ -7,6 +7,7 @@ import {
   ThemeProvider,
   Typography,
   useMediaQuery,
+  useTheme,
 } from '@mui/material'
 import TournamentLayout, {
   TournamentHome,
@@ -111,6 +112,8 @@ function Footer() {
 }
 
 function Header() {
+  const theme = useTheme()
+
   return (
     <Card
       sx={{
@@ -122,9 +125,17 @@ function Header() {
         position: 'relative',
         backgroundColor: 'primary.main',
         borderRadius: 0,
+        [theme.breakpoints.down('sm')]: {
+          justifyContent: 'space-between',
+          padding: '0px 10px',
+        },
       }}
     >
-      <CardContent>
+      <CardContent
+        sx={{
+          [theme.breakpoints.down('sm')]: {},
+        }}
+      >
         <NavLink to='/' style={{ textDecoration: 'none' }}>
           <Typography sx={{ color: 'text.primary' }} variant='h4'>
             BadScore
@@ -139,6 +150,10 @@ function Header() {
           gap: 3,
           position: 'absolute',
           left: 20,
+          [theme.breakpoints.down('sm')]: {
+            position: 'relative',
+            left: 'unset',
+          },
         }}
       >
         <NavLink to='/tournaments' style={{ textDecoration: 'none' }}>

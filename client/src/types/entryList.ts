@@ -14,7 +14,7 @@ export type PlayerStageResponse = {
 
 export type EntryStage = {
   display_order: number
-  entries: RankingEntry[]
+  entries: ListEntry[]
   entries_count: number
   has_notional_points: boolean
   name: StageName
@@ -28,7 +28,7 @@ export enum StageName {
   Withdrawn = 'Withdrawn',
 }
 
-export type RankingEntry = {
+export type ListEntry = {
   notional_points: string | null
   player1: PlayerEntry
   player2: PlayerEntry | null

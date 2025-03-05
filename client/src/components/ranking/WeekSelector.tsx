@@ -16,6 +16,7 @@ export function WeekSelector({ weeks, disabled }: WeekSelectorProps) {
       value={selectedWeekId}
       onChange={(e) => handleSelectWeek(parseInt(e.target.value.toString()))}
       disabled={disabled}
+      sx={{ width: '200px', alignSelf: 'center' }}
     >
       {weeks.map((week: RankingWeek) => (
         <MenuItem key={week.id} value={week.id}>

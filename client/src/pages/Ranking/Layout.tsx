@@ -4,7 +4,7 @@ import { RankingProvider } from '@/contexts/RankingContext'
 import { useRanking } from '@/hooks/ranking/useRanking'
 import { Ranking, RankingData } from '@/types/ranking'
 import { Box, Typography, useTheme } from '@mui/material'
-import { Outlet } from 'react-router'
+import { NavLink, Outlet } from 'react-router'
 
 function Layout() {
   return (
@@ -33,8 +33,10 @@ function Content() {
         padding: '10px 0px',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
         gap: 2,
+        [theme.breakpoints.up('sm')]: {
+          alignItems: 'center',
+        },
       }}
     >
       <Header ranking={ranking} rankingData={rankingData} />
@@ -44,9 +46,7 @@ function Content() {
       <Box
         sx={{
           padding: 2,
-          [theme.breakpoints.down('sm')]: {
-            padding: '10px 0px',
-          },
+          [theme.breakpoints.down('sm')]: {},
         }}
       >
         <Outlet />
@@ -65,9 +65,22 @@ function Header({ ranking, rankingData }: HeaderProps) {
     <Box
       sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'center' }}
     >
-      <Typography variant='h3' sx={{ color: 'text.primary' }}>
-        {ranking.name}
-      </Typography>
+      <NavLink
+        to={`/rankings/${ranking.id}/overview`}
+        style={{ textDecoration: 'none' }}
+      >
+        <Typography
+          variant='h3'
+          sx={{
+            color: 'text.primary',
+            '&:hover': {
+              textDecoration: 'underline',
+            },
+          }}
+        >
+          {ranking.name}
+        </Typography>
+      </NavLink>
       <Typography variant='body1' sx={{ color: 'text.secondary' }}>
         Updated at: {new Date(rankingData.publication_date).toLocaleString()}
       </Typography>

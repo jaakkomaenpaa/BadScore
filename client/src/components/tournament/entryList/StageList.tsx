@@ -3,7 +3,7 @@ import {
   EventStage,
   PlayerEntry,
   PlayerStageResponse,
-  RankingEntry,
+  ListEntry,
   StageName,
 } from '@/types/entryList'
 import {
@@ -108,7 +108,7 @@ function StagePlayers({ stage }: StagePlayersProps) {
 }
 
 type PlayerListItemProps = {
-  entry: RankingEntry
+  entry: ListEntry
   hasNotionalPoints?: boolean
   color: { background: string; text: string }
 }

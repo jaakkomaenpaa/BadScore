@@ -16,7 +16,6 @@ type RankingInfo = RankingSearchResponse & RankingCategory & { categoryId: numbe
 
 export function Home() {
   const { ranking, weeks } = useRanking()
-
   const [rankingTables, setRankingTables] = useState<Map<number, RankingInfo>>(
     new Map()
   )
@@ -67,7 +66,13 @@ export function Home() {
   if (!ranking) return <Typography>Error loading ranking</Typography>
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
+      }}
+    >
       {[...rankingTables.values()].map((table: RankingInfo) => (
         <RankingOverview key={table.categoryId} tableInfo={table} ranking={ranking} />
       ))}
@@ -83,21 +88,45 @@ type RankingOverviewProps = {
 function RankingOverview({ tableInfo, ranking }: RankingOverviewProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <NavLink
-        to={`../category/${tableInfo.categoryId}`}
-        style={{ textDecoration: 'none' }}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          padding: '0px 10px',
+        }}
       >
-        <Typography
-          sx={{
-            color: 'text.primary',
-            '&:hover': {
-              textDecoration: 'underline',
-            },
-          }}
+        <NavLink
+          to={`../category/${tableInfo.categoryId}`}
+          style={{ textDecoration: 'none' }}
         >
-          {tableInfo.name}
-        </Typography>
-      </NavLink>
+          <Typography
+            sx={{
+              color: 'text.primary',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            }}
+          >
+            {tableInfo.name}
+          </Typography>
+        </NavLink>
+
+        <NavLink
+          to={`../category/${tableInfo.categoryId}`}
+          style={{ textDecoration: 'none' }}
+        >
+          <Typography
+            sx={{
+              color: 'text.primary',
+              textDecoration: 'underline',
+            }}
+          >
+            More
+          </Typography>
+        </NavLink>
+      </Box>
+
       <RankingTable entries={tableInfo.entries} ranking={ranking} loading={false} />
     </Box>
   )

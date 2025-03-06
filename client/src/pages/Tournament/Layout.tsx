@@ -113,18 +113,6 @@ function Header({ tournament }: HeaderProps) {
           zIndex: -1,
         }}
       />
-      <NavLink
-        to='/'
-        style={{
-          position: 'absolute',
-          top: 10,
-          left: 10,
-          color: 'white',
-          fontSize: 20,
-        }}
-      >
-        Calendar
-      </NavLink>
       <Typography
         variant='h3'
         sx={{
@@ -143,7 +131,7 @@ function Header({ tournament }: HeaderProps) {
           textAlign: 'center',
         }}
       >
-        {tournament.dates} - {tournament.location}
+        {tournament.dates} | {tournament.location}
       </Typography>
     </Box>
   )

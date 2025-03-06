@@ -52,6 +52,12 @@ function App() {
             <Route path='/' element={<HomePage />} />
             <Route path='/tournaments' element={<Calendar />} />
             <Route path='/rankings' element={<RankingsPage />} />
+            <Route path='/players' element={<></>} />
+
+            <Route path='/players/:playerId' element={<></>}>
+              <Route path='overview' element={<></>} />
+              <Route path='tournaments' element={<></>} />
+            </Route>
 
             <Route path='/rankings/:rankingId' element={<RankingLayout />}>
               <Route path='overview' element={<RankingHome />} />

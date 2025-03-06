@@ -1,4 +1,5 @@
 import { CalendarPreview } from '@/components/home/CalendarPreview'
+import { PlayerSearch } from '@/components/home/PlayerSearch'
 import { RankingPreview } from '@/components/home/RankingPreview'
 import { Box, useMediaQuery } from '@mui/material'
 
@@ -14,7 +15,7 @@ function HomePage() {
         width: '100%',
       }}
     >
-      <SearchBar />
+      <PlayerSearch />
       <Box
         sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', flex: 1 }}
       >
@@ -26,7 +27,3 @@ function HomePage() {
 }
 
 export default HomePage
-
-function SearchBar() {
-  return <Box sx={{}}>Player Search</Box>
-}

@@ -9,6 +9,7 @@ CORS(app)
 app.register_blueprint(routes.calendar_bp, url_prefix="/api/tournaments")
 app.register_blueprint(routes.tournament_bp, url_prefix="/api/tournament")
 app.register_blueprint(routes.ranking_bp, url_prefix="/api/ranking")
+app.register_blueprint(routes.players_bp, url_prefix="/api/players")
 
 
 @app.route("/")

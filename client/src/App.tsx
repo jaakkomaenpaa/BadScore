@@ -6,14 +6,13 @@ import {
   CardContent,
   ThemeProvider,
   Typography,
-  useMediaQuery,
   useTheme,
 } from '@mui/material'
 import TournamentLayout, {
   TournamentHome,
   Draws,
   Matches,
-  Players,
+  TournamentPlayers,
   EntryList,
 } from './pages/Tournament'
 import { BracketPage } from '@/pages/Tournament/Bracket'
@@ -24,6 +23,7 @@ import { CURRENT_VERSION } from './config'
 import RankingsPage from './pages/Rankings'
 import RankingLayout, { RankingHome } from './pages/Ranking'
 import { CategoryView } from './pages/Ranking/CategoryView'
+import Players from './pages/Players'
 
 function App() {
   const theme = useAppTheme()
@@ -52,7 +52,7 @@ function App() {
             <Route path='/' element={<HomePage />} />
             <Route path='/tournaments' element={<Calendar />} />
             <Route path='/rankings' element={<RankingsPage />} />
-            <Route path='/players' element={<></>} />
+            <Route path='/players' element={<Players />} />
 
             <Route path='/players/:playerId' element={<></>}>
               <Route path='overview' element={<></>} />
@@ -69,7 +69,7 @@ function App() {
               <Route path='draws' element={<Draws />} />
               <Route path='draws/:drawId' element={<BracketPage />} />
               <Route path='matches' element={<Matches />} />
-              <Route path='players' element={<Players />} />
+              <Route path='players' element={<TournamentPlayers />} />
               <Route path='entry-list' element={<EntryList />} />
             </Route>
 
@@ -86,7 +86,7 @@ function App() {
 export default App
 
 function Footer() {
-  const isMobile = useMediaQuery('(max-width:600px)')
+  const theme = useTheme()
 
   return (
     <Box
@@ -95,10 +95,13 @@ function Footer() {
         backgroundColor: 'background.paper',
         width: '100%',
         color: 'text.primary',
-        height: isMobile ? 80 : 120,
+        height: 120,
         flexDirection: 'column',
         display: 'flex',
         justifyContent: 'center',
+        [theme.breakpoints.down('sm')]: {
+          height: 80,
+        },
       }}
     >
       <Box
@@ -137,11 +140,7 @@ function Header() {
         },
       }}
     >
-      <CardContent
-        sx={{
-          [theme.breakpoints.down('sm')]: {},
-        }}
-      >
+      <CardContent>
         <NavLink to='/' style={{ textDecoration: 'none' }}>
           <Typography sx={{ color: 'text.primary' }} variant='h4'>
             BadScore

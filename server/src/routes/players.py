@@ -4,14 +4,23 @@ from services import players
 players_bp = Blueprint("players", __name__)
 
 
-@players_bp.route("/", methods=["GET"])
+@players_bp.route("/search", methods=["GET"])
 def search():
     search_key = request.args.get("search")
 
     if not search_key or len(search_key) < 3:
         return jsonify({"error": "Search key must have at least 3 characters"})
 
-    data = players.search(search_key)
+    page = request.args.get("page")
+    if not page:
+        page = 1
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    data = players.search(search_key, page)
     return jsonify(data)
 
 

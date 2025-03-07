@@ -1,13 +1,23 @@
-def transform_search_response(response: dict):
+from utils.country import add_flag_url_to_country
+
+
+def transform_search_response(response: dict): 
     results = response.get("results")
     pagination = response.get("pagination")
 
     page_data = {
         "currentPage": pagination.get("current_page"),
+        "lastPage": pagination.get("last_page"),
         "total": pagination.get("total"),
         "from": pagination.get("from"),
         "to": pagination.get("to"),
     }
+
+    if len(results) == 0:
+        return {"players": [], "page": page_data}
+
+    for player in results:
+        add_flag_url_to_country(player.get("country_model"))
 
     return {"players": results, "page": page_data}
 

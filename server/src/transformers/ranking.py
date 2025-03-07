@@ -1,14 +1,5 @@
 from typing import Dict, Any, List
-from config import FLAG_URL
-
-
-def add_flag_url_to_country(country: Dict[str, Any]):
-    if not country:
-        return country
-
-    flag_name = country.get("flag_name_svg")
-    country["flag_url_svg"] = FLAG_URL + flag_name
-    return country
+from utils.country import add_flag_url_to_country
 
 
 def transform_ranking_table_response(response: dict):

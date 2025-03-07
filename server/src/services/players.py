@@ -20,7 +20,11 @@ def get_player_bio(id: int):
     payload = {"activeTab": 1, "playerId": str(id)}
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
-    return players.transform_player_response(response.json())
+
+    if response.status_code != 200:
+        return {"error": "Bio not found"}
+
+    return response.json()
 
 
 def get_player_by_id(id: int, is_para: bool = False):
@@ -29,7 +33,7 @@ def get_player_by_id(id: int, is_para: bool = False):
     payload = {"isPara": is_para, "playerId": str(id)}
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
-    return response.json()
+    return players.transform_player_response(response.json())
 
 
 def get_player_tournament_years(id: int, is_para: bool = False, locale: str = "en"):

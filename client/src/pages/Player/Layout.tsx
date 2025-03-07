@@ -1,31 +1,31 @@
 import { LoadingCircle } from '@/components/LoadingCircle'
 import { NavButton } from '@/components/NavButton'
-import { BracketProvider } from '@/contexts/BracketContext'
-import { TournamentProvider } from '@/contexts/TournamentContext'
-import { useTournament } from '@/hooks/tournament/useTournament'
-import { TournamentPreview } from '@/types/tournament'
+import { PlayerProvider } from '@/contexts/PlayerContext'
+import { usePlayer } from '@/hooks/player/usePlayer'
+import { CountryModel } from '@/types/country'
+import { Player } from '@/types/player'
 import { Box, Typography, useTheme } from '@mui/material'
 import { Outlet } from 'react-router'
 
 function Layout() {
   return (
-    <TournamentProvider>
-      <BracketProvider>
-        <Content />
-      </BracketProvider>
-    </TournamentProvider>
+    <PlayerProvider>
+      <Content />
+    </PlayerProvider>
   )
 }
 
 export default Layout
 
 function Content() {
-  const { tournament, loading, error } = useTournament()
+  const { player, error, loading } = usePlayer()
   const theme = useTheme()
 
   if (error) return <Typography color='error'>{error}</Typography>
   if (loading) return <LoadingCircle />
-  if (!tournament) return <Typography>No tournament data available</Typography>
+  if (!player) {
+    return <Typography>No player data available</Typography>
+  }
 
   return (
     <Box
@@ -33,8 +33,10 @@ function Content() {
         width: '100%',
       }}
     >
-      <Header tournament={tournament} />
+      <Header player={player} />
+
       <Navbar />
+
       <Box
         sx={{
           padding: 2,
@@ -66,36 +68,35 @@ function Navbar() {
         },
       }}
     >
-      <NavButton to={`overview`} label='Overview' />
-      <NavButton to={`draws`} label='Draws'></NavButton>
-      <NavButton to={`matches`} label='Matches'></NavButton>
-      <NavButton to={`entry-list`} label='Entry list'></NavButton>
-      <NavButton to={`players`} label='Players'></NavButton>
+      <NavButton to={`overview`} label='Bio' />
+      <NavButton to={`tournaments`} label='Tournaments'></NavButton>
     </Box>
   )
 }
 
 type HeaderProps = {
-  tournament: TournamentPreview
+  player: Player
 }
 
-function Header({ tournament }: HeaderProps) {
+function Header({ player }: HeaderProps) {
   const theme = useTheme()
+  const country: CountryModel = player.country_model ?? null
 
   return (
     <Box
       sx={{
-        height: 200,
+        height: 120,
         display: 'flex',
         justifyContent: 'center',
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignItems: 'center',
         color: 'white',
         position: 'relative',
         overflow: 'hidden',
         padding: 2,
+        gap: 2,
         [theme.breakpoints.down('sm')]: {
-          height: 160,
+          height: 80,
         },
       }}
     >
@@ -106,14 +107,29 @@ function Header({ tournament }: HeaderProps) {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundImage: `url(${tournament.headerUrl})`,
+          backgroundImage: `url(${player.hero_image.url_cloudinary_large})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           filter: 'brightness(50%)',
           zIndex: -1,
+          [theme.breakpoints.down('sm')]: {
+            backgroundImage: `url(${player.hero_image.url_cloudinary_mobile})`,
+          },
         }}
       />
+      <img
+        src={player.avatar.url_cloudinary}
+        style={{
+          overflow: 'hidden',
+          width: 100,
+          height: 100,
+          borderRadius: '50%',
+          border: '2px solid #fff',
+          flexShrink: 0,
+        }}
+      />
+
       <Typography
         variant='h3'
         sx={{
@@ -122,18 +138,20 @@ function Header({ tournament }: HeaderProps) {
           textAlign: 'center',
         }}
       >
-        {tournament.name}
+        {player.name_display}
       </Typography>
-      <Typography
-        variant='body1'
-        sx={{
-          zIndex: 1,
-          textWrap: 'wrap',
-          textAlign: 'center',
-        }}
-      >
-        {tournament.dates} | {tournament.location}
-      </Typography>
+
+      {country && (
+        <img
+          src={player.country_model.flag_url_svg}
+          style={{
+            overflow: 'hidden',
+            height: 40,
+            borderRadius: '50%',
+            border: '2px solid #fff',
+          }}
+        />
+      )}
     </Box>
   )
 }

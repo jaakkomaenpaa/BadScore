@@ -26,6 +26,7 @@ import RankingLayout, { RankingHome } from './pages/Ranking'
 import { CategoryView } from './pages/Ranking/CategoryView'
 import Players from './pages/Players'
 import logo from '../public/logo.svg'
+import { PlayerHome, PlayerLayout, PlayerTournaments } from './pages/Player'
 
 function App() {
   const theme = useAppTheme()
@@ -56,9 +57,9 @@ function App() {
             <Route path='/rankings' element={<RankingsPage />} />
             <Route path='/players' element={<Players />} />
 
-            <Route path='/players/:playerId' element={<></>}>
-              <Route path='overview' element={<></>} />
-              <Route path='tournaments' element={<></>} />
+            <Route path='/players/:playerId' element={<PlayerLayout />}>
+              <Route path='overview' element={<PlayerHome />} />
+              <Route path='tournaments' element={<PlayerTournaments />} />
             </Route>
 
             <Route path='/rankings/:rankingId' element={<RankingLayout />}>

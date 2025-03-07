@@ -24,6 +24,12 @@ export type Player = {
   date_of_birth: string
   first_name: string
   gender_id: number
+  hero_image: {
+    url: string
+    url_cloudinary: string
+    url_cloudinary_large: string
+    url_cloudinary_mobile: string
+  }
   id: number
   language: number
   last_name: string

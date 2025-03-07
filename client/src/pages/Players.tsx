@@ -9,7 +9,7 @@ import { SearchField } from '@/components/SearchField'
 import { PlayerListItem } from '@/components/players/PlayerListItem'
 import { ResultInfoField } from '@/components/players/ResultInfoField'
 
-const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
+const SearchTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
@@ -86,7 +86,7 @@ function Players() {
         padding: 2,
       }}
     >
-      <CustomTooltip
+      <SearchTooltip
         open={search.length < 3}
         title='Fill in at least 3 characters'
         placement='bottom-start'
@@ -104,7 +104,7 @@ function Players() {
             onInputChange={(e) => setSearch(e.target.value)}
           />
         </span>
-      </CustomTooltip>
+      </SearchTooltip>
 
       <ResultInfoField
         entriesTotal={entriesTotal}

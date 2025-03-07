@@ -6,6 +6,7 @@ import {
   CardContent,
   ThemeProvider,
   Typography,
+  useMediaQuery,
   useTheme,
 } from '@mui/material'
 import TournamentLayout, {
@@ -24,6 +25,7 @@ import RankingsPage from './pages/Rankings'
 import RankingLayout, { RankingHome } from './pages/Ranking'
 import { CategoryView } from './pages/Ranking/CategoryView'
 import Players from './pages/Players'
+import logo from '../public/logo.svg'
 
 function App() {
   const theme = useAppTheme()
@@ -122,6 +124,7 @@ function Footer() {
 
 function Header() {
   const theme = useTheme()
+  const isMobile = useMediaQuery('(max-width: 600px)')
 
   return (
     <Card
@@ -140,6 +143,25 @@ function Header() {
         },
       }}
     >
+      <NavLink
+        to='/'
+        style={{
+          textDecoration: 'none',
+          position: isMobile ? 'relative' : 'absolute',
+          right: isMobile ? 0 : 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <img
+          src={logo}
+          style={{
+            height: 40,
+          }}
+        />
+      </NavLink>
+
       <CardContent>
         <NavLink to='/' style={{ textDecoration: 'none' }}>
           <Typography sx={{ color: 'text.primary' }} variant='h4'>

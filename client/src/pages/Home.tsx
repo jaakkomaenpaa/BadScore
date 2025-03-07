@@ -1,3 +1,4 @@
+import { About } from '@/components/home/About'
 import { CalendarPreview } from '@/components/home/CalendarPreview'
 import { PlayerSearch } from '@/components/home/PlayerSearch'
 import { RankingPreview } from '@/components/home/RankingPreview'
@@ -22,6 +23,7 @@ function HomePage() {
         <CalendarPreview />
         <RankingPreview />
       </Box>
+      <About />
     </Box>
   )
 }

@@ -118,6 +118,7 @@ export type PlayerTournamentModel = {
   official_website: string
   prize_money: string
   slug: string
+  type_id: number // 0 = Normal, 1 = team
 }
 
 export type PlayerTournamentDraw = {
@@ -135,4 +136,47 @@ export type PlayerTournamentDraw = {
   position: string
   score_opponent: number
   score_player: number
+}
+
+export type PlayerTournamentMatchesResponse = {
+  [eventId: number]: {
+    [drawId: number]: PlayerTournamentMatch[] | Record<number, PlayerTournamentMatch>
+  }
+}
+
+export type PlayerTournamentMatch = {
+  code: string
+  draw_model: DrawModel
+  draw_name: string
+  match_set_model: ScoreModel[]
+  round_name: string
+  score_status: number
+  t1p1_player_model: Player
+  t1p1country_model: CountryModel
+  t1p2_player_model: Player | null
+  t1p2country_model: CountryModel | null
+  t2p1_player_model: Player
+  t2p1country_model: CountryModel
+  t2p2_player_model: Player | null
+  t2p2country_model: CountryModel | null
+  tournament_draw_id: number
+  tournament_id: number
+  winner: number
+}
+
+export type DrawModel = {
+  code: string
+  id: number
+  name: string
+  tournament_event_id: number
+  tournament_id: number
+  type_id: number
+}
+
+export type ScoreModel = {
+  id: number
+  ordering: number
+  team1: number
+  team2: number
+  tournament_match_id: number
 }

@@ -33,8 +33,8 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
   const [tournaments, setTournaments] = useState<PlayerTournament[]>([])
   const [tournamentYears, setTournamentYears] = useState<number[]>([])
 
-  const yearParam = searchParams.get('year') ?? new Date().getFullYear().toString()
-  const defaultYear = parseInt(yearParam)
+  const yearParam = searchParams.get('year')
+  const defaultYear = yearParam ? parseInt(yearParam) : new Date().getFullYear()
   const [currentYear, setCurrentYear] = useState<number>(defaultYear)
 
   const [error, setError] = useState<string>('')
@@ -52,6 +52,9 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
           playerService.getById(numericPlayerId),
           playerService.getTournamentYears(numericPlayerId),
         ])
+
+        handleYearChange(defaultYear)
+
         setPlayer(playerRes)
         setTournamentYears(tmtYearsRes)
       } catch (err) {

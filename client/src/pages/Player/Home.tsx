@@ -73,7 +73,7 @@ function BasicInfo({ player }: BasicInfoProps) {
           value={height ? `${parseInt(height).toFixed(0)} cm` : '-'}
         />
         <InfoRow
-          label='Plays'
+          label='Playing hand'
           value={hand === '1' ? 'R' : hand === '2' ? 'L' : '-'}
         />
         <InfoRow label='Residence' value={residence ?? '-'} />

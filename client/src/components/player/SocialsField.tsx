@@ -56,7 +56,7 @@ export function SocialsField({ bioModel }: SocialsFieldProps) {
               sx={{
                 color: 'primary.main',
                 backgroundColor: 'background.paper',
-                '&:hover': { backgroundColor: 'secondary.light' },
+                '&:hover': { backgroundColor: 'whitesmoke' },
               }}
             >
               <Icon />

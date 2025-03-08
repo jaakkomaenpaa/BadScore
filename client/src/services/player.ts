@@ -3,6 +3,7 @@ import {
   PlayerBio,
   PlayerSearchResponse,
   PlayerTournament,
+  PlayerTournamentMatchesResponse,
 } from '@/types/player'
 import { API_URL } from '../config'
 import axios from 'axios'
@@ -36,7 +37,25 @@ const getTournaments = async (
   playerId: number,
   year: number
 ): Promise<PlayerTournament[]> => {
-  const response = await axios.get(`${URL}/${playerId}/tournaments/${year}`)
+  const response = await axios.get(`${URL}/${playerId}/tournaments/year/${year}`)
+  return response.data
+}
+
+const getTournamentMatches = async (
+  playerId: number,
+  tournamentId: number,
+  eventIds: number[],
+  tournamentType: number
+): Promise<PlayerTournamentMatchesResponse> => {
+  const body = {
+    eventIds,
+    tmtType: tournamentType,
+  }
+
+  const response = await axios.post(
+    `${URL}/${playerId}/tournaments/${tournamentId}`,
+    body
+  )
   return response.data
 }
 
@@ -46,6 +65,7 @@ const service = {
   getBio,
   getTournamentYears,
   getTournaments,
+  getTournamentMatches,
 }
 
 export default service

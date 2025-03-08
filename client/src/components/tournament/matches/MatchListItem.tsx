@@ -36,7 +36,7 @@ export function MatchListItem({
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          color: 'white',
+          color: 'text.primary',
         }}
       >
         <InfoField

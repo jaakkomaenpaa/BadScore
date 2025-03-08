@@ -31,6 +31,8 @@ function Content() {
     <Box
       sx={{
         width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <Header player={player} />

@@ -58,6 +58,7 @@ function App() {
             <Route path='/players' element={<Players />} />
 
             <Route path='/players/:playerId' element={<PlayerLayout />}>
+              <Route path='' element={<PlayerHome />} />
               <Route path='overview' element={<PlayerHome />} />
               <Route path='tournaments' element={<PlayerTournaments />} />
             </Route>

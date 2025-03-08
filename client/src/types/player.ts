@@ -45,6 +45,7 @@ export type PlayerBioModel = {
   current_residence?: string
   education_level?: string
   equipment_sponsor?: string
+  family_information?: string
   famous_sporting_relatives?: string
   height?: string
   hobbies?: string
@@ -61,7 +62,7 @@ export type PlayerBioModel = {
   other_sports?: string
   plays?: string // 1 = Right, 2 = Left
   pob?: string
-  previus_olympics?: string
+  previous_olympics?: string
   sporting_ambitions?: string
   sporting_awards?: string
   sporting_hero?: string
@@ -69,7 +70,11 @@ export type PlayerBioModel = {
   start_playing_competitively?: string
   style_of_play?: string
   superstitions_rituals?: string
-  trainign_regime?: string
+  training_regime?: string
+
+  instagram?: string
+  facebook?: string
+  twitter?: string
   website?: string
 }
 

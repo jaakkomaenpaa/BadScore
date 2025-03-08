@@ -1,12 +1,16 @@
 import { CountryModel } from '@/types/country'
 import { Player, PlayerTournamentMatch, ScoreModel } from '@/types/player'
-import { Box, Typography, useTheme } from '@mui/material'
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
 
 type PlayerMatchProps = {
   match: PlayerTournamentMatch
 }
 
 export function PlayerMatch({ match }: PlayerMatchProps) {
+  if (!match.t1p1_player_model || !match.t2p1_player_model) {
+    return null
+  }
+
   return (
     <Box
       sx={{
@@ -76,6 +80,9 @@ function ScoreField({ match }: { match: PlayerTournamentMatch }) {
           </Typography>
         </Box>
       ))}
+      {match.score_status !== 0 && (
+        <Typography variant='matchScore'>{match.status_name}</Typography>
+      )}
     </Box>
   )
 }
@@ -157,6 +164,9 @@ type TeamItemProps = {
 }
 
 function TeamItem({ players, countries, side, isWinner }: TeamItemProps) {
+  const isMobile = useMediaQuery('(max-width:600px)')
+  const theme = useTheme()
+
   return (
     <Box
       sx={{
@@ -168,7 +178,10 @@ function TeamItem({ players, countries, side, isWinner }: TeamItemProps) {
     >
       {players.map((player, index: number) => {
         const Flag = () => (
-          <img src={countries[index].flag_url_svg} style={{ height: 16 }} />
+          <img
+            src={countries[index].flag_url_svg}
+            style={{ height: isMobile ? 10 : 16 }}
+          />
         )
 
         return (
@@ -179,17 +192,20 @@ function TeamItem({ players, countries, side, isWinner }: TeamItemProps) {
               flexDirection: 'row',
               gap: 1,
               alignItems: 'center',
+              [theme.breakpoints.down('sm')]: {
+                gap: '4px',
+              },
             }}
           >
             {side === 'away' && <Flag />}
             <Typography
-              variant='matchInfo'
+              variant='matchPlayerName'
               sx={{
                 color: isWinner ? 'text.primary' : 'text.secondary',
                 fontWeight: isWinner ? 'bold' : 'normal',
               }}
             >
-              {player.name_display}
+              {player.name_display ?? 'No name'}
             </Typography>
             {side === 'home' && <Flag />}
           </Box>

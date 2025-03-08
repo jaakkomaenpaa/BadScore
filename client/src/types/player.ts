@@ -151,6 +151,7 @@ export type PlayerTournamentMatch = {
   match_set_model: ScoreModel[]
   round_name: string
   score_status: number
+  status_name: string
   t1p1_player_model: Player
   t1p1country_model: CountryModel
   t1p2_player_model: Player | null

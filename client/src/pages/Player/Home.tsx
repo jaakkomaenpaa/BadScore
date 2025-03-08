@@ -4,11 +4,9 @@ import { SocialsField } from '@/components/player/SocialsField'
 import { usePlayer } from '@/hooks/player/usePlayer'
 import { Player } from '@/types/player'
 import { Box, Stack, Typography } from '@mui/material'
-import { useTheme } from '@mui/system'
 
 export function Home() {
   const { player, error, loading } = usePlayer()
-  const theme = useTheme()
 
   if (error) return <Typography color='error'>{error}</Typography>
   if (loading) return <LoadingCircle />
@@ -22,9 +20,6 @@ export function Home() {
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
-        [theme.breakpoints.down('sm')]: {
-          flexDirection: 'column',
-        },
       }}
     >
       <Box
@@ -35,7 +30,6 @@ export function Home() {
           maxWidth: 800,
           width: '90%',
           alignSelf: 'center',
-          //backgroundColor: 'red',
         }}
       >
         <SocialsField bioModel={player.bio_model} />

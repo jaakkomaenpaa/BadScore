@@ -22,7 +22,13 @@ export function Tournaments() {
   }
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+      }}
+    >
       <YearSelector
         tournamentYears={tournamentYears}
         selectedYear={currentYear}

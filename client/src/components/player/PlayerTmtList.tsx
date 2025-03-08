@@ -3,7 +3,7 @@ import {
   PlayerTournamentMatch,
   PlayerTournamentMatchesResponse,
 } from '@/types/player'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useMediaQuery } from '@mui/material'
 import playerService from '@/services/player'
 import { useEffect, useState } from 'react'
 import { usePlayer } from '@/hooks/player/usePlayer'
@@ -16,7 +16,16 @@ type PlayerTmtListProps = {
 
 export function PlayerTmtList({ tournaments }: PlayerTmtListProps) {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        width: '100%',
+        maxWidth: 1200,
+        alignSelf: 'center',
+      }}
+    >
       {tournaments.map((tournament) => (
         <Tournament key={tournament.tournament_id} tournament={tournament} />
       ))}
@@ -98,8 +107,6 @@ type EventMatchesProps = {
 }
 
 function EventMatches({ event }: EventMatchesProps) {
-  console.log('event', event)
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       {Object.keys(event).map((drawId) => {
@@ -129,6 +136,8 @@ function EventMatches({ event }: EventMatchesProps) {
 }
 
 function TournamentHeader({ tournament }: { tournament: PlayerTournament }) {
+  const isMobile = useMediaQuery('(max-width: 600px)')
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
       {tournament.logo && (
@@ -159,7 +168,7 @@ function TournamentHeader({ tournament }: { tournament: PlayerTournament }) {
             <Typography variant='body2'>{tournament.location}</Typography>
             <img
               src={tournament.tournament_model.country_model.flag_url_svg}
-              style={{ height: 16 }}
+              style={{ height: isMobile ? 12 : 16 }}
             />
           </Box>
 

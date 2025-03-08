@@ -10,21 +10,29 @@ BWF website: https://bwfbadminton.com/
 
 ## Features
 
-As of 7.3.2025 the site has the following features:
-- Tournament calendar with search functionality
+As of 8.3.2025 the site has the following features:
+- Tournament search
 - Match results
 - Brackets & standings
 - Entry lists 
 - Official rankings
-- Player search (no player details yet)
+- Player search
+- Player profiles and match history
+
+## Challenges
+
+The API from which the data is fetched uses very different models for similar kind of data.
+E.g. the response for a match object in the tournament route is notably different from the match object on the player route. 
+
+This makes the frontend types somewhat messy, and in some cases prevents component reusability.
 
 ## Running locally
 
-Note that these instructions have only been tested in Windows 11 PowerShell
+Note that these instructions have only been tested with PowerShell on Windows 11 
 
 **Clone the repository**
 ```bash
- git clone https://github.com/jaakkomaenpaa/bwf-tournaments.git
+git clone https://github.com/jaakkomaenpaa/BadScore.git
  ```
 
 ### Server

@@ -48,13 +48,25 @@ export function About() {
             ✅ Tournament info, results, and brackets
           </Typography>
           <Typography variant='body1'>✅ Official rankings</Typography>
+          <Typography variant='body1'>
+            ✅ Player profiles and match history
+          </Typography>
         </List>
         <Typography variant='body1'>Upcoming features:</Typography>
         <List>
           <Typography variant='body1'>
-            ⏳ Player profiles and match history
+            ⏳ View for player matches in current tournament
           </Typography>
+          <Typography variant='body1'>
+            ⏳ View for player ranking points breakdown
+          </Typography>
+          <Typography variant='body1'>⏳ Overall robustness checking</Typography>
         </List>
+        <Typography variant='body1'>
+          Finally, note that unfortunately some data (player statuses, seeds, etc) for
+          the tournaments before 2025 is missing. This is probably caused by the BWF
+          results being moved to the new platform.
+        </Typography>
       </Box>
     </Box>
   )

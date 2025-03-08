@@ -64,14 +64,24 @@ function BasicInfo({ player }: BasicInfoProps) {
         <InfoRow label='Date of Birth' value={dateOfBirth} />
         <InfoRow
           label='Height'
-          value={height ? `${parseInt(height).toFixed(0)} cm` : '-'}
+          value={
+            height && parseInt(height) !== 0
+              ? `${parseInt(height).toFixed(0)} cm`
+              : '-'
+          }
         />
         <InfoRow
           label='Playing hand'
           value={hand === '1' ? 'R' : hand === '2' ? 'L' : '-'}
         />
-        <InfoRow label='Residence' value={residence ?? '-'} />
-        <InfoRow label='Languages' value={languages ?? '-'} />
+        <InfoRow
+          label='Residence'
+          value={residence && residence !== '' ? residence : '-'}
+        />
+        <InfoRow
+          label='Languages'
+          value={languages && languages !== '' ? languages : '-'}
+        />
       </Stack>
     </Box>
   )

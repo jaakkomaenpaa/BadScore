@@ -30,7 +30,7 @@ export function StageList({ players, eventStages }: StageListProps) {
   return (
     <Box sx={{}}>
       {eventStages.map((stage) => {
-        if (stage.value === 0) return null
+        if (stage.value === 0 && Object.values(players).length > 1) return null
 
         return <StagePlayers key={stage.value} stage={players[stage.value]} />
       })}
@@ -62,6 +62,10 @@ function StagePlayers({ stage }: StagePlayersProps) {
       background: 'error.main',
       text: 'errorText',
     },
+    [StageName.AllStages]: {
+      background: 'info.main',
+      text: 'text.primary',
+    },
   }
 
   return (
@@ -92,9 +96,9 @@ function StagePlayers({ stage }: StagePlayersProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {stage.entries.map((entry) => (
+            {stage.entries.map((entry, index) => (
               <PlayerListItem
-                key={entry.player1.id}
+                key={entry.player1.id + index}
                 entry={entry}
                 hasNotionalPoints={stage.has_notional_points}
                 color={stageColors[stage.name]}
@@ -148,7 +152,7 @@ function PlayerListItem({
           variant='entryListText'
           sx={{ color: 'text.secondary', textWrap: 'nowrap' }}
         >
-          {entry.player1.country.name}
+          {entry.player1.country_model.name ?? 'NONE'}
         </Typography>
       </TableCell>
 
@@ -193,6 +197,8 @@ function PlayerInfo({ player, status }: PlayerInfoProps) {
   const isMobile = useMediaQuery('(max-width:600px)')
   const theme = useTheme()
 
+  const flagUrl = player.country?.url_svg ?? null
+
   return (
     <Box
       sx={{
@@ -205,11 +211,14 @@ function PlayerInfo({ player, status }: PlayerInfoProps) {
         },
       }}
     >
-      <img
-        src={player.country.url_svg}
-        alt={player.country.name}
-        style={{ height: !isMobile ? 18 : 14 }}
-      />
+      {flagUrl && (
+        <img
+          src={player.country.url_svg}
+          alt={player.country.name}
+          style={{ height: !isMobile ? 18 : 14 }}
+        />
+      )}
+
       <Typography variant='entryListText' sx={{ textWrap: 'nowrap' }}>
         {player.name_display}
       </Typography>

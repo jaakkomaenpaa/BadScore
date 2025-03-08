@@ -27,6 +27,8 @@ import { CategoryView } from './pages/Ranking/CategoryView'
 import Players from './pages/Players'
 import logo from '../public/logo.svg'
 import { PlayerHome, PlayerLayout, PlayerTournaments } from './pages/Player'
+import GitHubIcon from '@mui/icons-material/GitHub'
+import { NavigationLink } from './components/NavigationLink'
 
 function App() {
   const theme = useAppTheme()
@@ -103,6 +105,7 @@ function Footer() {
         flexDirection: 'column',
         display: 'flex',
         justifyContent: 'center',
+        position: 'relative',
         [theme.breakpoints.down('sm')]: {
           height: 80,
         },
@@ -118,6 +121,24 @@ function Footer() {
         }}
       >
         <Typography variant='body2'>Created in 2025</Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '4px',
+          }}
+        >
+          <GitHubIcon className='hover-child' sx={{ height: 20 }} />
+          <NavigationLink
+            to='https://github.com/jaakkomaenpaa/BadScore'
+            variant='body2'
+            sx={{ color: 'text.secondary' }}
+          >
+            GitHub
+          </NavigationLink>
+        </Box>
         <Typography variant='body2'>Version {CURRENT_VERSION}</Typography>
       </Box>
     </Box>

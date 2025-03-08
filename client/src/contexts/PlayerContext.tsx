@@ -53,7 +53,9 @@ export const PlayerProvider = ({ children }: { children: ReactNode }) => {
           playerService.getTournamentYears(numericPlayerId),
         ])
 
-        handleYearChange(defaultYear)
+        const initialYear =
+          tmtYearsRes.length > 0 && !yearParam ? tmtYearsRes[0] : defaultYear
+        handleYearChange(initialYear)
 
         setPlayer(playerRes)
         setTournamentYears(tmtYearsRes)

@@ -11,7 +11,7 @@ export function PlayerListItem({ player }: PlayerListItemProps) {
   const country: CountryModel = player.country_model ?? null
 
   return (
-    <NavLink to={`/players/${player.id}`} style={{ textDecoration: 'none' }}>
+    <NavLink to={`/players/${player.id}/overview`} style={{ textDecoration: 'none' }}>
       <Box
         sx={{
           display: 'flex',
@@ -30,7 +30,7 @@ export function PlayerListItem({ player }: PlayerListItemProps) {
         }}
       >
         {country && <img src={country.flag_url_svg} style={{ height: 14 }} />}
-        
+
         <Typography
           className='hover-underline'
           variant='body2'

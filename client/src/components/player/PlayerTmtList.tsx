@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { usePlayer } from '@/hooks/player/usePlayer'
 import { LoadingCircle } from '../LoadingCircle'
 import { PlayerMatch } from './PlayerMatch'
+import { NavigationLink } from '../NavigationLink'
 
 type PlayerTmtListProps = {
   tournaments: PlayerTournament[]
@@ -155,7 +156,12 @@ function TournamentHeader({ tournament }: { tournament: PlayerTournament }) {
       )}
 
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography variant='h6'>{tournament.tournament_model.name}</Typography>
+        <NavigationLink
+          to={`/tournaments/${tournament.tournament_id}/overview`}
+          variant='h6'
+        >
+          {tournament.tournament_model.name}
+        </NavigationLink>
         <Box sx={{ color: 'text.secondary' }}>
           <Box
             sx={{

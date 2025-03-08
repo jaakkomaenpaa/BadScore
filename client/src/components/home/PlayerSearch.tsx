@@ -1,9 +1,22 @@
-import { Box, Typography, useTheme } from '@mui/material'
+import { Box, styled, Typography, useTheme } from '@mui/material'
 import { ChangeEvent, useRef, useState } from 'react'
 import playerService from '@/services/player'
 import { Player, PlayerSearchResponse } from '@/types/player'
 import { NavLink, useNavigate } from 'react-router'
 import { SearchField } from '../SearchField'
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip'
+
+const SearchTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    fontSize: 14,
+    backgroundColor: theme.palette.primary.main,
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.primary.main,
+  },
+}))
 
 export function PlayerSearch() {
   const [search, setSearch] = useState<string>('')
@@ -82,13 +95,28 @@ export function PlayerSearch() {
             width: '100%',
           }}
         >
-          <SearchField
-            value={search}
-            onSearch={handleSearch}
-            onInputChange={handleInputChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-          />
+          <SearchTooltip
+            open={hasFocus && search.length < 3}
+            title='Fill in at least 3 characters'
+            placement='bottom-start'
+            arrow
+            slotProps={{
+              popper: {
+                disablePortal: true,
+              },
+            }}
+          >
+            <span style={{ width: '100%' }}>
+              <SearchField
+                value={search}
+                onSearch={handleSearch}
+                onInputChange={handleInputChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+            </span>
+          </SearchTooltip>
+
           {hasFocus && results.length > 0 && <SearchResultList results={results} />}
         </Box>
       </Box>
@@ -137,7 +165,7 @@ type ResultListItemProps = {
 
 function ResultListItem({ player }: ResultListItemProps) {
   return (
-    <NavLink to={`/players/${player.id}`} style={{ textDecoration: 'none' }}>
+    <NavLink to={`/players/${player.id}/overview`} style={{ textDecoration: 'none' }}>
       <Box
         key={player.id}
         sx={{

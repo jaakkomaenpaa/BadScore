@@ -26,6 +26,7 @@ export enum StageName {
   Qualifying = 'Qualifying',
   Reserve = 'Reserve',
   Withdrawn = 'Withdrawn',
+  AllStages = 'All stages',
 }
 
 export type ListEntry = {

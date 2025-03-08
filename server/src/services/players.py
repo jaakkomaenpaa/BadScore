@@ -1,6 +1,7 @@
 from curl_cffi import requests
 from config import AUTH_TOKEN, API_URL, CURRENT_YEAR
 from transformers import players
+from typing import List
 
 headers = {"authorization": AUTH_TOKEN}
 
@@ -68,3 +69,30 @@ def get_player_tournaments(
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
     return players.transform_player_tournaments(response.json())
+
+
+def get_player_tournament_matches(
+    player_id: int, tournament_id: int, event_ids: List[int], tmt_type: int
+):
+    url = f"{API_URL}/vue-player-tmt-matches"
+
+    data = {}
+
+    for event_id in event_ids:
+        payload = {
+            "playerId": player_id,
+            "tmtId": str(tournament_id),
+            "eventId": str(event_id),
+            "activeTab": 2,
+            "extranetUrl": "https://extranet.bwf.sport",
+            "locale": "en",
+            "tmtType": str(tmt_type),
+        }
+
+        response = requests.post(
+            url, headers=headers, json=payload, impersonate="chrome"
+        )
+
+        data[event_id] = players.transform_player_tournament_matches(response.json())
+
+    return data

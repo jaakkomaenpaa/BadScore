@@ -85,16 +85,19 @@ def transform_entry_list(response: dict, is_qualification: bool) -> dict:
     entries = {}
     stage_to_use = None
 
-    for stage in response:
-        name = response[stage].get("name")
+    if len(response) == 1:
+        stage_to_use = response[0]
+    else:
+        for stage in response:
+            name = response[stage].get("name")
 
-        if is_qualification and name == "Qualifying":
-            stage_to_use = response[stage]
-            break
+            if is_qualification and name == "Qualifying":
+                stage_to_use = response[stage]
+                break
 
-        if not is_qualification and name == "Main Draw":
-            stage_to_use = response[stage]
-            break
+            if not is_qualification and name == "Main Draw":
+                stage_to_use = response[stage]
+                break
 
     if not stage_to_use:
         return entries

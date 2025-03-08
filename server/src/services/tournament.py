@@ -40,6 +40,7 @@ def get_bracket(tournament_id: int, draw_id: str):
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
 
     if response.status_code == 404:
+        print("No bracket found")
         return None
 
     event_id = (
@@ -48,6 +49,7 @@ def get_bracket(tournament_id: int, draw_id: str):
     entry_list = get_players_staged(tournament_id, event_id)
 
     if not entry_list:
+        print("No entry list found")
         entry_list = None
 
     return tournament.transform_bracket(response.json(), entry_list)
@@ -76,7 +78,7 @@ def get_courts(tournament_code: str, date: str):
 
 
 def get_matches(tournament_code: str, date: str, status: str, limit: int = 0):
-    url = f"{API_URL}/tournaments/day-matches?tournamentCode={tournament_code}&date={date}"
+    url = f"{API_URL}/tournaments/day-matches?tournamentCode={tournament_code}&date={date}&order=2"
     response = requests.get(url, headers=headers, impersonate="chrome")
     return tournament.transform_matches(response.json(), limit, status)
 

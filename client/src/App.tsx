@@ -4,6 +4,9 @@ import {
   Box,
   Card,
   CardContent,
+  IconButton,
+  Menu,
+  MenuItem,
   ThemeProvider,
   Typography,
   useMediaQuery,
@@ -31,6 +34,7 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import { NavigationLink } from './components/NavigationLink'
 import { ContactForm } from './components/ContactForm'
 import { useState } from 'react'
+import MenuIcon from '@mui/icons-material/Menu'
 
 function App() {
   const theme = useAppTheme()
@@ -151,6 +155,21 @@ function Header() {
   const theme = useTheme()
   const isMobile = useMediaQuery('(max-width: 600px)')
   const [contactOpen, setContactOpen] = useState(false)
+  
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
+  const handleClickMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen)
+  }
+
+  const closeMenu = () => {
+    setMenuOpen(false)
+  }
 
   return (
     <Card
@@ -209,23 +228,77 @@ function Header() {
           },
         }}
       >
-        <NavLink to='/tournaments' style={{ textDecoration: 'none' }}>
-          <Typography sx={{ color: 'text.primary' }} variant='subtitle1'>
-            Calendar
-          </Typography>
-        </NavLink>
-        <NavLink to='/rankings' style={{ textDecoration: 'none' }}>
-          <Typography sx={{ color: 'text.primary' }} variant='subtitle1'>
-            Rankings
-          </Typography>
-        </NavLink>
-        <Typography
-          sx={{ color: 'text.primary', cursor: 'pointer' }}
-          variant='subtitle1'
-          onClick={() => setContactOpen(true)}
-        >
-          Contact
-        </Typography>
+        {isMobile && (
+          <>
+            <Box
+              sx={{
+                display: 'none',
+                [theme.breakpoints.down('sm')]: { display: 'block' },
+              }}
+              onClick={handleClickMenu}
+            >
+              <IconButton onClick={handleMenuToggle}>
+                <MenuIcon />
+              </IconButton>
+            </Box>
+
+            <Menu
+              id='basic-menu'
+              open={menuOpen}
+              onClose={closeMenu}
+              anchorEl={anchorEl}
+            >
+              <MenuItem onClick={closeMenu}>
+                <NavLink to='/tournaments' style={{ textDecoration: 'none' }}>
+                  <Typography sx={{ color: 'text.primary' }} variant='subtitle1'>
+                    Calendar
+                  </Typography>
+                </NavLink>
+              </MenuItem>
+
+              <MenuItem onClick={closeMenu}>
+                <NavLink to='/rankings' style={{ textDecoration: 'none' }}>
+                  <Typography sx={{ color: 'text.primary' }} variant='subtitle1'>
+                    Rankings
+                  </Typography>
+                </NavLink>
+              </MenuItem>
+
+              <MenuItem onClick={closeMenu}>
+                <Typography
+                  sx={{ color: 'text.primary', cursor: 'pointer' }}
+                  variant='subtitle1'
+                  onClick={() => setContactOpen(true)}
+                >
+                  Contact
+                </Typography>
+              </MenuItem>
+            </Menu>
+          </>
+        )}
+
+        {!isMobile && (
+          <>
+            <NavLink to='/tournaments' style={{ textDecoration: 'none' }}>
+              <Typography sx={{ color: 'text.primary' }} variant='subtitle1'>
+                Calendar
+              </Typography>
+            </NavLink>
+            <NavLink to='/rankings' style={{ textDecoration: 'none' }}>
+              <Typography sx={{ color: 'text.primary' }} variant='subtitle1'>
+                Rankings
+              </Typography>
+            </NavLink>
+            <Typography
+              sx={{ color: 'text.primary', cursor: 'pointer' }}
+              variant='subtitle1'
+              onClick={() => setContactOpen(true)}
+            >
+              Contact
+            </Typography>
+          </>
+        )}
+
         <ContactForm isOpen={contactOpen} onClose={() => setContactOpen(false)} />
       </Box>
     </Card>

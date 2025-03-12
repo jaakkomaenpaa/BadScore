@@ -1,17 +1,18 @@
-import { Box, SxProps, Theme, Typography } from '@mui/material'
+import { Box, SxProps, Theme } from '@mui/material'
+import { ReactNode } from 'react'
 
 type ButtonType = 'primary' | 'secondary' | 'error' | 'success'
 
 type SecondaryButtonProps = {
-  label: string
   onClick: (props: any) => void
+  children: ReactNode
   isActive?: boolean
   type?: ButtonType
   sx?: SxProps<Theme>
 }
 
 export function SecondaryButton({
-  label,
+  children,
   onClick,
   isActive = false,
   type = 'secondary',
@@ -56,7 +57,7 @@ export function SecondaryButton({
       }}
       onClick={onClick}
     >
-      <Typography variant='body2'>{label}</Typography>
+      {children}
     </Box>
   )
 }

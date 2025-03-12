@@ -6,6 +6,7 @@ import {
   MenuItem,
   styled,
   TextField,
+  Typography,
 } from '@mui/material'
 import { ClearIcon } from '@mui/x-date-pickers'
 import { SecondaryButton } from '../buttons/SecondaryButton'
@@ -101,7 +102,9 @@ export const SearchBar = () => {
       )}
 
       <SpaceBetweenBox>
-        <SecondaryButton label='Reset filters' onClick={resetFilters} type='error' />
+        <SecondaryButton onClick={resetFilters} type='error'>
+          <Typography variant='body2'>Reset filters</Typography>
+        </SecondaryButton>
         <PageSelector
           perPage={Number(filters.perPage) || 20}
           onPerPageChange={(perPage) =>
@@ -175,11 +178,12 @@ function SearchField({ value, onChange, buttonAction }: SearchFieldProps) {
         }}
       />
       <SecondaryButton
-        label='Use'
         onClick={() => buttonAction(value)}
         sx={{ height: 36, width: 60 }}
         type='success'
-      />
+      >
+        <Typography variant='body2'>Use</Typography>
+      </SecondaryButton>
     </Box>
   )
 }

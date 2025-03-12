@@ -146,10 +146,11 @@ function RankingButtons({
         <SecondaryButton
           key={category.id}
           sx={{ width: 50 }}
-          label={category.shortName}
           onClick={() => onSelect(category)}
           isActive={category.id === selectedCategory.id}
-        />
+        >
+          <Typography variant='body2'>{category.shortName}</Typography>
+        </SecondaryButton>
       ))}
     </Box>
   )

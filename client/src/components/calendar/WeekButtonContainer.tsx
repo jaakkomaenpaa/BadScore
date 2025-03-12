@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material'
+import { Box, Typography, useTheme } from '@mui/material'
 import { SecondaryButton } from '../buttons/SecondaryButton'
 
 type WeekButtonContainerProps = {
@@ -27,31 +27,34 @@ export function WeekButtonContainer({
       }}
     >
       <SecondaryButton
-        label='Previous week'
         isActive={activeTab === 0}
         onClick={() => handleWeekChange(-1)}
         sx={
           mobileButtonWidth !== undefined ? { width: mobileButtonWidth } : undefined
         }
-      />
+      >
+        <Typography variant='body2'>Previous week</Typography>
+      </SecondaryButton>
 
       <SecondaryButton
-        label='This week'
         isActive={activeTab === 1}
         onClick={() => handleWeekChange(0)}
         sx={
           mobileButtonWidth !== undefined ? { width: mobileButtonWidth } : undefined
         }
-      />
+      >
+        <Typography variant='body2'>This week</Typography>
+      </SecondaryButton>
 
       <SecondaryButton
-        label='Next week'
         isActive={activeTab === 2}
         onClick={() => handleWeekChange(1)}
         sx={
           mobileButtonWidth !== undefined ? { width: mobileButtonWidth } : undefined
         }
-      />
+      >
+        <Typography variant='body2'>Next week</Typography>
+      </SecondaryButton>
     </Box>
   )
 }

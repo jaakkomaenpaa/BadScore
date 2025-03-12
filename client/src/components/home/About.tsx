@@ -38,6 +38,7 @@ export function About() {
         <Typography variant='body1'>
           A website to view scores from official BWF tournaments.
         </Typography>
+
         <Typography variant='body1' sx={{ color: 'text.secondary' }}>
           Note that this site is not affiliated with BWF in any way.
         </Typography>
@@ -62,7 +63,13 @@ export function About() {
           </Typography>
           <Typography variant='body1'>⏳ Overall robustness checking</Typography>
         </List>
+
         <Typography variant='body1'>
+          If you encounter any issues, have suggestions, or any other need to contact
+          the dev, you can send a message from the <em>contact</em> tab.
+        </Typography>
+
+        <Typography variant='body1' sx={{ color: 'text.secondary' }}>
           Finally, note that unfortunately some data (player statuses, seeds, etc) for
           the tournaments before 2025 is missing. This is probably caused by the BWF
           results being moved to the new platform.

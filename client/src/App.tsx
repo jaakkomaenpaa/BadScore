@@ -29,6 +29,8 @@ import logo from '../public/logo.svg'
 import { PlayerHome, PlayerLayout, PlayerTournaments } from './pages/Player'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import { NavigationLink } from './components/NavigationLink'
+import { ContactForm } from './components/ContactForm'
+import { useState } from 'react'
 
 function App() {
   const theme = useAppTheme()
@@ -148,6 +150,7 @@ function Footer() {
 function Header() {
   const theme = useTheme()
   const isMobile = useMediaQuery('(max-width: 600px)')
+  const [contactOpen, setContactOpen] = useState(false)
 
   return (
     <Card
@@ -216,6 +219,14 @@ function Header() {
             Rankings
           </Typography>
         </NavLink>
+        <Typography
+          sx={{ color: 'text.primary', cursor: 'pointer' }}
+          variant='subtitle1'
+          onClick={() => setContactOpen(true)}
+        >
+          Contact
+        </Typography>
+        <ContactForm isOpen={contactOpen} onClose={() => setContactOpen(false)} />
       </Box>
     </Card>
   )

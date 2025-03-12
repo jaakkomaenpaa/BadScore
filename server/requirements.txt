@@ -3,3 +3,5 @@ python-dotenv
 Flask
 flask-cors
 gunicorn
+Flask-Mail
+Flask-Limiter

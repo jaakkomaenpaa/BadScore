@@ -11,6 +11,8 @@ API_URL = os.getenv("API_URL")
 FLAG_URL = os.getenv("FLAG_URL")
 CURRENT_YEAR = 2025
 
+PORT = int(os.getenv("PORT", 8000))
+
 EMAIL_ADDRESS = os.getenv("MAIL_USERNAME")
 EMAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 

@@ -16,8 +16,8 @@ import {
   TextField,
 } from '@mui/material'
 import { useState } from 'react'
-import { PrimaryButton } from './buttons/PrimaryButton'
-import { SecondaryButton } from './buttons/SecondaryButton'
+import { PrimaryButton } from '../buttons/PrimaryButton'
+import { SecondaryButton } from '../buttons/SecondaryButton'
 import contactService from '@/services/contact'
 
 type ContactFormProps = {

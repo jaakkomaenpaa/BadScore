@@ -41,6 +41,14 @@ const getTournaments = async (
   return response.data
 }
 
+const getTournamentById = async (
+  playerId: number,
+  tournamentId: number
+): Promise<PlayerTournament> => {
+  const response = await axios.get(`${URL}/${playerId}/tournaments/${tournamentId}`)
+  return response.data
+}
+
 const getTournamentMatches = async (
   playerId: number,
   tournamentId: number,
@@ -65,6 +73,7 @@ const service = {
   getBio,
   getTournamentYears,
   getTournaments,
+  getTournamentById,
   getTournamentMatches,
 }
 

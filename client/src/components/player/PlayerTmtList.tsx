@@ -3,13 +3,13 @@ import {
   PlayerTournamentMatch,
   PlayerTournamentMatchesResponse,
 } from '@/types/player'
-import { Box, Typography, useMediaQuery } from '@mui/material'
+import { Box } from '@mui/material'
 import playerService from '@/services/player'
 import { useEffect, useState } from 'react'
 import { usePlayer } from '@/hooks/player/usePlayer'
 import { LoadingCircle } from '../LoadingCircle'
 import { PlayerMatch } from './PlayerMatch'
-import { NavigationLink } from '../NavigationLink'
+import { TournamentHeader } from './TournamentHeader'
 
 type PlayerTmtListProps = {
   tournaments: PlayerTournament[]
@@ -28,7 +28,7 @@ export function PlayerTmtList({ tournaments }: PlayerTmtListProps) {
       }}
     >
       {tournaments.map((tournament) => (
-        <Tournament key={tournament.tournament_id} tournament={tournament} />
+        <TournamentItem key={tournament.tournament_id} tournament={tournament} />
       ))}
     </Box>
   )
@@ -38,7 +38,7 @@ type TournamentProps = {
   tournament: PlayerTournament
 }
 
-function Tournament({ tournament }: TournamentProps) {
+export function TournamentItem({ tournament }: TournamentProps) {
   const { player } = usePlayer()
   const [loading, setLoading] = useState<boolean>(true)
   const [matches, setMatches] = useState<PlayerTournamentMatchesResponse | null>(null)
@@ -132,55 +132,6 @@ function EventMatches({ event }: EventMatchesProps) {
           )
         }
       })}
-    </Box>
-  )
-}
-
-function TournamentHeader({ tournament }: { tournament: PlayerTournament }) {
-  const isMobile = useMediaQuery('(max-width: 600px)')
-
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
-      {tournament.logo && (
-        <img
-          src={tournament.logo}
-          alt='logo'
-          style={{
-            overflow: 'hidden',
-            width: 50,
-            height: 50,
-            borderRadius: '50%',
-            flexShrink: 0,
-          }}
-        />
-      )}
-
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <NavigationLink
-          to={`/tournaments/${tournament.tournament_id}/overview`}
-          variant='h6'
-        >
-          {tournament.tournament_model.name}
-        </NavigationLink>
-        <Box sx={{ color: 'text.secondary' }}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 1,
-            }}
-          >
-            <Typography variant='body2'>{tournament.location}</Typography>
-            <img
-              src={tournament.tournament_model.country_model.flag_url_svg}
-              style={{ height: isMobile ? 12 : 16 }}
-            />
-          </Box>
-
-          <Typography variant='body2'>{tournament.date}</Typography>
-        </Box>
-      </Box>
     </Box>
   )
 }

@@ -1,5 +1,7 @@
+import { NavigationLink } from '@/components/NavigationLink'
 import { Match, Player, Team } from '@/types/match'
-import { Box, Typography, useMediaQuery } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
+import { useParams } from 'react-router'
 
 type PlayersFieldProps = {
   match: Match
@@ -45,6 +47,7 @@ type PlayerTeamItemProps = {
 
 function PlayerTeamItem({ team, seed, side, isWinner }: PlayerTeamItemProps) {
   const isMobile = useMediaQuery('(max-width:600px)')
+  const { tournamentId } = useParams()
 
   return (
     <Box
@@ -75,7 +78,8 @@ function PlayerTeamItem({ team, seed, side, isWinner }: PlayerTeamItemProps) {
             }}
           >
             {side === 'away' && <Flag />}
-            <Typography
+            <NavigationLink
+              to={`/players/${player.id}/tournaments/${tournamentId}`}
               variant='matchPlayerName'
               sx={{
                 color: isWinner ? 'text.primary' : 'text.secondary',
@@ -83,7 +87,7 @@ function PlayerTeamItem({ team, seed, side, isWinner }: PlayerTeamItemProps) {
               }}
             >
               {player.nameDisplay} {seed && index === 0 && `[${seed}]`}
-            </Typography>
+            </NavigationLink>
             {side === 'home' && <Flag />}
           </Box>
         )

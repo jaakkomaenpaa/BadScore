@@ -1,9 +1,10 @@
 import { SxProps, Theme, Typography, TypographyOwnProps } from '@mui/material'
+import { ReactNode } from 'react'
 import { NavLink, To } from 'react-router'
 
 type NavigationLinkProps = {
   to: To
-  children: string
+  children: ReactNode
   sx?: SxProps<Theme>
   variant?: TypographyOwnProps['variant']
 }

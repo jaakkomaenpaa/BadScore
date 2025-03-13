@@ -3,6 +3,8 @@ import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Cell } from './Cell'
 import { ScoreCell } from './ScoreCell'
 import { useBracket } from '@/hooks/tournament/useBracket'
+import { NavigationLink } from '@/components/NavigationLink'
+import { useParams } from 'react-router'
 
 type BracketEntryProps = {
   team: Team
@@ -136,6 +138,7 @@ type PlayerItemProps = {
 function PlayerItem({ player, seed }: PlayerItemProps) {
   const isMobile = useMediaQuery('(max-width:600px)')
   const theme = useTheme()
+  const { tournamentId } = useParams()
 
   return (
     <Box
@@ -161,7 +164,8 @@ function PlayerItem({ player, seed }: PlayerItemProps) {
           alignSelf: 'center',
         }}
       />
-      <Typography
+      <NavigationLink
+        to={`/players/${player.id}/tournaments/${tournamentId}`}
         variant='bracketEntryText'
         sx={{
           color: 'text.primary',
@@ -169,7 +173,7 @@ function PlayerItem({ player, seed }: PlayerItemProps) {
         }}
       >
         {getPlayerNameDisplay(player, seed)}
-      </Typography>
+      </NavigationLink>
     </Box>
   )
 }

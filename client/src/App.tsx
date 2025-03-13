@@ -29,10 +29,15 @@ import RankingLayout, { RankingHome } from './pages/Ranking'
 import { CategoryView } from './pages/Ranking/CategoryView'
 import Players from './pages/Players'
 import logo from '../public/logo.svg'
-import { PlayerHome, PlayerLayout, PlayerTournaments } from './pages/Player'
+import {
+  PlayerHome,
+  PlayerLayout,
+  PlayerTournament,
+  PlayerTournaments,
+} from './pages/Player'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import { NavigationLink } from './components/NavigationLink'
-import { ContactForm } from './components/ContactForm'
+import { ContactForm } from './components/home/ContactForm'
 import { useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 
@@ -69,6 +74,10 @@ function App() {
               <Route path='' element={<PlayerHome />} />
               <Route path='overview' element={<PlayerHome />} />
               <Route path='tournaments' element={<PlayerTournaments />} />
+              <Route
+                path='tournaments/:tournamentId'
+                element={<PlayerTournament />}
+              />
             </Route>
 
             <Route path='/rankings/:rankingId' element={<RankingLayout />}>
@@ -81,8 +90,8 @@ function App() {
               <Route path='draws' element={<Draws />} />
               <Route path='draws/:drawId' element={<BracketPage />} />
               <Route path='matches' element={<Matches />} />
+              <Route path='entry-list' element={<EntryList />} />{' '}
               <Route path='players' element={<TournamentPlayers />} />
-              <Route path='entry-list' element={<EntryList />} />
             </Route>
 
             <Route path='*' element={<ErrorPage />} />
@@ -155,7 +164,7 @@ function Header() {
   const theme = useTheme()
   const isMobile = useMediaQuery('(max-width: 600px)')
   const [contactOpen, setContactOpen] = useState(false)
-  
+
   const [menuOpen, setMenuOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 

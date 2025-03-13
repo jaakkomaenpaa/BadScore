@@ -24,23 +24,7 @@ def get_ranking_by_id(ranking_id: int):
 @ranking_bp.route("/<int:ranking_id>/category/<int:category_id>", methods=["GET"])
 def get_ranking_table(ranking_id: int, category_id: int):
     payload = request.args.to_dict()
-    """
-    week_id = request.args.get("week")
-    is_doubles = request.args.get("doubles")
-    page = request.args.get("page")
-
-    if not week_id or not int(week_id):
-        week_id = 0
-
-    if not is_doubles or int(is_doubles) != 1:
-        is_doubles = False
-
-    if not page or not int(page):
-        page = 1
-    """
-    data = ranking.get_ranking_table(
-        ranking_id, category_id, **payload
-    )  # is_doubles, week_id, page)
+    data = ranking.get_ranking_table(ranking_id, category_id, **payload)
     return jsonify(data)
 
 
@@ -54,3 +38,25 @@ def get_ranking_weeks(ranking_id: int):
 def get_ranking_data(ranking_id: int):
     data = ranking.get_ranking_data(ranking_id)
     return jsonify(data)
+
+
+@ranking_bp.route(
+    "/<int:ranking_id>/category/<int:category_id>/breakdown",
+    methods=["POST"],
+)
+def get_player_points_breakdown(ranking_id: int, category_id: int):
+    req_data = request.get_json()
+    entry = req_data.get("entry")
+
+    data = ranking.get_player_points_breakdown(ranking_id, category_id, entry)
+    return jsonify(data)
+
+
+@ranking_bp.route(
+    "/<int:ranking_id>/category/<int:category_id>/breakdown",
+    methods=["GET"],
+)
+def test(ranking_id: int, category_id: int):
+    data = ranking.get_player_points_breakdown(ranking_id, category_id)
+    return jsonify(data)
+

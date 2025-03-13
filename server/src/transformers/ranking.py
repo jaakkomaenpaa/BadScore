@@ -1,5 +1,6 @@
 from typing import Dict, Any, List
 from utils.country import add_flag_url_to_country
+import re
 
 
 def transform_ranking_table_response(response: dict):
@@ -40,3 +41,21 @@ def transform_ranking_table_response(response: dict):
 
 def transform_ranking_data_response(response: dict):
     return response[0]
+
+
+def transform_breakdown_response(response: List):
+    cleaned_data: List[Dict[str, Any]] = []
+
+    for tournament in response:
+        tournament_id = re.search(r"/tournament/(\d+)/", tournament.get("url"))
+        tournament["tournamentId"] = tournament_id.group(1) if tournament_id else None
+
+        ranking_calc = tournament.get("ranking_calc", 0)
+        tournament["isCountedIn"] = True if ranking_calc == 1 else False
+
+        result = tournament.get("result")
+        tournament["result"] = f"{result}/{result * 2 - 2}" if result > 2 else result 
+
+        cleaned_data.append(tournament)
+
+    return cleaned_data

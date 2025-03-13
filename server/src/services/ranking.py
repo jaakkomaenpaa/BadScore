@@ -50,3 +50,16 @@ def get_ranking_data(ranking_id: int):
 
     response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
     return ranking.transform_ranking_data_response(response.json())
+
+
+def get_player_points_breakdown(ranking_id: int, category_id: int, entry: dict):
+    url = f"{API_URL}/vue-rankingbreakdown"
+
+    payload = {"rankId": ranking_id, "catId": category_id, "playerData": entry}
+
+    print("payload", payload)
+
+    response = requests.post(url, headers=headers, json=payload, impersonate="chrome")
+    print("response", response.status_code)
+
+    return ranking.transform_breakdown_response(response.json())

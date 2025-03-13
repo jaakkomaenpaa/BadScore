@@ -1,6 +1,8 @@
 import {
+  PlayerPointsBreakdown,
   Ranking,
   RankingData,
+  RankingEntry,
   RankingSearch,
   RankingSearchResponse,
   RankingWeek,
@@ -44,12 +46,29 @@ const getWeeks = async (rankingId: number): Promise<RankingWeek[]> => {
   return response.data
 }
 
+const getPlayerBreakdown = async (
+  rankingId: number,
+  categoryId: number,
+  entry: RankingEntry
+): Promise<PlayerPointsBreakdown[]> => {
+  const body = {
+    entry,
+  }
+
+  const response = await axios.post(
+    `${URL}/${rankingId}/category/${categoryId}/breakdown`,
+    body
+  )
+  return response.data
+}
+
 const service = {
   getAll,
   getById,
   getData,
   getTable,
   getWeeks,
+  getPlayerBreakdown,
 }
 
 export default service

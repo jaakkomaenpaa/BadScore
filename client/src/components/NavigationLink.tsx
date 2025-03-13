@@ -7,9 +7,16 @@ type NavigationLinkProps = {
   children: ReactNode
   sx?: SxProps<Theme>
   variant?: TypographyOwnProps['variant']
+  onClick?: () => void
 }
 
-export function NavigationLink({ to, children, sx, variant }: NavigationLinkProps) {
+export function NavigationLink({
+  to,
+  children,
+  sx,
+  variant,
+  onClick,
+}: NavigationLinkProps) {
   return (
     <NavLink to={to} style={{ textDecoration: 'none' }}>
       <Typography
@@ -21,6 +28,7 @@ export function NavigationLink({ to, children, sx, variant }: NavigationLinkProp
           },
           ...sx,
         }}
+        onClick={onClick}
       >
         {children}
       </Typography>

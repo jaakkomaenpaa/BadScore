@@ -55,12 +55,6 @@ export function About() {
         </List>
         <Typography variant='body1'>Upcoming features:</Typography>
         <List>
-          <Typography variant='body1'>
-            ⏳ View for player matches in current tournament
-          </Typography>
-          <Typography variant='body1'>
-            ⏳ View for player ranking points breakdown
-          </Typography>
           <Typography variant='body1'>⏳ Overall robustness checking</Typography>
         </List>
 

@@ -1,4 +1,4 @@
-import { CountryModel } from "./country"
+import { CountryModel } from './country'
 
 export type Ranking = {
   id: number
@@ -45,11 +45,12 @@ export type RankingSearchResponse = {
   onThisPage: number
 }
 
-interface RankingEntry {
+export interface RankingEntry {
   confederation_id: number
   id: number
   rank: number
   rank_change: number
+  ranking_category_id: number
 }
 
 export interface PlayerRankingEntry extends RankingEntry {
@@ -87,7 +88,6 @@ export type TeamModel = {
   type: number
 }
 
-
 export type PlayerModel = {
   active: number
   code: string
@@ -101,4 +101,17 @@ export type PlayerModel = {
   name_display: string
   nationality: string
   slug: string
+}
+
+export type PlayerPointsBreakdown = {
+  date: string
+  name: string
+  points: string
+  
+  ranking_calc: 1 | 0
+  url: string
+
+  result: string
+  tournamentId: number
+  isCountedIn: boolean
 }

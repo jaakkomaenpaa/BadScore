@@ -15,12 +15,15 @@ import {
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import { CountryModel } from '@/types/country'
+import { PointsBreakdown } from './PointsBreakdown'
+import { useState } from 'react'
 
 type PlayerRankingItemProps = {
   entry: PlayerRankingEntry
+  rankingId: number
 }
 
-export function PlayerRankingItem({ entry }: PlayerRankingItemProps) {
+export function PlayerRankingItem({ entry, rankingId }: PlayerRankingItemProps) {
   return (
     <TableRow>
       <TableCell>
@@ -42,8 +45,18 @@ export function PlayerRankingItem({ entry }: PlayerRankingItemProps) {
 
       <TableCell>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-          <PlayerInfo player={entry.player1_model} />
-          {entry.player2_model && <PlayerInfo player={entry.player2_model} />}
+          <PlayerInfo
+            entry={entry}
+            rankingId={rankingId}
+            player={entry.player1_model}
+          />
+          {entry.player2_model && (
+            <PlayerInfo
+              entry={entry}
+              rankingId={rankingId}
+              player={entry.player2_model}
+            />
+          )}
         </Box>
       </TableCell>
 
@@ -61,22 +74,56 @@ export function PlayerRankingItem({ entry }: PlayerRankingItemProps) {
 }
 
 type PlayerInfoProps = {
+  entry: PlayerRankingEntry
+  rankingId: number
   player: PlayerModel
 }
 
-function PlayerInfo({ player }: PlayerInfoProps) {
+function PlayerInfo({ entry, player, rankingId }: PlayerInfoProps) {
   const isMobile = useMediaQuery('(max-width: 600px)')
+  const [isBreakdownOpen, setIsBreakdownOpen] = useState<boolean>(false)
+
+  const handleClick = () => {
+    localStorage.setItem('player', JSON.stringify(entry))
+    setIsBreakdownOpen(true)
+  }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
-      <img
-        src={player.country_model.flag_url_svg}
-        style={{ height: isMobile ? 14 : 18 }}
-      />
-      <Typography variant='rankingEntryText' sx={{ textWrap: 'nowrap' }}>
-        {player.name_display}
-      </Typography>
-    </Box>
+    <>
+      <Box
+        sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}
+      >
+        <img
+          src={player.country_model.flag_url_svg}
+          style={{ height: isMobile ? 14 : 18 }}
+        />
+
+        <Typography
+          variant='rankingEntryText'
+          sx={{
+            textWrap: 'nowrap',
+            cursor: 'pointer',
+            '&:hover': {
+              textDecoration: 'underline',
+            },
+          }}
+          onClick={handleClick}
+        >
+          {player.name_display}
+        </Typography>
+      </Box>
+
+      {isBreakdownOpen && (
+        <PointsBreakdown
+          entry={entry}
+          player={player}
+          rankingId={rankingId}
+          categoryId={entry.ranking_category_id}
+          isOpen={isBreakdownOpen}
+          onClose={() => setIsBreakdownOpen(false)}
+        />
+      )}
+    </>
   )
 }
 
@@ -84,7 +131,6 @@ type TeamRankingItemProps = {
   entry: TeamRankingEntry
 }
 
-// To be implemented when creating the actual ranking page
 export function TeamRankingItem({ entry }: TeamRankingItemProps) {
   const country: CountryModel = entry.team_model.country_model ?? null
 

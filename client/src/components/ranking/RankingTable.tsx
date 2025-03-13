@@ -22,15 +22,21 @@ export function RankingTable({ entries, ranking, loading }: RankingTableProps) {
   if (ranking.isTeam) {
     return <TeamRankingTable entries={entries as TeamRankingEntry[]} />
   } else {
-    return <PlayerRankingTable entries={entries as PlayerRankingEntry[]} />
+    return (
+      <PlayerRankingTable
+        rankingId={ranking.id}
+        entries={entries as PlayerRankingEntry[]}
+      />
+    )
   }
 }
 
 type PlayerRankingTableProps = {
   entries: PlayerRankingEntry[]
+  rankingId: number
 }
 
-function PlayerRankingTable({ entries }: PlayerRankingTableProps) {
+function PlayerRankingTable({ entries, rankingId }: PlayerRankingTableProps) {
   return (
     <TableContainer sx={{ backgroundColor: 'background.paper' }}>
       <Table size='small'>
@@ -45,7 +51,11 @@ function PlayerRankingTable({ entries }: PlayerRankingTableProps) {
         </TableHead>
         <TableBody>
           {entries.map((entry) => (
-            <PlayerRankingItem key={entry.id} entry={entry as PlayerRankingEntry} />
+            <PlayerRankingItem
+              key={entry.id}
+              rankingId={rankingId}
+              entry={entry as PlayerRankingEntry}
+            />
           ))}
         </TableBody>
       </Table>

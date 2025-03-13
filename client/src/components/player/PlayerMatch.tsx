@@ -1,6 +1,7 @@
 import { CountryModel } from '@/types/country'
 import { Player, PlayerTournamentMatch, ScoreModel } from '@/types/player'
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { NavigationLink } from '../NavigationLink'
 
 type PlayerMatchProps = {
   match: PlayerTournamentMatch
@@ -90,9 +91,13 @@ function ScoreField({ match }: { match: PlayerTournamentMatch }) {
 function InfoField({ match }: { match: PlayerTournamentMatch }) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-      <Typography variant='matchInfo' sx={{ color: 'text.primary' }}>
+      <NavigationLink
+        to={`/tournaments/${match.tournament_id}/draws/${match.draw_model.code}`}
+        variant='matchInfo'
+        sx={{ color: 'text.primary' }}
+      >
         {match.draw_name}
-      </Typography>
+      </NavigationLink>
       <Typography variant='matchInfo' sx={{ color: 'text.secondary' }}>
         {match.round_name}
       </Typography>
@@ -137,6 +142,7 @@ function PlayerField({ match }: { match: PlayerTournamentMatch }) {
           seed={null}
           side='home'
           isWinner={match.winner === 1}
+          tournamentId={match.tournament_id}
         />
       </Box>
 
@@ -149,6 +155,7 @@ function PlayerField({ match }: { match: PlayerTournamentMatch }) {
           seed={null}
           side='away'
           isWinner={match.winner === 2}
+          tournamentId={match.tournament_id}
         />
       </Box>
     </Box>
@@ -161,9 +168,16 @@ type TeamItemProps = {
   seed: string | null
   side: 'home' | 'away'
   isWinner: boolean
+  tournamentId: number
 }
 
-function TeamItem({ players, countries, side, isWinner }: TeamItemProps) {
+function TeamItem({
+  players,
+  countries,
+  side,
+  isWinner,
+  tournamentId,
+}: TeamItemProps) {
   const isMobile = useMediaQuery('(max-width:600px)')
   const theme = useTheme()
 
@@ -198,7 +212,8 @@ function TeamItem({ players, countries, side, isWinner }: TeamItemProps) {
             }}
           >
             {side === 'away' && <Flag />}
-            <Typography
+            <NavigationLink
+              to={`/players/${player.id}/tournaments/${tournamentId}`}
               variant='matchPlayerName'
               sx={{
                 color: isWinner ? 'text.primary' : 'text.secondary',
@@ -206,7 +221,7 @@ function TeamItem({ players, countries, side, isWinner }: TeamItemProps) {
               }}
             >
               {player.name_display ?? 'No name'}
-            </Typography>
+            </NavigationLink>
             {side === 'home' && <Flag />}
           </Box>
         )

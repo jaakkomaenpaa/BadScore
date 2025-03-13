@@ -1,3 +1,4 @@
+import { NavigationLink } from '@/components/NavigationLink'
 import {
   EntryStage,
   EventStage,
@@ -219,9 +220,13 @@ function PlayerInfo({ player, status }: PlayerInfoProps) {
         />
       )}
 
-      <Typography variant='entryListText' sx={{ textWrap: 'nowrap' }}>
+      <NavigationLink
+        to={`/players/${player.id}/overview`}
+        variant='entryListText'
+        sx={{ textWrap: 'nowrap' }}
+      >
         {player.name_display}
-      </Typography>
+      </NavigationLink>
       {status && <Typography variant='body2'>[{status}]</Typography>}
     </Box>
   )

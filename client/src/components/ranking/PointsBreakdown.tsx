@@ -84,17 +84,28 @@ export function PointsBreakdown({
         <Table size='small'>
           <TableHead>
             <TableRow>
-              <TableCell></TableCell>
-              <TableCell>
+              <TableCell />
+
+              <TableCell sx={{ color: 'text.secondary' }}>
                 <Typography variant='rankingEntryText' sx={{ textWrap: 'nowrap' }}>
                   Year / week
                 </Typography>
               </TableCell>
-              <TableCell>Tournament</TableCell>
-              <TableCell align='right'>Result</TableCell>
-              <TableCell align='right'>Points</TableCell>
+
+              <TableCell sx={{ color: 'text.secondary' }}>
+                <Typography variant='rankingEntryText'>Tournament</Typography>
+              </TableCell>
+
+              <TableCell align='right' sx={{ color: 'text.secondary' }}>
+                <Typography variant='rankingEntryText'>Result</Typography>
+              </TableCell>
+
+              <TableCell align='right' sx={{ color: 'text.secondary' }}>
+                <Typography variant='rankingEntryText'>Points</Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {breakdown.map((tournament, index) => (
               <TableRow key={index}>

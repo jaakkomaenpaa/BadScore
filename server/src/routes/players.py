@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from services import players
+from db import get_tournament_info_by_id
 
 players_bp = Blueprint("players", __name__)
 
@@ -48,6 +49,22 @@ def get_player_tournaments(player_id: int, year: int):
     return jsonify(data)
 
 
+@players_bp.route("/<int:player_id>/tournaments/<int:tournament_id>", methods=["GET"])
+def get_player_tournament_by_id(player_id: int, tournament_id: int):
+    tournament = get_tournament_info_by_id(tournament_id)
+
+    start_date = tournament["start_date"] if tournament else None
+    year = start_date.split("-")[0]
+
+    data = players.get_player_tournaments(player_id, year)
+
+    result = next(
+        (item for item in data if item.get("tournament_id") == tournament_id), None
+    )
+
+    return jsonify(result)
+
+
 @players_bp.route("/<int:player_id>/tournaments/<int:tournament_id>", methods=["POST"])
 def get_player_tournament_matches(player_id: int, tournament_id: int):
     req_data = request.get_json()
@@ -61,9 +78,11 @@ def get_player_tournament_matches(player_id: int, tournament_id: int):
         return jsonify([])
 
     if not tmt_type and tmt_type != 0:
-            return jsonify({"error": "Tournament type is required"})
+        return jsonify({"error": "Tournament type is required"})
 
-    data = players.get_player_tournament_matches(player_id, tournament_id, event_ids, tmt_type)
+    data = players.get_player_tournament_matches(
+        player_id, tournament_id, event_ids, tmt_type
+    )
     return jsonify(data)
 
 
@@ -73,5 +92,7 @@ def get_player_tournament_matches(player_id: int, tournament_id: int):
 )
 def test(player_id: int, tournament_id: int, event_id: int, tmt_type: int):
 
-    data = players.get_player_tournament_matches(player_id, tournament_id, [event_id], tmt_type)
+    data = players.get_player_tournament_matches(
+        player_id, tournament_id, [event_id], tmt_type
+    )
     return jsonify(data)

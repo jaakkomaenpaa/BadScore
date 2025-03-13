@@ -5,7 +5,7 @@ from data import available_rankings
 ranking_bp = Blueprint("ranking", __name__)
 
 
-@ranking_bp.route("/", methods=["GET"])
+@ranking_bp.route("", methods=["GET"])
 def get_rankings():
     return jsonify({"rankings": available_rankings})
 
@@ -59,4 +59,3 @@ def get_player_points_breakdown(ranking_id: int, category_id: int):
 def test(ranking_id: int, category_id: int):
     data = ranking.get_player_points_breakdown(ranking_id, category_id)
     return jsonify(data)
-

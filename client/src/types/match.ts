@@ -77,7 +77,9 @@ export type Player = {
   nameShort2: string
   nameType: number // CHECK THIS
   slug: string
+  
   status: string | null
+  worldRank: number | null
 }
 
 export type Court = {

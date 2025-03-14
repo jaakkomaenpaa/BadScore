@@ -69,7 +69,11 @@ export function BracketEntry({
                 {index === team.players.length - 1 ? drawIndex : undefined}
               </Typography>
             )}
-            <PlayerItem player={player} seed={index === 0 ? seed : undefined} />
+            <PlayerItem
+              player={player}
+              seed={index === 0 ? seed : undefined}
+              includeWR={round === 1}
+            />
           </Box>
         ))}
       </Box>
@@ -132,10 +136,11 @@ function TeamItem({ team, seed }: TeamItemProps) {
 
 type PlayerItemProps = {
   player: Player
+  includeWR?: boolean
   seed?: string
 }
 
-function PlayerItem({ player, seed }: PlayerItemProps) {
+function PlayerItem({ player, includeWR = false, seed }: PlayerItemProps) {
   const isMobile = useMediaQuery('(max-width:600px)')
   const theme = useTheme()
   const { tournamentId } = useParams()
@@ -155,6 +160,18 @@ function PlayerItem({ player, seed }: PlayerItemProps) {
         },
       }}
     >
+      {includeWR && (
+        <Typography
+          variant='body2'
+          sx={{
+            color: 'text.primary',
+            width: 40,
+            textAlign: 'right',
+          }}
+        >
+          {player.worldRank}
+        </Typography>
+      )}
       <img
         src={player.countryFlagUrl}
         alt={player.lastName}

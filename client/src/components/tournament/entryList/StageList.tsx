@@ -123,8 +123,6 @@ function PlayerListItem({
   color,
   hasNotionalPoints = false,
 }: PlayerListItemProps) {
-  console.log('entry', entry)
-
   const country1 = entry.player1.country_model || entry.player1.country || null
   const country2 = entry.player1.country_model || entry.player1.country || null
 

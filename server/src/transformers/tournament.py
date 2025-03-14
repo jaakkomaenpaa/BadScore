@@ -81,30 +81,64 @@ def transform_standings(response: dict):
 
 
 def transform_entry_list(response: dict, is_qualification: bool) -> dict:
-    # key: player_id: str, value: status: str
+    # key: player_id: str, value: {status: str, worldRank: int}
     entries = {}
     stage_to_use = None
 
     if len(response) == 1:
-        stage_to_use = response[0]
+        key = next(iter(response))
+        stage_to_use = response[key]
+
     else:
-        for stage in response:
-            name = response[stage].get("name")
+        for stage in response.values():
+            name = stage.get("name")
 
             if is_qualification and name == "Qualifying":
-                stage_to_use = response[stage]
+                stage_to_use = stage
                 break
 
             if not is_qualification and name == "Main Draw":
-                stage_to_use = response[stage]
+                stage_to_use = stage
                 break
 
     if not stage_to_use:
         return entries
 
     for entry in stage_to_use.get("entries"):
-        player_id = str(entry.get("player1").get("id"))
+        player1 = entry.get("player1")
+        player2 = entry.get("player2", None)
+
+        player_id = str(player1.get("id"))
+
+        if player2 is not None:
+            player1_gender = int(player1.get("gender_id") or 0)
+            player2_gender = int(player2.get("gender_id") or 0)
+
+            if player1_gender < player2_gender:
+                player_id = str(player2.get("id"))
+
+            # Compare last names to find out which player is displayed on top
+            player1_last_name = player1.get("last_name", "")
+            player2_last_name = player2.get("last_name", "")
+
+            if player1_last_name < player2_last_name:
+                player_id = str(player2.get("id"))
+            elif player1_last_name == player2_last_name:
+
+                player1_first_name = player1.get("first_name", "")
+                player2_first_name = player2.get("first_name", "")
+
+                if player1_first_name < player2_first_name:
+                    player_id = str(player2.get("id"))
+
         status = entry.get("status")
-        entries[player_id] = status
+        world_rank = entry.get("rank")
+
+        data = {
+            "status": status,
+            "worldRank": world_rank,
+        }
+
+        entries[player_id] = data
 
     return entries

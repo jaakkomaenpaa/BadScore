@@ -47,8 +47,31 @@ def add_previous_score(prev_match: Optional[Dict[str, Union[int, dict]]], team: 
 # Fetch player status from entry list
 def add_status(player: dict, entries: dict):
     player_id = player["id"]
-    status = entries.get(player_id, None)
+
+    entry = entries.get(player_id, None)
+
+    if not entry:
+        return
+
+    status = entry.get("status", None)
     player["status"] = status
+
+
+def add_rank(player: dict, entries: dict):
+    player_id = player["id"]
+    entry = entries.get(player_id, None)
+
+    if not entry:
+        return
+
+    world_rank = entry.get("worldRank", None)
+    player["worldRank"] = world_rank
+
+
+def add_data(players: List, entries: dict):
+    add_status(players[0], entries)
+    bottom_player = players[1] if len(players) >= 2 else players[0]
+    add_rank(bottom_player, entries)
 
 
 # Extract the winning team from the final round
@@ -73,7 +96,7 @@ def populate_winner_entries(rounds: Rounds, entries: dict) -> List[dict]:
         add_previous_score({"index": 0, "match": match}, winner)
 
         if entries is not None:
-            add_status(winner["players"][0], entries)
+            add_data(winner["players"], entries)
 
         if (
             winner["prevScoreStatus"] == 0
@@ -126,10 +149,10 @@ def populate_rounds(results: BracketResults, entries: dict) -> Rounds:
             players_away = match.get("team2").get("players")
 
             if len(players_home) > 0:
-                add_status(players_home[0], entries)
+                add_data(players_home, entries)
 
             if len(players_away) > 0:
-                add_status(players_away[0], entries)
+                add_data(players_away, entries)
 
         new_rounds[round_index].append({"index": match_index, "match": match})
 

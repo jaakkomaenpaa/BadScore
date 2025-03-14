@@ -123,6 +123,11 @@ function PlayerListItem({
   color,
   hasNotionalPoints = false,
 }: PlayerListItemProps) {
+  console.log('entry', entry)
+
+  const country1 = entry.player1.country_model || entry.player1.country || null
+  const country2 = entry.player1.country_model || entry.player1.country || null
+
   return (
     <TableRow key={entry.player1.id}>
       <TableCell
@@ -149,12 +154,28 @@ function PlayerListItem({
       </TableCell>
 
       <TableCell>
-        <Typography
-          variant='entryListText'
-          sx={{ color: 'text.secondary', textWrap: 'nowrap' }}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2px',
+          }}
         >
-          {entry.player1.country_model.name ?? 'NONE'}
-        </Typography>
+          <Typography
+            variant='entryListText'
+            sx={{ color: 'text.secondary', textWrap: 'nowrap' }}
+          >
+            {country1?.name || 'NONE'}
+          </Typography>
+          {entry.player2 && (
+            <Typography
+              variant='entryListText'
+              sx={{ color: 'text.secondary', textWrap: 'nowrap' }}
+            >
+              {country2?.name || 'NONE'}
+            </Typography>
+          )}
+        </Box>
       </TableCell>
 
       <TableCell align='right'>

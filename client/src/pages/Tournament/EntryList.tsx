@@ -31,6 +31,7 @@ export function EntryList() {
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
+        alignItems: 'center',
       }}
     >
       <EventSelect

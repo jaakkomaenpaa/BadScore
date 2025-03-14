@@ -161,9 +161,9 @@ function Footer() {
 
 function Header() {
   const theme = useTheme()
-  const isMobile = useMediaQuery('(max-width: 600px)')
-  const [contactOpen, setContactOpen] = useState(false)
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
 
+  const [contactOpen, setContactOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
@@ -190,7 +190,7 @@ function Header() {
         position: 'relative',
         backgroundColor: 'primary.main',
         borderRadius: 0,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
           justifyContent: 'space-between',
           padding: '0px 10px',
         },
@@ -200,8 +200,8 @@ function Header() {
         to='/'
         style={{
           textDecoration: 'none',
-          position: isMobile ? 'relative' : 'absolute',
-          right: isMobile ? 0 : 10,
+          position: isSmallScreen ? 'relative' : 'absolute',
+          right: isSmallScreen ? 0 : 10,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -230,18 +230,18 @@ function Header() {
           gap: 3,
           position: 'absolute',
           left: 20,
-          [theme.breakpoints.down('sm')]: {
+          [theme.breakpoints.down('md')]: {
             position: 'relative',
             left: 'unset',
           },
         }}
       >
-        {isMobile && (
+        {isSmallScreen && (
           <>
             <Box
               sx={{
                 display: 'none',
-                [theme.breakpoints.down('sm')]: { display: 'block' },
+                [theme.breakpoints.down('md')]: { display: 'block' },
               }}
               onClick={handleClickMenu}
             >
@@ -285,7 +285,7 @@ function Header() {
           </>
         )}
 
-        {!isMobile && (
+        {!isSmallScreen && (
           <>
             <NavLink to='/tournaments' style={{ textDecoration: 'none' }}>
               <Typography sx={{ color: 'text.primary' }} variant='subtitle1'>

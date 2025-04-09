@@ -85,6 +85,9 @@ def transform_entry_list(response: dict, is_qualification: bool) -> dict:
     entries = {}
     stage_to_use = None
 
+    id_for_status = None
+    id_for_rank = None
+
     if len(response) == 1:
         key = next(iter(response))
         stage_to_use = response[key]
@@ -108,28 +111,13 @@ def transform_entry_list(response: dict, is_qualification: bool) -> dict:
         player1 = entry.get("player1")
         player2 = entry.get("player2", None)
 
-        player_id = str(player1.get("id"))
+        id_for_status = str(player1.get("id"))
+        id_for_rank = str(player1.get("id"))
 
         if player2 is not None:
-            player1_gender = int(player1.get("gender_id") or 0)
-            player2_gender = int(player2.get("gender_id") or 0)
-
-            if player1_gender < player2_gender:
-                player_id = str(player2.get("id"))
-
-            # Compare last names to find out which player is displayed on top
-            player1_last_name = player1.get("last_name", "")
-            player2_last_name = player2.get("last_name", "")
-
-            if player1_last_name < player2_last_name:
-                player_id = str(player2.get("id"))
-            elif player1_last_name == player2_last_name:
-
-                player1_first_name = player1.get("first_name", "")
-                player2_first_name = player2.get("first_name", "")
-
-                if player1_first_name < player2_first_name:
-                    player_id = str(player2.get("id"))
+            top_player, bottom_player = get_player_order(player1, player2)
+            id_for_status = str(top_player.get("id"))
+            id_for_rank = str(bottom_player.get("id"))
 
         status = entry.get("status")
         world_rank = entry.get("rank")
@@ -139,6 +127,36 @@ def transform_entry_list(response: dict, is_qualification: bool) -> dict:
             "worldRank": world_rank,
         }
 
-        entries[player_id] = data
+        entries[id_for_status] = data
+        entries[id_for_rank] = data
 
     return entries
+
+
+def get_player_order(player1: dict, player2: dict):
+    # Compare genders
+    player1_gender = int(player1.get("gender_id") or 0)
+    player2_gender = int(player2.get("gender_id") or 0)
+
+    if player1_gender < player2_gender:
+        return player1, player2
+    elif player2_gender < player1_gender:
+        return player2, player1
+
+    # Compare last names
+    player1_last_name = player1.get("last_name", "")
+    player2_last_name = player2.get("last_name", "")
+
+    if player1_last_name < player2_last_name:
+        return player1, player2
+    elif player2_last_name < player1_last_name:
+        return player2, player1
+
+    # Finally compare first names
+    player1_first_name = player1.get("first_name", "")
+    player2_first_name = player2.get("first_name", "")
+
+    if player1_first_name < player2_first_name:
+        return player1, player2
+    elif player2_first_name < player1_first_name:
+        return player2, player1

@@ -70,7 +70,7 @@ def add_rank(player: dict, entries: dict):
 
 def add_data(players: List, entries: dict):
     add_status(players[0], entries)
-    bottom_player = players[1] if len(players) >= 2 else players[0]
+    bottom_player = players[-1]
     add_rank(bottom_player, entries)
 
 

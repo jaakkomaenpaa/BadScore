@@ -52,7 +52,7 @@ function DateSelector({
     >
       {dates.map((date) => {
         const [weekDay, month, day] = date.toDateString().split(' ')
-        const fixedDate = addDays(date, 1)
+        const fixedDate = addDays(date, 0)
         const isSelected =
           formatDateToApi(fixedDate) === formatDateToApi(selectedDate)
 

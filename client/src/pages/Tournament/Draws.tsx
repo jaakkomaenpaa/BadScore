@@ -15,7 +15,7 @@ export function Draws() {
         gap: 2,
       }}
     >
-      {drawsLoading ? <LoadingCircle /> : <DrawList draws={draws} orientation='y' />}
+      {drawsLoading ? <LoadingCircle /> : <DrawList draws={draws} type='column' />}
     </Box>
   )
 }

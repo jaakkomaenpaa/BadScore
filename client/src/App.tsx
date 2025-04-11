@@ -16,7 +16,6 @@ import TournamentLayout, {
   TournamentHome,
   Draws,
   Matches,
-  TournamentPlayers,
   EntryList,
 } from './pages/Tournament'
 import { BracketPage } from '@/pages/Tournament/Bracket'
@@ -90,7 +89,7 @@ function App() {
               <Route path='draws/:drawId' element={<BracketPage />} />
               <Route path='matches' element={<Matches />} />
               <Route path='entry-list' element={<EntryList />} />{' '}
-              <Route path='players' element={<TournamentPlayers />} />
+              {/* <Route path='players' element={<TournamentPlayers />} /> */}
             </Route>
 
             <Route path='*' element={<ErrorPage />} />

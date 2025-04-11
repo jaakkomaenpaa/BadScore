@@ -162,16 +162,20 @@ function PlayerItem({ player, includeWR = false, seed }: PlayerItemProps) {
     >
       {includeWR && (
         <Typography
-          variant='body2'
+          variant='bracketEntryText'
           sx={{
             color: 'text.primary',
             width: 40,
             textAlign: 'right',
+            [theme.breakpoints.down('sm')]: {
+              width: 20,
+            },
           }}
         >
           {player.worldRank}
         </Typography>
       )}
+
       <img
         src={player.countryFlagUrl}
         alt={player.lastName}
@@ -181,12 +185,14 @@ function PlayerItem({ player, includeWR = false, seed }: PlayerItemProps) {
           alignSelf: 'center',
         }}
       />
+
       <NavigationLink
         to={`/players/${player.id}/tournaments/${tournamentId}`}
         variant='bracketEntryText'
         sx={{
           color: 'text.primary',
           textWrap: 'nowrap',
+          display: 'flex',
         }}
       >
         {getPlayerNameDisplay(player, seed)}

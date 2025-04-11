@@ -31,8 +31,10 @@ export function BracketPage() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      {!isMobile && (
-        <DrawList draws={draws} orientation='x' defaultColor='text.secondary' />
+      {isMobile || draws.length > 5 ? (
+        <DrawList draws={draws} type='select' defaultColor='text.secondary' />
+      ) : (
+        <DrawList draws={draws} type='row' defaultColor='text.secondary' />
       )}
 
       {!bracket && <Standings entries={standings} />}

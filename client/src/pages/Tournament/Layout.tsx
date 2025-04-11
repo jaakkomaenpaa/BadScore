@@ -70,7 +70,7 @@ function Navbar() {
       <NavButton to={`draws`} label='Draws'></NavButton>
       <NavButton to={`matches`} label='Matches'></NavButton>
       <NavButton to={`entry-list`} label='Entry list'></NavButton>
-      <NavButton to={`players`} label='Players'></NavButton>
+      {/* <NavButton to={`players`} label='Players'></NavButton> */}
     </Box>
   )
 }

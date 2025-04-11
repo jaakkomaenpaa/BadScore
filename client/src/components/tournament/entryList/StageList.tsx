@@ -29,7 +29,7 @@ export function StageList({ players, eventStages }: StageListProps) {
   if (!players) return null
 
   return (
-    <Box sx={{}}>
+    <Box sx={{ maxWidth: '100%' }}>
       {eventStages.map((stage) => {
         if (stage.value === 0 && Object.values(players).length > 1) return null
 

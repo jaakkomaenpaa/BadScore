@@ -62,7 +62,6 @@ export function MatchList({ matches }: MatchListProps) {
         display: 'flex',
         flexDirection: 'column',
         gap: 1,
-        padding: 1,
         width: '100%',
         maxWidth: 1200,
         alignSelf: 'center',

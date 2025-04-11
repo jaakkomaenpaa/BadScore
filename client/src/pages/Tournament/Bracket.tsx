@@ -30,7 +30,7 @@ export function BracketPage() {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6, padding: 2 }}>
       {isMobile || draws.length > 5 ? (
         <DrawList draws={draws} type='select' defaultColor='text.secondary' />
       ) : (

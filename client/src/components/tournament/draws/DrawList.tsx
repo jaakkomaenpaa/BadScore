@@ -34,7 +34,6 @@ export function DrawList({
         }))}
         value={draws.find((draw: Draw) => drawId === draw.value) ?? draws[0]}
         onChange={(draw: Draw) => navigate('../draws/' + draw.value)}
-        label='Draw'
       />
     )
   }
